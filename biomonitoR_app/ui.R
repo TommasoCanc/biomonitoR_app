@@ -28,7 +28,7 @@ sidebar <- dashboardSidebar(
     menuItem("Data Input", tabName = "dataInput", icon = icon("folder-open", lib = "glyphicon")), # <- Input data
     menuItem("taxonomy check", tabName = "taxonomy", icon = icon("check")), # <- Check taxonomy
     menuItem("diversity indices", tabName = "synonyms", icon = icon("calculator")), # Questo non é sinonimi...
-    # menuItem("biomonitoring indices", tabName = "biom", icon = icon("calculator")),
+    menuItem("biomonitoring indices", tabName = "biom", icon = icon("calculator")),
     # menuItem("import traits table", tabName = "mtraits", icon = icon("file-import")),
     # menuItem("manage traits table", tabName = "tdist", icon = icon("calculator")),
     # menuItem("functional indices", tabName = "func", icon = icon("calculator")),
@@ -36,7 +36,8 @@ sidebar <- dashboardSidebar(
     # menuItem("indices correlation", tabName = "corr", icon = icon("calculator")),
     # menuItem("environmental variables", tabName = "env", icon = icon("layer-group")),
     # menuItem("map", tabName = "map", icon = icon("map")),
-    menuItem("credits", tabName = "info", icon = icon("info")),
+    # menuItem("credits", tabName = "info", icon = icon("info")),
+    menuItem("Custom reference dataset", tabName = "cusData", icon = icon("pencil", lib = "glyphicon")),
     menuItem("help", tabName = "help", icon = icon("question-sign", lib = "glyphicon"))
   )
 )
@@ -92,7 +93,17 @@ tabItem(tabName = "dataInput",
         
         fluidRow(
           column(width = 4 ,
-                 box(textOutput("welcome"), width = NULL, solidHeader = TRUE),
+                 box(width = NULL, solidHeader = TRUE,
+                     HTML("<h3> <b>Data Input</b> </h3> 
+                          To import your dataset in the biomonitoR-app, it is important to follow two simple rules: <br><br>
+                       <b>1)</b> The first column of your dataset has to contain the taxa names, and it has to be named <i><b>'Taxa'</b></i>; <br><br>
+                       <b>2)</b> The other columns of your dataset can contain abundance or presence/absence data, and they have to 
+                          be named with the sampling point stations. <br> <br>
+                       
+                       <h5> Note: biomonitoR-app can use three pre-setted reference datasets: 
+                       macroinvertebrates, macrophytes, and fish.
+                       If you want to import your custom reference dataset, please follow the 
+                       instructions present in the <b>Help</b>. </h3>")),
                 # Import dataset and set main parameters
                  box(title = "Load file - Select your data format", solidHeader = FALSE, width = NULL,
                      radioButtons("filetype", "", choices = c("xlsx","csv","txt"), inline = TRUE),
@@ -116,36 +127,44 @@ tabItem(tabName = "dataInput",
                  ) ,
           
           column(width = 8 ,
-                 box(DTOutput('tbl'), width = NULL))
+                 uiOutput("tbl")
+                 )
              )
     ),
 
-# taxonomy
+# taxonomy ---------------------------------------------------------------------
 tabItem(tabName = "taxonomy",
         column(width = 4 ,
                box(width = NULL, solidHeader = TRUE,
                  HTML("<h3>
   <b>Taxonomy check</b>
-</h3> This panel can help you to checking the nomenclature of your taxa. <br> Taxa names are checked against the community type reference datasets or your custom dataset if loaded. <br> If there are potentially erroneus names, you can find possible suggestions into the in the space provided below. <br>
+</h3> This panel can help you to checking the nomenclature of your taxa. <br> 
+Taxa names are checked against the community type reference datasets or your custom 
+dataset if loaded. <br> If there are potentially erroneus names, you can find possible 
+suggestions into the in the space provided below. <br>
 <br> Non-identfied taxa will be discarded.")),
-               box(uiOutput("col"), width = NULL)
+               uiOutput("correctNames"), # Open the box with correct names suggestions
+box(title = "Dou you want to download the table with reviewed nomenclature?", solidHeader = FALSE, width = NULL,
+    checkboxInput("downloadNomenclature", label = "Download", value = FALSE)), # Condition to download the table with reviewed taxonomy
+    conditionalPanel("input.downloadNomenclature == 1",
+                 box(downloadButton("downloadNomenclature", label = "Download Table"), width = NULL)) # Download button for download table with reviewed taxonomy
               ),
 
         column(width = 8,
-               box(DTOutput("tbl4"), width = NULL),
-               box(downloadButton("download_tax_corr", label = "Download Table"), width = NULL))
+               uiOutput("tblTaxonomy") # <- Output taxonomy
+               #box(DTOutput("tbl4"), width = NULL),
+               #box(downloadButton("download_tax_corr", label = "Download Table"), width = NULL)
+               )
     ) ,
 
 
-# synonyms
+# synonyms ---------------------------------------------------------------------
 tabItem(tabName = "synonyms",
-        fluidRow(column(width = 6,
-                        box(textOutput("intro_div"),
-                            uiOutput("div_taxlev"),
-                            width = NULL),
-                        box(DTOutput("tbl_div"),
-                            downloadButton("download_div", label = "Download Table"),
-                            width = NULL)
+        fluidRow(
+          column(width = 6,
+                        box(textOutput("intro_div"), uiOutput("div_taxlev"),width = NULL),
+                        box(DTOutput("tbl_div")),
+                        downloadButton("download_div", label = "Download Table")
              ),
              
                  column(width = 6,
@@ -161,12 +180,47 @@ tabItem(tabName = "synonyms",
         )
     ),
 
-# info
-tabItem(tabName = "info",
-        textOutput("credits")
-    )
-  )
-
+# Reference custom dataset
+tabItem(tabName = "cusData",
+        
+        fluidRow(
+          column(width = 4 ,
+                 box(width = NULL, solidHeader = TRUE,
+                     HTML("<h3> <b>Custom Reference Datset</b> </h3> 
+                          To import your dataset in the biomonitoR-app, it is important to follow two simple rules: <br><br>
+                       <b>1)</b> The first column of your dataset has to contain the taxa names, and it has to be named <i><b>'Taxa'</b></i>; <br><br>
+                       <b>2)</b> The other columns of your dataset can contain abundance or presence/absence data, and they have to 
+                          be named with the sampling point stations. <br> <br>
+                       
+                       <h5> Note: biomonitoR-app can use three pre-setted reference datasets: 
+                       macroinvertebrates, macrophytes, and fish.
+                       If you want to import your custom reference dataset, please follow the 
+                       instructions present in the <b>Help</b>. </h3>")),
+                 # Import dataset and set main parameters
+                 box(title = "Load file - Select your data format", solidHeader = FALSE, width = NULL,
+                     radioButtons("filetypeCRD", "", choices = c("xlsx","csv","txt"), inline = TRUE),
+                     tags$br(),
+                     HTML("Select your Custom reference dataset"),
+                     fileInput("fileCRD", label = NULL),
+                     tags$hr(),
+                     HTML("Select your reference community"),
+                     radioButtons("communitytypeCRD", "", choiceNames = c("macroinvertebrates", "macrophytes", "fish", "none") , choiceValues = c( "mi", "mf", "fi", "none"), inline = FALSE, selected = "none")),
+          
+                 box(title = "Dou you want to download your Custom Reference Dataset?", solidHeader = FALSE, width = NULL,
+                     checkboxInput("downloadCRD", label = "Download", value = FALSE)
+                 )
+                 ),
+          
+          column(width = 8,
+                 uiOutput("boxCRD"),
+                 #box(DTOutput("tblCRD"), width = NULL),
+                 conditionalPanel("input.downloadCRD == 1",
+                 box(downloadButton("download_CRD", label = "Download Table"), width = NULL))
+                 )
+                 )
+)
+  
+)
 )
 
-ui <- dashboardPage(header, sidebar, body, skin = "black" )
+ui <- dashboardPage(header, sidebar, body, skin = "black")
