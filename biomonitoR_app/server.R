@@ -8,7 +8,6 @@ server <- function(input, output , session) {
   # this allow to remove all the previous calculation if a new dataset is provided
   
 # Data input -------------------------------------------------------------------
-output$welcome <- renderText( "Welcome to biomonitoR-app, a tool for calculating biomonitoring indices.")
  
 # indices <- reactiveValues(df_data = NULL)
 
@@ -79,12 +78,6 @@ if(input$communitytype != "cu"){
   names(bioImp) <- bioImp_w
   DF[ ,"Taxa"] <- as.character(DF[ ,"Taxa"])
 }
-  
-# bioImp <- bioImport(DF, group = input$communitytype) # communitytype: "macroinvertebrates", "macrophytes", "fish". Import the dataframe with the community reference
-# bioImp_w <- as.character(unlist(lapply(bioImp , function(x) (x[1]))))
-# names(bioImp) <- bioImp_w
-# DF[ ,"Taxa"] <- as.character(DF[ ,"Taxa"])
-
 
   list(DF = DF , bioImp = bioImp , bioImp_w = bioImp_w)
     
@@ -94,24 +87,17 @@ if(input$communitytype != "cu"){
 #    indices$df_data <- NULL
 #  })
 
-output$tbl <- renderDT({
-  if(is.null(readInput()$DF)){
-     showNotification("Data do not upload", duration = 5, type = "warning", closeButton = TRUE)
-  } 
-    
-if(!is.null(readInput()$DF)){
-   datatable(readInput()$DF, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = TRUE))}
-# validate(need(!is.null(readInput()$DF), ""))
-# datatable(readInput()$DF, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = TRUE))
-    })
-
+output[["tbl"]] <- renderUI({
+  if(is.null(input$file1)){
+         showNotification("Data do not upload", duration = 5, type = "warning", closeButton = TRUE)
+      } 
+  if(!is.null(input$file1)){
+      box(width = NULL, solidHeader = FALSE,
+       datatable(readInput()$DF, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = FALSE))
+       )}
+})
 
 # Taxonomy check ---------------------------------------------------------------
-  output$col <- renderUI({
-    temp <- readInput()$bioImp
-    map(readInput()$bioImp_w, ~ selectInput(.x, label = .x, choices = c("none" , as.character(unlist(temp[.x]))[-1])))
-  })
-
 DF_def <- reactive({
 
   if(length(readInput()$bioImp_w) == 0){
@@ -130,13 +116,39 @@ DF_def <- reactive({
   }
 })
 
-  output$tbl4 <- renderDT({
-    validate(need(!is.null(readInput()$DF), "Waiting for user input"))
 
-    datatable(DF_def(), rownames = FALSE, options = list(lengthChange = FALSE, scrollX = TRUE))})
+output[["correctNames"]] <- renderUI({
+  temp <- readInput()$bioImp
+  if(length(readInput()$bioImp_w) == 0){
+    showNotification("All names are correct!", duration = 5, type = "message", closeButton = TRUE)
+  }
+  if(length(readInput()$bioImp_w) != 0){
+    box(width = NULL, solidHeader = FALSE,
+    map(readInput()$bioImp_w, ~ selectInput(.x, label = .x, choices = c("none" , as.character(unlist(temp[.x]))[-1]))
+        ))  
+  }
+  # temp <- readInput()$bioImp
+  # map(readInput()$bioImp_w, ~ selectInput(.x, label = .x, choices = c("none" , as.character(unlist(temp[.x]))[-1])))
+})
+
+output[["tblTaxonomy"]] <- renderUI({
+  if(is.null(readInput()$DF)){
+    showNotification("Data do not upload", duration = 5, type = "warning", closeButton = TRUE)
+  } 
+  if(!is.null(readInput()$DF)){
+    box(width = NULL, solidHeader = FALSE,
+        datatable(DF_def(), rownames = FALSE, options = list(lengthChange = FALSE, scrollX = TRUE))
+    )}
+})
+
+
+  # output$tbl4 <- renderDT({
+  #   validate(need(!is.null(readInput()$DF), "Waiting for user input"))
+  # 
+  #   datatable(DF_def(), rownames = FALSE, options = list(lengthChange = FALSE, scrollX = TRUE))})
 
 # Download button
-  output$download_tax_corr <- downloadHandler(
+  output$downloadNomenclature <- downloadHandler(
     filename = function() {
       paste("taxa_corrected", Sys.Date(), ".csv", sep = "")
     },
@@ -282,13 +294,62 @@ output$div_pca <- renderPlotly({
   div.pca.text.col <- sub( "_.*", "", div.pca.text)
 
   p <- plot_ly(div.pca, x = ~ CS1, y = ~ CS2, text = div.pca.text,
-                mode = "markers", color = ~div.pca.text.col, marker = list(size = 22), type = "scatter", colors = "Set1")
+                mode = "markers", color = ~div.pca.text.col, marker = list(size = 10), type = "scatter", colors = "Set1")
   p <- layout(p, title="PCA of Indices",
               xaxis=list(title= paste("PC1 (", div.eigen[1], " %)", sep = "")),
               yaxis=list(title=paste("PC2 (", div.eigen[2], " %)", sep = "")))
   p
 } )
 
-# credits ----------------------------------------------------------------------
-output$credits<- renderText( paste(  "This package is based upon work from COST Action CA15113 (SMIRES, Science and Management of Intermittent Rivers and Ephemeral Streams,www.smires.eu), supported by COST (European Cooperation in Science and Technology).", sep="\n" ) )
+# Custom Reference Dataset -----------------------------------------------------
+readInputCRD <- reactive({
+  
+  # Dataset with taxa and sampling site    
+  inFileCRD <- input$fileCRD
+  if (is.null(inFileCRD))
+    return(NULL)
+  if(input$filetypeCRD == "xlsx"){
+    Tree <- data.frame(read_excel(inFileCRD$datapath, sheet = 1))
+  }
+  if(input$filetypeCRD == "csv"){
+    Tree <- read.csv(inFileCRD$datapath, header = TRUE, sep = ",")
+  }
+  if(input$filetypeCRD == "txt"){
+    Tree <- read.table(inFileCRD$datapath, header = TRUE)
+  }
+  
+  if(input$communitytypeCRD != "none"){
+    CRD <- ref_from_tree(Tree, group = input$communitytypeCRD)
+
+  } else {
+    CRD <- ref_from_tree(Tree, group = "none")
+  }
+  
+  list(CRD = CRD)
+  
+})
+
+
+output[["boxCRD"]] <- renderUI({
+  if(is.null(input$fileCRD)){
+    showNotification("Data do not upload", duration = 5, type = "warning", closeButton = TRUE)
+  }
+  if(!is.null(input$fileCRD)){
+  box(width = NULL, solidHeader = FALSE,
+      datatable(readInputCRD()$CRD, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = FALSE))
+  )
+  }
+  
+})
+
+# set the download button for downloading the table output$tbl_div
+output$download_CRD <- downloadHandler(
+  filename = function() {
+    paste("custom_reference_database",  Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(readInputCRD()$CRD, file, row.names = FALSE)
+  }
+)
+
    }

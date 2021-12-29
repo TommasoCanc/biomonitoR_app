@@ -22,7 +22,7 @@ fluidRow(
 <h3>Contacts</h3>
 <i>
   <b>biomonitoR-web</b>
-</i> is created and maintained by <i><b>Alex Laini</i></b> and <i><b>Tommaso Cancellario</i></b> <br>
+</i> is created and maintained by <i><b>Alex Laini</i></b>, <i><b>Tommaso Cancellario</i></b>, and <i><b>Simone Guareschi</i></b> <br>
 <br> To comunicate bug report and feature requests please contact: <a href=\"mailto:alex.laini@gmail.com\">A. Laini</a> or <a href=\"mailto:tommaso.canellario@gmail.com\">T. Cancellario</a>
 
 <br> To send pull request on GitHub: <a href=\"https://github.com/alexology\"> alexology GitHub</a>
