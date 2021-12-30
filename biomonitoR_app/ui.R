@@ -26,8 +26,8 @@ sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("About biomonitoR", tabName = "about"), # <- Main information abou biomonitor
     menuItem("Data Input", tabName = "dataInput", icon = icon("folder-open", lib = "glyphicon")), # <- Input data
-    menuItem("taxonomy check", tabName = "taxonomy", icon = icon("check")), # <- Check taxonomy
-    menuItem("diversity indices", tabName = "synonyms", icon = icon("calculator")), # Questo non é sinonimi...
+    menuItem("Taxonomy check", tabName = "taxonomy", icon = icon("check")), # <- Check taxonomy
+    menuItem("Diversity indices", tabName = "ecoIndex", icon = icon("calculator")), # Questo non é sinonimi...
     menuItem("biomonitoring indices", tabName = "biom", icon = icon("calculator")),
     # menuItem("import traits table", tabName = "mtraits", icon = icon("file-import")),
     # menuItem("manage traits table", tabName = "tdist", icon = icon("calculator")),
@@ -158,18 +158,41 @@ box(title = "Dou you want to download the table with reviewed nomenclature?", so
     ) ,
 
 
-# synonyms ---------------------------------------------------------------------
-tabItem(tabName = "synonyms",
+# Ecological Index -------------------------------------------------------------
+tabItem(tabName = "ecoIndex",
         fluidRow(
-          column(width = 6,
-                        box(textOutput("intro_div"), uiOutput("div_taxlev"),width = NULL),
-                        box(DTOutput("tbl_div")),
-                        downloadButton("download_div", label = "Download Table")
+          column(width = 4,
+                 box(width = NULL, solidHeader = TRUE,
+                     HTML("<h3> <b>Diversity Indices</b> </h3> 
+                          This panel ...")),
+                 box(width = NULL, solidHeader = TRUE,
+                     HTML("What do you want to calculate?"),
+                     checkboxInput("diverityIndex", label = "Diversity Index", value = FALSE), # <- Diversity index
+                     checkboxInput("diverityPCA", label = "Principal component analysis", value = FALSE), # <-  PCA
+                     checkboxInput("diverityScatter", label = "Scatter plot", value = FALSE))
              ),
              
-                 column(width = 6,
-                        box(uiOutput("div_taxlev_pca") , width = NULL),
-                        box(plotlyOutput("div_pca"), width = NULL),
+                 column(width = 8,
+                            conditionalPanel("input.diverityIndex == 1",
+                            box(width = NULL, solidHeader = TRUE,
+                            HTML("<h3> Diversity Indices </h3>"),
+                            HTML("To calculate diversity indices, please select between the four taxonomic levels below."),
+                            radioButtons("div_taxlev", "", choiceNames = c("Taxa"),choiceValues = c("Taxa"), selected = "Taxa", inline = TRUE),
+                            DTOutput("tbl_div"),
+                            HTML("<h5> Note: If richness is below 3, the indices can not be calculated. </h5>")),
+                            downloadButton("download_div", label = "Download Table"),
+                            tags$hr()),
+                            conditionalPanel("input.diverityPCA == 1",
+                            box(width = NULL, solidHeader = TRUE,           
+                            HTML("<h3> Diversity Indices PCA </h3>
+                                 Dare info sulla pca e come usarla"),
+                            checkboxGroupInput("div_taxPCA", "", choiceNames = c("Family", "Genus", "Species", "Taxa"), 
+                                         choiceValues = c("Family", "Genus", "Species", "Taxa"), selected = "Taxa", inline = TRUE),
+                            uiOutput("div_taxlev_pca")),
+                            plotlyOutput("div_pca")),
+                        
+                        #box(uiOutput("div_taxlev_pca") , width = NULL),
+                        #box(plotlyOutput("div_pca"), width = NULL),
                         box(selectizeInput("var_div_pairs", "Select an index for the scatter plot", choices = character() , multiple = FALSE ) , width = NULL ) ,
                         box(uiOutput("div_taxlev_pair"), width = NULL),
                         box(radioButtons("corr_div", "", choices = c("pearson", "spearman"), inline = TRUE),

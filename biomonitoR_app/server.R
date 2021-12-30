@@ -117,9 +117,9 @@ DF_def <- reactive({
 })
 
 
-output[["correctNames"]] <- renderUI({
+output[["correctNames"]] <- renderUI({ # Show box with nomenclature suggestions
   temp <- readInput()$bioImp
-  if(length(readInput()$bioImp_w) == 0){
+  if(length(readInput()$bioImp_w) == 0 & exists("readInput()$bioImp_w")){
     showNotification("All names are correct!", duration = 5, type = "message", closeButton = TRUE)
   }
   if(length(readInput()$bioImp_w) != 0){
@@ -127,11 +127,10 @@ output[["correctNames"]] <- renderUI({
     map(readInput()$bioImp_w, ~ selectInput(.x, label = .x, choices = c("none" , as.character(unlist(temp[.x]))[-1]))
         ))  
   }
-  # temp <- readInput()$bioImp
-  # map(readInput()$bioImp_w, ~ selectInput(.x, label = .x, choices = c("none" , as.character(unlist(temp[.x]))[-1])))
+
 })
 
-output[["tblTaxonomy"]] <- renderUI({
+output[["tblTaxonomy"]] <- renderUI({ # Show nomenclature table
   if(is.null(readInput()$DF)){
     showNotification("Data do not upload", duration = 5, type = "warning", closeButton = TRUE)
   } 
@@ -141,16 +140,10 @@ output[["tblTaxonomy"]] <- renderUI({
     )}
 })
 
-
-  # output$tbl4 <- renderDT({
-  #   validate(need(!is.null(readInput()$DF), "Waiting for user input"))
-  # 
-  #   datatable(DF_def(), rownames = FALSE, options = list(lengthChange = FALSE, scrollX = TRUE))})
-
 # Download button
   output$downloadNomenclature <- downloadHandler(
     filename = function() {
-      paste("taxa_corrected", Sys.Date(), ".csv", sep = "")
+      paste("taxa_corrected_nomenclature_", Sys.Date(), ".csv", sep = "")
     },
     content = function(file) {
       write.csv(DF_def(), file, row.names = FALSE)
@@ -162,7 +155,8 @@ output[["tblTaxonomy"]] <- renderUI({
 # create the biomonitoR object
 # this will be used for all the calculations
 
-  asb_obj <- reactive({
+asb_obj <- reactive({
+
     commtype <- input$communitytype
     abutype <- input$abutype
     validate(need(DF_def(), ""))
@@ -174,7 +168,6 @@ output[["tblTaxonomy"]] <- renderUI({
     }
     } )
 
-
 # calculate richness for family, genus, species and taxa. Useful to set the elements of radioButtons.
 # Richness below 3 will not be taken into account
 
@@ -185,50 +178,82 @@ output[["tblTaxonomy"]] <- renderUI({
     names(temp.tot[temp.tot > 3])
   })
 
-# diversity indices ------------------------------------------------------------
- 
-# introductory text to let the user know what the page refers to
-output$intro_div <- renderText(paste("To calculate diversity indices, please select 
-                                     between the three taxonomic levels below.", sep="\n"))
+# Diversity indices ----
 
-# set the taxLev choices for radioButtons
-output$div_taxlev <- renderUI({
-    radioButtons("div_taxlev", "", choices = tax_lev_list(), selected = "Taxa", inline = TRUE)
+observe({ # Create a RadioButtons with the results of tax_lev_list()
+    updateRadioButtons(session, "div_taxlev", choices = tax_lev_list(), inline = TRUE)
   })
-
-
+  
 # create a reactive list containing diversity indices calculated at different taxonomic levels
 div_ind_reactive <- reactive({
-  validate(need(!is.null(input$div_taxlev ), ""))
+  validate(need(!is.null(input$div_taxlev), ""))
   res_div <- lapply(as.list(tax_lev_list()), function(x) apply(allindices(asb_obj(), x), 2, function(x) round(x, 2)))
   names(res_div) <- tax_lev_list()
   res_div
 })
+  
+output$tbl_div <- renderDT({ # table with diversity indices
+    datatable(div_ind_reactive()[[input$div_taxlev]], rownames = TRUE,
+              options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                             scrollX = TRUE, lengthChange = FALSE))
+  })
 
-# put in table diversity indices at the desired taxonomic level
-output$tbl_div <- renderDT({
-  datatable(div_ind_reactive()[[input$div_taxlev]], rownames = TRUE, options = list(columnDefs = list(list(className = "dt-center", targets = "all")), scrollX = TRUE, lengthChange = FALSE))
-})
-
-# set the download button for downloading the table output$tbl_div
-output$download_div <- downloadHandler(
+output$download_div <- downloadHandler( # set the download button for downloading the table diversity index table
   filename = function() {
     paste("diversity_indices_", input$div_taxlev, "_",  Sys.Date(), ".csv", sep = "")
   },
   content = function(file) {
-    write.csv(div_ind_reactive()[[ input$div_taxlev ]], file, row.names = FALSE)
+    write.csv(div_ind_reactive()[[input$div_taxlev]], file, row.names = FALSE)
   }
 )
 
-
+# PCA ----
 observeEvent(div_ind_reactive(), {
   updateSelectizeInput(session, "var_div_pairs", choices = names(as.data.frame(div_ind_reactive()[["Taxa"]])))
 })
 
+observe({ # Create a RadioButtons with the results of tax_lev_list()
+  updateCheckboxGroupInput(session, "div_taxPCA", choices = tax_lev_list(), selected = "Taxa", inline = TRUE)
+})
+
+all_tax_div <- reactive({
+  #validate(need(!is.null(tax_lev_list()), ""))
+  all.ind.taxl <- lapply(as.list(input$div_taxPCA) , FUN = function(x) data.frame(Site = colnames(asb_obj()[[x]])[-1], Tax_lev = rep(x, ncol(asb_obj()[[ x ]]) - 1), allindices(asb_obj(), x)))
+  names(all.ind.taxl) <- input$div_taxPCA
+  all.ind.taxl <- all.ind.taxl[names(all.ind.taxl) %in% input$div_taxPCA]
+  all.ind.taxl
+})
+
+output$div_pca <- renderPlotly({
+  #validate(need(length(input$div_taxPCA) > 0 , "Waiting for user choice"))
+  div.pca.var <- do.call(cbind, all_tax_div())
+  div.pca <- dudi.pca(div.pca.var[ ,-c( grep("Site|Tax_lev", colnames(div.pca.var)))], scale = TRUE, center = TRUE, nf = 2, scannf = FALSE)
+  div.eigen <- round(div.pca$eig / sum(div.pca$eig), 3) * 100
+  div.pca <- div.pca$c1
+  div.pca.text <- colnames(div.pca.var[ , -c( grep("Site|Tax_lev", colnames(div.pca.var)))])
+  div.pca.text <- gsub( "\\." , "_" , div.pca.text)
+  div.pca.text.col <- sub( "_.*", "", div.pca.text)
+  
+  p <- plot_ly(div.pca, x = ~ CS1, y = ~ CS2, text = div.pca.text,
+               mode = "markers", color = ~div.pca.text.col, marker = list(size = 10), type = "scatter", colors = "Set1")
+  p <- layout(p, title="PCA of Indices",
+              xaxis=list(title= paste("PC1 (", div.eigen[1], " %)", sep = "")),
+              yaxis=list(title=paste("PC2 (", div.eigen[2], " %)", sep = "")))
+  p
+} )
+
+# Scatter plot ----
+
+
+
+
+
+
+
 output$div_taxlev_pair<- renderUI({
   selectizeInput(inputId = 'div_id',
                  label = 'Select the taxonomic levels to plot',
-                 choices = tax_lev_list() ,
+                 choices = input$div_taxlev,
                  multiple = TRUE ,
                  options = list(maxItems = 2))
 })
@@ -265,41 +290,41 @@ output$console <- renderPrint({
   cor.test(div_formula, data = pairs_div, method = input$corr_div)
   })
 
-output$div_taxlev_pca<- renderUI({
-  checkboxGroupInput(inputId = "div_pca_id",
-                    label = HTML("Select the taxonomic levels for the PCA. <br>
-                                  Remember PCA can be run with a minimum of three sampling points."),
-                    choices = tax_lev_list(), inline = TRUE, selected = "Taxa")
-  })
+# output$div_taxlev_pca<- renderUI({
+#   checkboxGroupInput(inputId = "div_pca_id",
+#                     label = HTML("Select the taxonomic levels for the PCA. <br>
+#                                   Remember PCA can be run with a minimum of three sampling points."),
+#                     choices = tax_lev_list(), inline = TRUE, selected = "Taxa")
+#   })
 
 #-------------------------------------------------------------------------------
 # PCA
-all_tax_div <- reactive({
-  validate(need(!is.null(tax_lev_list()), ""))
-  all.ind.taxl <- lapply(as.list(tax_lev_list()) , FUN = function(x) data.frame(Site = colnames(asb_obj()[[x]])[-1], Tax_lev = rep(x, ncol(asb_obj()[[ x ]]) - 1), allindices(asb_obj(), x)))
-  names(all.ind.taxl) <- tax_lev_list()
-  all.ind.taxl <- all.ind.taxl[names(all.ind.taxl) %in% input$div_pca_id]
-  all.ind.taxl
-  })
-
-
-output$div_pca <- renderPlotly({
-  validate(need(length(input$div_pca_id) > 0 , "Waiting for user choice"))
-  div.pca.var <- do.call(cbind, all_tax_div())
-  div.pca <- dudi.pca(div.pca.var[ ,-c( grep("Site|Tax_lev", colnames(div.pca.var)))], scale = TRUE, center = TRUE, nf = 2, scannf = FALSE)
-  div.eigen <- round(div.pca$eig / sum(div.pca$eig), 3) * 100
-  div.pca <- div.pca$c1
-  div.pca.text <- colnames(div.pca.var[ , -c( grep("Site|Tax_lev", colnames(div.pca.var)))])
-  div.pca.text <- gsub( "\\." , "_" , div.pca.text)
-  div.pca.text.col <- sub( "_.*", "", div.pca.text)
-
-  p <- plot_ly(div.pca, x = ~ CS1, y = ~ CS2, text = div.pca.text,
-                mode = "markers", color = ~div.pca.text.col, marker = list(size = 10), type = "scatter", colors = "Set1")
-  p <- layout(p, title="PCA of Indices",
-              xaxis=list(title= paste("PC1 (", div.eigen[1], " %)", sep = "")),
-              yaxis=list(title=paste("PC2 (", div.eigen[2], " %)", sep = "")))
-  p
-} )
+# all_tax_div <- reactive({
+#   validate(need(!is.null(tax_lev_list()), ""))
+#   all.ind.taxl <- lapply(as.list(tax_lev_list()) , FUN = function(x) data.frame(Site = colnames(asb_obj()[[x]])[-1], Tax_lev = rep(x, ncol(asb_obj()[[ x ]]) - 1), allindices(asb_obj(), x)))
+#   names(all.ind.taxl) <- tax_lev_list()
+#   all.ind.taxl <- all.ind.taxl[names(all.ind.taxl) %in% input$div_pca_id]
+#   all.ind.taxl
+#   })
+# 
+# 
+# output$div_pca <- renderPlotly({
+#   validate(need(length(input$div_pca_id) > 0 , "Waiting for user choice"))
+#   div.pca.var <- do.call(cbind, all_tax_div())
+#   div.pca <- dudi.pca(div.pca.var[ ,-c( grep("Site|Tax_lev", colnames(div.pca.var)))], scale = TRUE, center = TRUE, nf = 2, scannf = FALSE)
+#   div.eigen <- round(div.pca$eig / sum(div.pca$eig), 3) * 100
+#   div.pca <- div.pca$c1
+#   div.pca.text <- colnames(div.pca.var[ , -c( grep("Site|Tax_lev", colnames(div.pca.var)))])
+#   div.pca.text <- gsub( "\\." , "_" , div.pca.text)
+#   div.pca.text.col <- sub( "_.*", "", div.pca.text)
+# 
+#   p <- plot_ly(div.pca, x = ~ CS1, y = ~ CS2, text = div.pca.text,
+#                 mode = "markers", color = ~div.pca.text.col, marker = list(size = 10), type = "scatter", colors = "Set1")
+#   p <- layout(p, title="PCA of Indices",
+#               xaxis=list(title= paste("PC1 (", div.eigen[1], " %)", sep = "")),
+#               yaxis=list(title=paste("PC2 (", div.eigen[2], " %)", sep = "")))
+#   p
+# } )
 
 # Custom Reference Dataset -----------------------------------------------------
 readInputCRD <- reactive({
