@@ -243,23 +243,20 @@ output$div_pca <- renderPlotly({
 } )
 
 # Scatter plot ----
+# output$div_taxlev_pair<- renderUI({
+#   selectizeInput(inputId = "div_id",
+#                  label = "Select the taxonomic levels to plot",
+#                  choices = tax_lev_list(),
+#                  multiple = TRUE ,
+#                  options = list(maxItems = 2))
+# })
 
-
-
-
-
-
-
-output$div_taxlev_pair<- renderUI({
-  selectizeInput(inputId = 'div_id',
-                 label = 'Select the taxonomic levels to plot',
-                 choices = input$div_taxlev,
-                 multiple = TRUE ,
-                 options = list(maxItems = 2))
+observe({ # Create a RadioButtons with the results of tax_lev_list()
+  updateCheckboxGroupInput(session, "div_taxlev_pair", choices = tax_lev_list(), selected = "Taxa", inline = TRUE)
 })
 
-  div_cor_plot <- reactive({
-    choices_div_tax <- input$div_id
+div_cor_plot <- reactive({
+    choices_div_tax <- input$div_taxlev_pair
     validate(need(!is.null(choices_div_tax), ""))
     validate(need(length(choices_div_tax) == 2, ""))
 
@@ -268,7 +265,7 @@ output$div_taxlev_pair<- renderUI({
     names(pairs_div) <- choices_div_tax
     rownames(pairs_div) <- rownames(div_ind_reactive()[["Taxa"]])
     list(pairs_div, choices_div_tax)
-  })
+})
 
   output$ggpairs_div <- renderPlotly({
     pairs_div <- div_cor_plot()[[1]]

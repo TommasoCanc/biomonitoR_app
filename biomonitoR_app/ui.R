@@ -173,7 +173,8 @@ tabItem(tabName = "ecoIndex",
              ),
              
                  column(width = 8,
-                            conditionalPanel("input.diverityIndex == 1",
+                            
+                        conditionalPanel("input.diverityIndex == 1",
                             box(width = NULL, solidHeader = TRUE,
                             HTML("<h3> Diversity Indices </h3>"),
                             HTML("To calculate diversity indices, please select between the four taxonomic levels below."),
@@ -182,7 +183,8 @@ tabItem(tabName = "ecoIndex",
                             HTML("<h5> Note: If richness is below 3, the indices can not be calculated. </h5>")),
                             downloadButton("download_div", label = "Download Table"),
                             tags$hr()),
-                            conditionalPanel("input.diverityPCA == 1",
+                            
+                        conditionalPanel("input.diverityPCA == 1",
                             box(width = NULL, solidHeader = TRUE,           
                             HTML("<h3> Diversity Indices PCA </h3>
                                  Dare info sulla pca e come usarla"),
@@ -191,14 +193,17 @@ tabItem(tabName = "ecoIndex",
                             uiOutput("div_taxlev_pca")),
                             plotlyOutput("div_pca")),
                         
-                        #box(uiOutput("div_taxlev_pca") , width = NULL),
-                        #box(plotlyOutput("div_pca"), width = NULL),
-                        box(selectizeInput("var_div_pairs", "Select an index for the scatter plot", choices = character() , multiple = FALSE ) , width = NULL ) ,
-                        box(uiOutput("div_taxlev_pair"), width = NULL),
-                        box(radioButtons("corr_div", "", choices = c("pearson", "spearman"), inline = TRUE),
-                            tags$hr(),
-                            verbatimTextOutput("console"), width = NULL),
-                        box(plotlyOutput("ggpairs_div"), width = NULL)
+                        conditionalPanel("input.diverityScatter == 1",
+                        box(width = NULL, solidHeader = TRUE,
+                          selectizeInput("var_div_pairs", "Select an index for the scatter plot", choices = character(), multiple = FALSE),
+                          checkboxGroupInput("div_taxlev_pair", "", choiceNames = c("Family", "Genus", "Species", "Taxa"), 
+                                             choiceValues = c("Family", "Genus", "Species", "Taxa"), selected = "Taxa", inline = TRUE),
+                          uiOutput("div_taxlev_pair"),
+                          radioButtons("corr_div", "", choices = c("pearson", "spearman"), inline = TRUE),
+                          tags$hr(),
+                          verbatimTextOutput("console"),
+                          plotlyOutput("ggpairs_div")
+                          ))
              )
         )
     ),
