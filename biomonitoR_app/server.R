@@ -13,37 +13,36 @@ server <- function(input, output , session) {
 
 readInput <- reactive({
   
-# Dataset with taxa and sampling site    
+# Dataset with taxa and sampling site   
+# tools::file_ext(inFile$datapath) <- automatically identify the format
 inFile <- input$file1
   if (is.null(inFile))
     return(NULL)
-  if(input$filetype == "xlsx"){
+  if(tools::file_ext(inFile$datapath) == "xlsx"){ 
      DF_init <- data.frame(read_excel(inFile$datapath, sheet = 1))
-    }
-  if(input$filetype == "csv"){
-     DF_init <- read.csv(inFile$datapath, header = TRUE, sep = ",")
-    }
-  if(input$filetype == "txt"){
-     DF_init <- read.table(inFile$datapath, header = TRUE)
   }
-
+  if(tools::file_ext(inFile$datapath) == "csv"){
+     DF_init <- read.csv(inFile$datapath, header = TRUE, sep = ",")
+  } 
+  if(tools::file_ext(inFile$datapath) == "txt"){
+     DF_init <- read.table(inFile$datapath, header = TRUE)
+  } 
 
 if(input$communitytype == "cu"){
   inFile2 <- input$file2
   if (is.null(inFile2))
     return(NULL)
-  if(input$filetypeCustom == "xlsx"){
+  if(tools::file_ext(inFile$datapath) == "xlsx"){
     DF_cust <- data.frame(read_excel(inFile2$datapath, sheet = 1))
   }
-  if(input$filetypeCustom == "csv"){
+  if(tools::file_ext(inFile$datapath) == "csv"){
     DF_cust <- read.csv(inFile2$datapath, header = TRUE, sep = ",")
   }
-  if(input$filetypeCustom == "txt"){
+  if(tools::file_ext(inFile$datapath) == "txt"){
     DF_cust <- read.table(inFile2$datapath, header = TRUE)
   }
 
 # ADD validity consitions  
-  
   }
 
 # validate user input a column called Taxa is needed
@@ -56,6 +55,7 @@ cond3 <- sum(unlist(lapply(DF_init, is.character))) # Check if there are columns
 cond4 <- ncol(DF_init) > 1 # Check if there are more than 1 column
 
 # Verify conditions 1 Dataset taxonomy
+
 if(cond1 & ((cond2 + cond3) == 1) & cond4){
    DF <- DF_init
     } else { DF <- NULL }
@@ -115,7 +115,6 @@ DF_def <- reactive({
     temp
   }
 })
-
 
 output[["correctNames"]] <- renderUI({ # Show box with nomenclature suggestions
   temp <- readInput()$bioImp
@@ -208,10 +207,6 @@ output$download_div <- downloadHandler( # set the download button for downloadin
 )
 
 # PCA ----
-observeEvent(div_ind_reactive(), {
-  updateSelectizeInput(session, "var_div_pairs", choices = names(as.data.frame(div_ind_reactive()[["Taxa"]])))
-})
-
 observe({ # Create a RadioButtons with the results of tax_lev_list()
   updateCheckboxGroupInput(session, "div_taxPCA", choices = tax_lev_list(), selected = "Taxa", inline = TRUE)
 })
@@ -230,26 +225,21 @@ output$div_pca <- renderPlotly({
   div.pca <- dudi.pca(div.pca.var[ ,-c( grep("Site|Tax_lev", colnames(div.pca.var)))], scale = TRUE, center = TRUE, nf = 2, scannf = FALSE)
   div.eigen <- round(div.pca$eig / sum(div.pca$eig), 3) * 100
   div.pca <- div.pca$c1
-  div.pca.text <- colnames(div.pca.var[ , -c( grep("Site|Tax_lev", colnames(div.pca.var)))])
+  div.pca.text <- colnames(div.pca.var[ , -c(grep("Site|Tax_lev", colnames(div.pca.var)))])
   div.pca.text <- gsub( "\\." , "_" , div.pca.text)
   div.pca.text.col <- sub( "_.*", "", div.pca.text)
   
   p <- plot_ly(div.pca, x = ~ CS1, y = ~ CS2, text = div.pca.text,
                mode = "markers", color = ~div.pca.text.col, marker = list(size = 10), type = "scatter", colors = "Set1")
-  p <- layout(p, title="PCA of Indices",
-              xaxis=list(title= paste("PC1 (", div.eigen[1], " %)", sep = "")),
-              yaxis=list(title=paste("PC2 (", div.eigen[2], " %)", sep = "")))
+  p <- layout(p, xaxis=list(title= paste("PC1 (", div.eigen[1], " %)", sep = "")),
+                 yaxis=list(title=paste("PC2 (", div.eigen[2], " %)", sep = "")))
   p
 } )
 
 # Scatter plot ----
-# output$div_taxlev_pair<- renderUI({
-#   selectizeInput(inputId = "div_id",
-#                  label = "Select the taxonomic levels to plot",
-#                  choices = tax_lev_list(),
-#                  multiple = TRUE ,
-#                  options = list(maxItems = 2))
-# })
+observeEvent(div_ind_reactive(), {
+  updateSelectizeInput(session, "var_div_pairs", choices = names(as.data.frame(div_ind_reactive()[["Taxa"]])))
+})
 
 observe({ # Create a RadioButtons with the results of tax_lev_list()
   updateCheckboxGroupInput(session, "div_taxlev_pair", choices = tax_lev_list(), selected = "Taxa", inline = TRUE)
@@ -287,41 +277,111 @@ output$console <- renderPrint({
   cor.test(div_formula, data = pairs_div, method = input$corr_div)
   })
 
-# output$div_taxlev_pca<- renderUI({
-#   checkboxGroupInput(inputId = "div_pca_id",
-#                     label = HTML("Select the taxonomic levels for the PCA. <br>
-#                                   Remember PCA can be run with a minimum of three sampling points."),
-#                     choices = tax_lev_list(), inline = TRUE, selected = "Taxa")
-#   })
 
-#-------------------------------------------------------------------------------
-# PCA
-# all_tax_div <- reactive({
-#   validate(need(!is.null(tax_lev_list()), ""))
-#   all.ind.taxl <- lapply(as.list(tax_lev_list()) , FUN = function(x) data.frame(Site = colnames(asb_obj()[[x]])[-1], Tax_lev = rep(x, ncol(asb_obj()[[ x ]]) - 1), allindices(asb_obj(), x)))
-#   names(all.ind.taxl) <- tax_lev_list()
-#   all.ind.taxl <- all.ind.taxl[names(all.ind.taxl) %in% input$div_pca_id]
-#   all.ind.taxl
-#   })
-# 
-# 
-# output$div_pca <- renderPlotly({
-#   validate(need(length(input$div_pca_id) > 0 , "Waiting for user choice"))
-#   div.pca.var <- do.call(cbind, all_tax_div())
-#   div.pca <- dudi.pca(div.pca.var[ ,-c( grep("Site|Tax_lev", colnames(div.pca.var)))], scale = TRUE, center = TRUE, nf = 2, scannf = FALSE)
-#   div.eigen <- round(div.pca$eig / sum(div.pca$eig), 3) * 100
-#   div.pca <- div.pca$c1
-#   div.pca.text <- colnames(div.pca.var[ , -c( grep("Site|Tax_lev", colnames(div.pca.var)))])
-#   div.pca.text <- gsub( "\\." , "_" , div.pca.text)
-#   div.pca.text.col <- sub( "_.*", "", div.pca.text)
-# 
-#   p <- plot_ly(div.pca, x = ~ CS1, y = ~ CS2, text = div.pca.text,
-#                 mode = "markers", color = ~div.pca.text.col, marker = list(size = 10), type = "scatter", colors = "Set1")
-#   p <- layout(p, title="PCA of Indices",
-#               xaxis=list(title= paste("PC1 (", div.eigen[1], " %)", sep = "")),
-#               yaxis=list(title=paste("PC2 (", div.eigen[2], " %)", sep = "")))
-#   p
-# } )
+
+# Biomonitoring indices --------------------------------------------------------
+
+# BMWP ----
+observeEvent(readInput()$DF, {
+  updateSelectizeInput(session, "bmwpExceptions", choices = readInput()$DF$Taxa)
+})
+
+bwmp_reactive <- reactive({
+  if(input$bmwpIndex == 1){
+    bwmpIndex <- as.data.frame(bmwp(asb_obj(), method = input$bmwp_method, agg = input$bmwpAgg, exceptions = input$bmwpExceptions))
+    colnames(bwmpIndex) <- "BMWP"
+    bwmpIndex  
+  }
+  
+})
+
+output$tbl_bmwp <- renderDT({ # table with bmwp index
+  datatable(bwmp_reactive(), rownames = TRUE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                           scrollX = TRUE, lengthChange = FALSE))
+})
+
+output$download_bmwp <- downloadHandler( # set the download button for downloading BMWP index table
+  filename = function() {
+    paste("BMWP_",  Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(bwmp_reactive(), file, row.names = TRUE)
+  }
+)
+
+# ASPT ----
+observeEvent(readInput()$DF, {
+  updateSelectizeInput(session, "asptExceptions", choices = readInput()$DF$Taxa)
+})
+
+aspt_reactive <- reactive({
+  if(input$asptIndex == 1){
+    asptIndex <- as.data.frame(aspt(asb_obj(), method = input$aspt_method, agg = input$asptAgg, exceptions = input$asptExceptions))
+    colnames(asptIndex) <- "ASPT"
+    asptIndex  
+  }
+  
+})
+
+output$tbl_aspt <- renderDT({ # table with aspt index
+  datatable(aspt_reactive(), rownames = TRUE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                           scrollX = TRUE, lengthChange = FALSE))
+})
+
+output$download_aspt <- downloadHandler( # set the download button for downloading ASPT index table
+  filename = function() {
+    paste("ASPT_",  Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(aspt_reactive(), file, row.names = TRUE)
+  }
+)
+
+# PSI ----
+
+observeEvent(readInput()$DF, {
+  updateSelectizeInput(session, "psiExceptions", choices = readInput()$DF$Taxa)
+})
+
+psi_reactive <- reactive({
+  if(input$psiIndex == 1){
+    psiIndex <- as.data.frame(psi(asb_obj(), agg = input$asptAgg, exceptions = input$asptExceptions))
+    colnames(psiIndex) <- "PSI"
+    psiIndex  
+  }
+  
+})
+
+output$tbl_psi <- renderDT({ # table with aspt index
+  datatable(psi_reactive(), rownames = TRUE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                           scrollX = TRUE, lengthChange = FALSE))
+})
+
+output$download_aspt <- downloadHandler( # set the download button for downloading ASPT index table
+  filename = function() {
+    paste("PSI_",  Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(psi_reactive(), file, row.names = TRUE)
+  }
+)
+
+
+# EPSI ----
+
+# EPT ----
+
+# EPTD ----
+
+# GOLD ----
+
+# LIFE ----
+
+# WHPT ----
+
 
 # Custom Reference Dataset -----------------------------------------------------
 readInputCRD <- reactive({

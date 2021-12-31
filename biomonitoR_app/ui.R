@@ -15,6 +15,7 @@ library(biomonitorweb)
 library(tidyr)
 library(ade4)
 library(plotly)
+library(tools)
 
 # Functions
 source("default_val.R")
@@ -28,7 +29,7 @@ sidebar <- dashboardSidebar(
     menuItem("Data Input", tabName = "dataInput", icon = icon("folder-open", lib = "glyphicon")), # <- Input data
     menuItem("Taxonomy check", tabName = "taxonomy", icon = icon("check")), # <- Check taxonomy
     menuItem("Diversity indices", tabName = "ecoIndex", icon = icon("calculator")), # Questo non é sinonimi...
-    menuItem("biomonitoring indices", tabName = "biom", icon = icon("calculator")),
+    menuItem("Biomonitoring indices", tabName = "biomIndex", icon = icon("calculator")),
     # menuItem("import traits table", tabName = "mtraits", icon = icon("file-import")),
     # menuItem("manage traits table", tabName = "tdist", icon = icon("calculator")),
     # menuItem("functional indices", tabName = "func", icon = icon("calculator")),
@@ -105,11 +106,11 @@ tabItem(tabName = "dataInput",
                        If you want to import your custom reference dataset, please follow the 
                        instructions present in the <b>Help</b>. </h3>")),
                 # Import dataset and set main parameters
-                 box(title = "Load file - Select your data format", solidHeader = FALSE, width = NULL,
-                     radioButtons("filetype", "", choices = c("xlsx","csv","txt"), inline = TRUE),
-                     tags$br(),
+                 box(title = "Load file - Community data", solidHeader = FALSE, width = NULL,
+                     #radioButtons("filetype", "", choices = c("xlsx","csv","txt"), inline = TRUE),
                      HTML("Select your data"),
                      fileInput("file1", label = NULL),
+                     HTML("<h5> Data can be loaded in <b>xlsx</b>, <b>csv</b>, or <b>txt</b> formats.</h5>"),
                      tags$hr(),
                      HTML("Select your reference community"),
                      radioButtons("communitytype", "", choiceNames = c("macroinvertebrates", "macrophytes", "fish", "custom") , choiceValues = c( "mi", "mf", "fi", "cu"), inline = FALSE),
@@ -120,8 +121,7 @@ tabItem(tabName = "dataInput",
                  # Import Custom reference dataframe                 
                 conditionalPanel("input.communitytype == 'cu'", 
                 box(title = "Load file - Custom reference dataframe", solidHeader = FALSE, width = NULL,
-                     radioButtons("filetypeCustom", "", choices = c("xlsx","csv","txt"), inline = TRUE),
-                     tags$br(),
+                     #radioButtons("filetypeCustom", "", choices = c("xlsx","csv","txt"), inline = TRUE),
                      HTML("Select your data"),
                      fileInput("file2", label = NULL)))
                  ) ,
@@ -132,7 +132,7 @@ tabItem(tabName = "dataInput",
              )
     ),
 
-# taxonomy ---------------------------------------------------------------------
+# Taxonomy ---------------------------------------------------------------------
 tabItem(tabName = "taxonomy",
         column(width = 4 ,
                box(width = NULL, solidHeader = TRUE,
@@ -151,7 +151,7 @@ box(title = "Dou you want to download the table with reviewed nomenclature?", so
               ),
 
         column(width = 8,
-               uiOutput("tblTaxonomy") # <- Output taxonomy
+               uiOutput("tblTaxonomy"),
                #box(DTOutput("tbl4"), width = NULL),
                #box(downloadButton("download_tax_corr", label = "Download Table"), width = NULL)
                )
@@ -196,9 +196,11 @@ tabItem(tabName = "ecoIndex",
                         conditionalPanel("input.diverityScatter == 1",
                         box(width = NULL, solidHeader = TRUE,
                           selectizeInput("var_div_pairs", "Select an index for the scatter plot", choices = character(), multiple = FALSE),
+                          HTML("<b>Taxonomic correlation levels</b>"),
                           checkboxGroupInput("div_taxlev_pair", "", choiceNames = c("Family", "Genus", "Species", "Taxa"), 
                                              choiceValues = c("Family", "Genus", "Species", "Taxa"), selected = "Taxa", inline = TRUE),
                           uiOutput("div_taxlev_pair"),
+                          HTML("<b>Correlation type</b>"),
                           radioButtons("corr_div", "", choices = c("pearson", "spearman"), inline = TRUE),
                           tags$hr(),
                           verbatimTextOutput("console"),
@@ -208,7 +210,81 @@ tabItem(tabName = "ecoIndex",
         )
     ),
 
-# Reference custom dataset
+# Biomonitoring indices --------------------------------------------------------
+tabItem(tabName = "biomIndex",
+        fluidRow(
+          column(width = 4,
+                 box(width = NULL, solidHeader = TRUE,
+                     HTML("<h3> <b>Biomonitoring Indices</b> </h3> 
+                          This panel ...")),
+                 box(width = NULL, solidHeader = TRUE,
+                     HTML("What do you want to calculate?"),
+                     checkboxInput("bmwpIndex", label = "Biological Monitoring Working Party (BMWP)", value = FALSE), # <- BWMP
+                     checkboxInput("asptIndex", label = "Average Score Per Taxon (ASPT)", value = FALSE), # <- ASPT
+                     checkboxInput("psiIndex", label = "Proportion of Sediment-sensitive Invertebrates index (PSI)", value = FALSE), # <- psi
+                     checkboxInput("epsiIndex", label = "Empyrically-weighted Proportion of Sediment-sensitive Invertebrates (ePSI)", value = FALSE), # <- epsi
+                     checkboxInput("eptIndex", label = "EPT richness", value = FALSE), # <- ept
+                     checkboxInput("eptdIndex", label = "log10 of selected EPTD", value = FALSE), # <- eptd
+                     checkboxInput("goldIndex", label = "1- GOLD", value = FALSE), # <- gold
+                     checkboxInput("lifeIndex", label = "Life Index", value = FALSE), # <- life
+                     checkboxInput("whptIndex", label = "Whalley Hawkes Paisley Trigg", value = FALSE), # <- whpt
+                     )
+          ),
+          
+          column(width = 8,
+                 conditionalPanel("input.bmwpIndex == 1",
+                                  box(width = NULL, solidHeader = TRUE,
+                                      HTML("<h3> Biological Monitoring Working Party (BMWP) </h3>"),
+                                      HTML("To calculate diversity indices, please select the implementation method."),
+                                      radioButtons("bmwp_method", "", choiceNames = c("armitage", "UK-davy-bowker", "ES-magrama", "IT-buffagni"), 
+                                                   choiceValues = c("a", "uk", "spa", "ita"), 
+                                                   selected = "a", inline = TRUE),
+                                      checkboxInput("bmwpAgg", label = "Aggregation", value = FALSE), # <- agg parameter of BWMP
+                                      #checkboxInput("bmwpTrace", label = "Trace", value = FALSE), # <- traceB parameter of BWMP
+                                      selectizeInput("bmwpExceptions", "Select taxa to exclude from the index calculation", 
+                                                     choices = NULL, multiple = TRUE),
+                                      DTOutput("tbl_bmwp"),
+                                      downloadButton("download_bmwp", label = "Download Table"))
+                                  ),
+                 
+                 conditionalPanel("input.asptIndex == 1",
+                                  box(width = NULL, solidHeader = TRUE,
+                                      HTML("<h3> Average Score Per Taxon (ASPT) </h3>"),
+                                      HTML("To calculate diversity indices, please select the implementation method."),
+                                      radioButtons("aspt_method", "", choiceNames = c("armitage", "UK-davy-bowker", "ES-magrama", "IT-buffagni"), 
+                                                   choiceValues = c("a", "uk", "spa", "ita"), 
+                                                   selected = "a", inline = TRUE),
+                                      checkboxInput("asptAgg", label = "Aggregation", value = FALSE), # <- agg parameter of BWMP
+                                      #checkboxInput("bmwpTrace", label = "Trace", value = FALSE), # <- traceB parameter of BWMP
+                                      selectizeInput("asptExceptions", "Select taxa to exclude from the index calculation", 
+                                                     choices = NULL, multiple = TRUE),
+                                      DTOutput("tbl_aspt"),
+                                      downloadButton("download_aspt", label = "Download Table"))
+                 ),
+                 
+                 conditionalPanel("input.psiIndex == 1",
+                                  box(width = NULL, solidHeader = TRUE,
+                                      HTML("<h3> Proportion of Sediment-sensitive Invertebrates index (PSI) </h3>"),
+                                      # HTML("Log abundance categories (Extence et al., 2013)."),
+                                      # radioButtons("psi_abucl", "", choiceNames = c("1", "9", "99", "999"), 
+                                      #              choiceValues = c(1, 9, 99, 999), 
+                                      #              selected = "a", inline = TRUE),
+                                      checkboxInput("psiAgg", label = "Aggregation", value = FALSE), # <- agg parameter of BWMP
+                                      #checkboxInput("bmwpTrace", label = "Trace", value = FALSE), # <- traceB parameter of BWMP
+                                      selectizeInput("psiExceptions", "Select taxa to exclude from the index calculation", 
+                                                     choices = NULL, multiple = TRUE),
+                                      DTOutput("tbl_psi"),
+                                      downloadButton("download_psi", label = "Download Table"))
+                 )
+                 
+                 
+          )
+        )
+),
+
+
+
+# Reference custom dataset -----------------------------------------------------
 tabItem(tabName = "cusData",
         
         fluidRow(
