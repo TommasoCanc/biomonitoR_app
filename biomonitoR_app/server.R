@@ -288,11 +288,14 @@ observeEvent(readInput()$DF, {
 
 bwmp_reactive <- reactive({
   if(input$bmwpIndex == 1){
-    bwmpIndex <- as.data.frame(bmwp(asb_obj(), method = input$bmwp_method, agg = input$bmwpAgg, exceptions = input$bmwpExceptions))
+    bwmpIndex <- as.data.frame(bmwp(asb_obj(), 
+                                    method = input$bmwp_method, 
+                                    agg = input$bmwpAgg, 
+                                    exceptions = input$bmwpExceptions,
+                                    traceB = FALSE))
     colnames(bwmpIndex) <- "BMWP"
     bwmpIndex  
   }
-  
 })
 
 output$tbl_bmwp <- renderDT({ # table with bmwp index
@@ -301,7 +304,12 @@ output$tbl_bmwp <- renderDT({ # table with bmwp index
                            scrollX = TRUE, lengthChange = FALSE))
 })
 
-output$download_bmwp <- downloadHandler( # set the download button for downloading BMWP index table
+output$download_bmwp <- renderUI({
+  req(bwmp_reactive())
+    downloadButton('OutputFile', 'Download Output File')
+})
+
+output$OutputFile <- downloadHandler( # set the download button for downloading BMWP index table
   filename = function() {
     paste("BMWP_",  Sys.Date(), ".csv", sep = "")
   },
@@ -317,7 +325,12 @@ observeEvent(readInput()$DF, {
 
 aspt_reactive <- reactive({
   if(input$asptIndex == 1){
-    asptIndex <- as.data.frame(aspt(asb_obj(), method = input$aspt_method, agg = input$asptAgg, exceptions = input$asptExceptions))
+    asptIndex <- as.data.frame(aspt(asb_obj(), 
+                                    method = input$aspt_method, 
+                                    agg = input$asptAgg, 
+                                    exceptions = input$asptExceptions,
+                                    traceB = FALSE))
+    asptIndex <- round(asptIndex, digits = 3)
     colnames(asptIndex) <- "ASPT"
     asptIndex  
   }
@@ -347,7 +360,14 @@ observeEvent(readInput()$DF, {
 
 psi_reactive <- reactive({
   if(input$psiIndex == 1){
-    psiIndex <- as.data.frame(psi(asb_obj(), agg = input$asptAgg, exceptions = input$asptExceptions))
+    psiIndex <- as.data.frame(psi(asb_obj(), 
+                                  method = "extence",
+                                  abucl = c(1, 9, 99, 999),
+                                  agg = input$psiAgg, 
+                                  fssr_scores = NULL,
+                                  exceptions = input$psiExceptions,
+                                  traceB = FALSE))
+    psiIndex <- round(psiIndex, digits = 3)
     colnames(psiIndex) <- "PSI"
     psiIndex  
   }
@@ -360,7 +380,7 @@ output$tbl_psi <- renderDT({ # table with aspt index
                            scrollX = TRUE, lengthChange = FALSE))
 })
 
-output$download_aspt <- downloadHandler( # set the download button for downloading ASPT index table
+output$download_epsi <- downloadHandler( # set the download button for downloading ASPT index table
   filename = function() {
     paste("PSI_",  Sys.Date(), ".csv", sep = "")
   },
@@ -369,19 +389,197 @@ output$download_aspt <- downloadHandler( # set the download button for downloadi
   }
 )
 
-
 # EPSI ----
+
+observeEvent(readInput()$DF, {
+  updateSelectizeInput(session, "epsiExceptions", choices = readInput()$DF$Taxa)
+})
+
+epsi_reactive <- reactive({
+  if(input$epsiIndex == 1){
+    epsiIndex <- as.data.frame(epsi(asb_obj(), 
+                                    method = "uk",
+                                    agg = input$epsiAgg, 
+                                    abucl = c(1, 9, 99, 999),
+                                    exceptions = input$epsiExceptions,
+                                    traceB = FALSE))
+    epsiIndex <- round(epsiIndex, digits = 3)
+    colnames(epsiIndex) <- "PSI"
+    epsiIndex  
+  }
+})
+
+output$tbl_epsi <- renderDT({ # table with aspt index
+  datatable(epsi_reactive(), rownames = TRUE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                           scrollX = TRUE, lengthChange = FALSE))
+})
+
+output$download_epsi <- downloadHandler( # set the download button for downloading ASPT index table
+  filename = function() {
+    paste("EPSI_",  Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(epsi_reactive(), file, row.names = TRUE)
+  }
+)
 
 # EPT ----
 
+ept_reactive <- reactive({
+  if(input$eptIndex == 1){
+    eptIndex <- as.data.frame(ept(asb_obj(), 
+                                  tax_lev = input$ept_taxLev))
+    colnames(eptIndex) <- "EPT"
+    eptIndex  
+  }
+  
+})
+
+output$tbl_ept <- renderDT({ # table with aspt index
+  datatable(ept_reactive(), rownames = TRUE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                           scrollX = TRUE, lengthChange = FALSE))
+})
+
+output$download_ept <- downloadHandler( # set the download button for downloading ASPT index table
+  filename = function() {
+    paste("EPT_",  Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(ept_reactive(), file, row.names = TRUE)
+  }
+)
+
 # EPTD ----
+
+eptd_reactive <- reactive({
+  if(input$eptdIndex == 1){
+    eptdIndex <- as.data.frame(eptd(asb_obj(), 
+                                    base = input$epdt_logBase, 
+                                    eptd_families = NULL, 
+                                    traceB = FALSE))
+    colnames(eptdIndex) <- "EPTD"
+    eptdIndex  
+  }
+})
+
+output$tbl_eptd <- renderDT({ # table with aspt index
+  datatable(eptd_reactive(), rownames = TRUE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                           scrollX = TRUE, lengthChange = FALSE))
+})
+
+output$download_eptd <- downloadHandler( # set the download button for downloading ASPT index table
+  filename = function() {
+    paste("EPTD_",  Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(eptd_reactive(), file, row.names = TRUE)
+  }
+)
 
 # GOLD ----
 
+gold_reactive <- reactive({
+  if(input$goldIndex == 1){
+    goldIndex <- as.data.frame(igold(asb_obj(), 
+                                     traceB = FALSE))
+    goldIndex <- round(goldIndex, digits = 3)
+    colnames(goldIndex) <- "GOLD"
+    goldIndex  
+  }
+  
+})
+
+output$tbl_gold <- renderDT({ # table with aspt index
+  datatable(gold_reactive(), rownames = TRUE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                           scrollX = TRUE, lengthChange = FALSE))
+})
+
+output$download_gold <- downloadHandler( # set the download button for downloading ASPT index table
+  filename = function() {
+    paste("GOLD_",  Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(gold_reactive(), file, row.names = TRUE)
+  }
+)
+
 # LIFE ----
+
+observeEvent(readInput()$DF, {
+  updateSelectizeInput(session, "lifeExceptions", choices = readInput()$DF$Taxa)
+})
+
+life_reactive <- reactive({
+  if(input$lifeIndex == 1){
+    lifeIndex <- as.data.frame(life(asb_obj(), method = input$life_method,
+                                    abucl = c(1, 9, 99, 999, 9999),
+                                    agg = input$lifeAgg,
+                                    fs_scores = NULL,
+                                    exceptions = input$lifeExceptions,
+                                    traceB = FALSE))
+    lifeIndex <- round(lifeIndex, digits = 3)
+    colnames(lifeIndex) <- "LIFE"
+    lifeIndex
+  }
+
+})
+
+output$tbl_life <- renderDT({ # table with aspt index
+  datatable(life_reactive(), rownames = TRUE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                           scrollX = TRUE, lengthChange = FALSE))
+})
+
+output$download_life <- downloadHandler( # set the download button for downloading ASPT index table
+  filename = function() {
+    paste("LIFE_",  Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(life_reactive(), file, row.names = TRUE)
+  }
+)
 
 # WHPT ----
 
+observeEvent(readInput()$DF, {
+  updateSelectizeInput(session, "whptExceptions", choices = readInput()$DF$Taxa)
+})
+
+whpt_reactive <- reactive({
+  if(input$whptIndex == 1){
+    whptIndex <- as.data.frame(whpt(asb_obj(), 
+                                    method = "uk",
+                                    type = input$whpt_type,
+                                    metric = input$whpt_metric,
+                                    agg = input$whptAgg,
+                                    abucl = c(1, 9, 99, 999),
+                                    exceptions = input$whptExceptions,
+                                    traceB = FALSE))
+    whptIndex <- round(whptIndex, digits = 3)
+    colnames(whptIndex) <- "WHPT"
+    whptIndex
+  }
+  
+})
+
+output$tbl_whpt <- renderDT({ # table with aspt index
+  datatable(whpt_reactive(), rownames = TRUE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                           scrollX = TRUE, lengthChange = FALSE))
+})
+
+output$download_whpt <- downloadHandler( # set the download button for downloading ASPT index table
+  filename = function() {
+    paste("WHPT_",  Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(whpt_reactive(), file, row.names = TRUE)
+  }
+)
 
 # Custom Reference Dataset -----------------------------------------------------
 readInputCRD <- reactive({
