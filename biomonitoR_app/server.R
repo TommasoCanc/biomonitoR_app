@@ -79,7 +79,12 @@ if(input$communitytype != "cu"){
   DF[ ,"Taxa"] <- as.character(DF[ ,"Taxa"])
 }
 
+
+if(input$communitytype != "cu"){
   list(DF = DF , bioImp = bioImp , bioImp_w = bioImp_w)
+} else{ 
+  list(DF = DF , bioImp = bioImp , bioImp_w = bioImp_w, DF_cust = DF_cust)
+    }
     
 })
 
@@ -96,6 +101,7 @@ output[["tbl"]] <- renderUI({
        datatable(readInput()$DF, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = FALSE))
        )}
 })
+
 
 # Taxonomy check ---------------------------------------------------------------
 DF_def <- reactive({
@@ -135,19 +141,25 @@ output[["tblTaxonomy"]] <- renderUI({ # Show nomenclature table
   } 
   if(!is.null(readInput()$DF)){
     box(width = NULL, solidHeader = FALSE,
-        datatable(DF_def(), rownames = FALSE, options = list(lengthChange = FALSE, scrollX = TRUE))
+        datatable(DF_def(), rownames = FALSE, options = list(lengthChange = FALSE, scrollX = TRUE)),
+        uiOutput("downloadNomenclature")
     )}
 })
 
 # Download button
-  output$downloadNomenclature <- downloadHandler(
-    filename = function() {
-      paste("taxa_corrected_nomenclature_", Sys.Date(), ".csv", sep = "")
-    },
-    content = function(file) {
-      write.csv(DF_def(), file, row.names = FALSE)
-    }
-  )
+output$downloadNomenclature <- renderUI({
+  req(DF_def())
+  downloadButton("downloadNomenclature.1", "Download Table")
+})
+
+output$downloadNomenclature.1 <- downloadHandler(
+  filename = function() {
+    paste("taxa_corrected_nomenclature_", Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(DF_def(), file, row.names = FALSE)
+  }
+)
 
 # biomonitoR functions ---------------------------------------------------------
    
@@ -156,16 +168,27 @@ output[["tblTaxonomy"]] <- renderUI({ # Show nomenclature table
 
 asb_obj <- reactive({
 
-    commtype <- input$communitytype
-    abutype <- input$abutype
+    # commtype <- input$communitytype
+    # abutype <- input$abutype
     validate(need(DF_def(), ""))
     
     if(input$communitytype != "cu"){
-    aggregate_taxa(as_biomonitor(DF_def(), group = input$communitytype, FUN = get(abutype))) # Convert to biomonitoR format
+    aggregate_taxa(as_biomonitor(DF_def(), group = input$communitytype, FUN = get(input$abutype))) # Convert to biomonitoR format
     } else {
-      aggregate_taxa(as_biomonitor(DF_def(), group = "mi", dfref = readInput()$DF_cust, FUN = get(abutype))) # Convert to biomonitoR format
+      aggregate_taxa(as_biomonitor(DF_def(), dfref = readInput()$DF_cust, FUN = get(input$abutype))) # Convert to biomonitoR format
     }
     } )
+
+# Convert to vegan
+output[["tbl_vegan"]] <- renderUI({
+  if(input$veganFormat == 1){
+    vegan.format <- convert_to_vegan(asb_obj(), tax_lev = "Taxa") # Convert to vegan format
+    
+    box(width = NULL, solidHeader = FALSE,
+        datatable(vegan.format, rownames = TRUE, options = list(lengthChange = TRUE, scrollX = TRUE))
+    )
+  }
+})
 
 # calculate richness for family, genus, species and taxa. Useful to set the elements of radioButtons.
 # Richness below 3 will not be taken into account
@@ -306,10 +329,10 @@ output$tbl_bmwp <- renderDT({ # table with bmwp index
 
 output$download_bmwp <- renderUI({
   req(bwmp_reactive())
-    downloadButton('OutputFile', 'Download Output File')
+    downloadButton("download_bmwp.1", "Download Table")
 })
 
-output$OutputFile <- downloadHandler( # set the download button for downloading BMWP index table
+output$download_bmwp.1 <- downloadHandler( # set the download button for downloading BMWP index table
   filename = function() {
     paste("BMWP_",  Sys.Date(), ".csv", sep = "")
   },
@@ -343,7 +366,12 @@ output$tbl_aspt <- renderDT({ # table with aspt index
                            scrollX = TRUE, lengthChange = FALSE))
 })
 
-output$download_aspt <- downloadHandler( # set the download button for downloading ASPT index table
+output$download_aspt <- renderUI({
+  req(aspt_reactive())
+  downloadButton("download_aspt.1", "Download Table")
+})
+
+output$download_aspt.1 <- downloadHandler( # set the download button for downloading ASPT index table
   filename = function() {
     paste("ASPT_",  Sys.Date(), ".csv", sep = "")
   },
@@ -380,7 +408,12 @@ output$tbl_psi <- renderDT({ # table with aspt index
                            scrollX = TRUE, lengthChange = FALSE))
 })
 
-output$download_epsi <- downloadHandler( # set the download button for downloading ASPT index table
+output$download_psi <- renderUI({
+  req(psi_reactive())
+  downloadButton("download_psi.1", "Download Table")
+})
+
+output$download_psi.1 <- downloadHandler( # set the download button for downloading ASPT index table
   filename = function() {
     paste("PSI_",  Sys.Date(), ".csv", sep = "")
   },
@@ -415,7 +448,13 @@ output$tbl_epsi <- renderDT({ # table with aspt index
                            scrollX = TRUE, lengthChange = FALSE))
 })
 
-output$download_epsi <- downloadHandler( # set the download button for downloading ASPT index table
+
+output$download_epsi <- renderUI({
+  req(epsi_reactive())
+  downloadButton("download_epsi.1", "Download Table")
+})
+
+output$download_epsi.1 <- downloadHandler( # set the download button for downloading ASPT index table
   filename = function() {
     paste("EPSI_",  Sys.Date(), ".csv", sep = "")
   },
@@ -442,7 +481,12 @@ output$tbl_ept <- renderDT({ # table with aspt index
                            scrollX = TRUE, lengthChange = FALSE))
 })
 
-output$download_ept <- downloadHandler( # set the download button for downloading ASPT index table
+output$download_ept <- renderUI({
+  req(ept_reactive())
+  downloadButton("download_ept.1", "Download Table")
+})
+
+output$download_ept.1 <- downloadHandler( # set the download button for downloading ASPT index table
   filename = function() {
     paste("EPT_",  Sys.Date(), ".csv", sep = "")
   },
@@ -470,7 +514,12 @@ output$tbl_eptd <- renderDT({ # table with aspt index
                            scrollX = TRUE, lengthChange = FALSE))
 })
 
-output$download_eptd <- downloadHandler( # set the download button for downloading ASPT index table
+output$download_eptd <- renderUI({
+  req(eptd_reactive())
+  downloadButton("download_eptd.1", "Download Table")
+})
+
+output$download_eptd.1 <- downloadHandler( # set the download button for downloading ASPT index table
   filename = function() {
     paste("EPTD_",  Sys.Date(), ".csv", sep = "")
   },
@@ -498,7 +547,12 @@ output$tbl_gold <- renderDT({ # table with aspt index
                            scrollX = TRUE, lengthChange = FALSE))
 })
 
-output$download_gold <- downloadHandler( # set the download button for downloading ASPT index table
+output$download_gold <- renderUI({
+  req(eptd_reactive())
+  downloadButton("download_gold.1", "Download Table")
+})
+
+output$download_gold.1 <- downloadHandler( # set the download button for downloading ASPT index table
   filename = function() {
     paste("GOLD_",  Sys.Date(), ".csv", sep = "")
   },
@@ -534,7 +588,12 @@ output$tbl_life <- renderDT({ # table with aspt index
                            scrollX = TRUE, lengthChange = FALSE))
 })
 
-output$download_life <- downloadHandler( # set the download button for downloading ASPT index table
+output$download_life <- renderUI({
+  req(life_reactive())
+  downloadButton("download_life.1", "Download Table")
+})
+
+output$download_life.1 <- downloadHandler( # set the download button for downloading ASPT index table
   filename = function() {
     paste("LIFE_",  Sys.Date(), ".csv", sep = "")
   },
@@ -572,7 +631,12 @@ output$tbl_whpt <- renderDT({ # table with aspt index
                            scrollX = TRUE, lengthChange = FALSE))
 })
 
-output$download_whpt <- downloadHandler( # set the download button for downloading ASPT index table
+output$download_whpt <- renderUI({
+  req(whpt_reactive())
+  downloadButton("download_whpt.1", "Download Table")
+})
+
+output$download_whpt.1 <- downloadHandler( # set the download button for downloading ASPT index table
   filename = function() {
     paste("WHPT_",  Sys.Date(), ".csv", sep = "")
   },

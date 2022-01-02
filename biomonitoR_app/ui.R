@@ -123,10 +123,12 @@ tabItem(tabName = "dataInput",
                 box(title = "Load file - Custom reference dataframe", solidHeader = FALSE, width = NULL,
                      #radioButtons("filetypeCustom", "", choices = c("xlsx","csv","txt"), inline = TRUE),
                      HTML("Select your data"),
-                     fileInput("file2", label = NULL)))
-                 ) ,
+                     fileInput("file2", label = NULL)
+                    )
+                )
+                 ),
           
-          column(width = 8 ,
+          column(width = 8,
                  uiOutput("tbl")
                  )
              )
@@ -134,6 +136,7 @@ tabItem(tabName = "dataInput",
 
 # Taxonomy ---------------------------------------------------------------------
 tabItem(tabName = "taxonomy",
+        fluidRow(
         column(width = 4 ,
                box(width = NULL, solidHeader = TRUE,
                  HTML("<h3>
@@ -144,18 +147,19 @@ dataset if loaded. <br> If there are potentially erroneus names, you can find po
 suggestions into the in the space provided below. <br>
 <br> Non-identfied taxa will be discarded.")),
                uiOutput("correctNames"), # Open the box with correct names suggestions
-box(title = "Dou you want to download the table with reviewed nomenclature?", solidHeader = FALSE, width = NULL,
-    checkboxInput("downloadNomenclature", label = "Download", value = FALSE)), # Condition to download the table with reviewed taxonomy
-    conditionalPanel("input.downloadNomenclature == 1",
-                 box(downloadButton("downloadNomenclature", label = "Download Table"), width = NULL)) # Download button for download table with reviewed taxonomy
+box(solidHeader = FALSE, width = NULL,
+    checkboxInput("veganFormat", 
+                  label = HTML("Do you want to convert your data to <b> vegan </b> format?"), 
+                  value = FALSE))
               ),
 
         column(width = 8,
                uiOutput("tblTaxonomy"),
-               #box(DTOutput("tbl4"), width = NULL),
-               #box(downloadButton("download_tax_corr", label = "Download Table"), width = NULL)
+               uiOutput("tbl_vegan")
                )
-    ) ,
+    
+)
+),
 
 
 # Ecological Index -------------------------------------------------------------
@@ -178,16 +182,19 @@ tabItem(tabName = "ecoIndex",
                             box(width = NULL, solidHeader = TRUE,
                             HTML("<h3> Diversity Indices </h3>"),
                             HTML("To calculate diversity indices, please select between the four taxonomic levels below."),
+                            tags$hr(),
                             radioButtons("div_taxlev", "", choiceNames = c("Taxa"),choiceValues = c("Taxa"), selected = "Taxa", inline = TRUE),
                             DTOutput("tbl_div"),
-                            HTML("<h5> Note: If richness is below 3, the indices can not be calculated. </h5>")),
-                            downloadButton("download_div", label = "Download Table"),
+                            HTML("<h5> Note: If richness is below 3, the indices can not be calculated. </h5>"),
+                            downloadButton("download_div", label = "Download Table")
+                            ),
                             tags$hr()),
                             
                         conditionalPanel("input.diverityPCA == 1",
                             box(width = NULL, solidHeader = TRUE,           
                             HTML("<h3> Diversity Indices PCA </h3>
                                  Dare info sulla pca e come usarla"),
+                            tags$hr(),
                             checkboxGroupInput("div_taxPCA", "", choiceNames = c("Family", "Genus", "Species", "Taxa"), 
                                          choiceValues = c("Family", "Genus", "Species", "Taxa"), selected = "Taxa", inline = TRUE),
                             uiOutput("div_taxlev_pca")),
@@ -195,13 +202,20 @@ tabItem(tabName = "ecoIndex",
                         
                         conditionalPanel("input.diverityScatter == 1",
                         box(width = NULL, solidHeader = TRUE,
+                            HTML("<h3> Diversity Indices Scatter plot </h3>
+                                 Dare info sulla scatter plot e come interpretarlo"),
+                            tags$hr(),
                           selectizeInput("var_div_pairs", "Select an index for the scatter plot", choices = character(), multiple = FALSE),
-                          HTML("<b>Taxonomic correlation levels</b>"),
+                          column(4,style=list("padding-right: 5px;"),
+                          HTML("<b>Taxonomic correlation levels</b> <br>
+                               Please select two taxonomy levels to plot the graph."),
                           checkboxGroupInput("div_taxlev_pair", "", choiceNames = c("Family", "Genus", "Species", "Taxa"), 
-                                             choiceValues = c("Family", "Genus", "Species", "Taxa"), selected = "Taxa", inline = TRUE),
-                          uiOutput("div_taxlev_pair"),
+                                             choiceValues = c("Family", "Genus", "Species", "Taxa"), selected = NULL, inline = TRUE),
+                          uiOutput("div_taxlev_pair")),
+                          column(8,style=list("padding-right: 5px;"),
                           HTML("<b>Correlation type</b>"),
-                          radioButtons("corr_div", "", choices = c("pearson", "spearman"), inline = TRUE),
+                          radioButtons("corr_div", "", choices = c("Pearson", "Spearman"), inline = TRUE)
+                          ),
                           tags$hr(),
                           verbatimTextOutput("console"),
                           plotlyOutput("ggpairs_div")
@@ -238,8 +252,9 @@ tabItem(tabName = "biomIndex",
                                       HTML("This function calculates the Biological Monitoring Working Party index 
                                            following Armitage et al. (1983), Davy-Bowker et al. (2007) and 
                                            Alba-Tercedor & Sanchez-Ortega (1988) implementations."),
+                                      tags$hr(),
                                       HTML("To calculate diversity indices, please select the implementation method."),
-                                      radioButtons("bmwp_method", "", choiceNames = c("armitage", "UK-davy-bowker", "ES-magrama", "IT-buffagni"), 
+                                      radioButtons("bmwp_method", "", choiceNames = c("Armitage", "UK-davy-bowker", "ES-magrama", "IT-buffagni"), 
                                                    choiceValues = c("a", "uk", "spa", "ita"), 
                                                    selected = "a", inline = TRUE),
                                       checkboxInput("bmwpAgg", label = "Aggregation", value = FALSE), # <- agg parameter of BWMP
@@ -248,7 +263,6 @@ tabItem(tabName = "biomIndex",
                                                      choices = NULL, multiple = TRUE),
                                       DTOutput("tbl_bmwp"),
                                       uiOutput("download_bmwp")
-                                      #downloadButton("download_bmwp", label = "Download Table")
                                       )
                                   ),
                  
@@ -257,16 +271,19 @@ tabItem(tabName = "biomIndex",
                                       HTML("<h3> Average Score Per Taxon (ASPT) </h3>"),
                                       HTML("This function calculates the Average Score Per Taxon index following Armitage et al. (1983), 
                                            Davy-Bowker et al. (2007) and Alba-Tercedor & Sanchez-Ortega (1988) implementations."),
+                                      tags$hr(),
                                       HTML("To calculate diversity indices, please select the implementation method."),
-                                      radioButtons("aspt_method", "", choiceNames = c("armitage", "UK-davy-bowker", "ES-magrama", "IT-buffagni"), 
+                                      radioButtons("aspt_method", "", choiceNames = c("Armitage", "UK-davy-bowker", "ES-magrama", "IT-buffagni"), 
                                                    choiceValues = c("a", "uk", "spa", "ita"), 
                                                    selected = "a", inline = TRUE),
-                                      checkboxInput("asptAgg", label = "Aggregation", value = FALSE), # <- agg parameter of BWMP
-                                      #checkboxInput("bmwpTrace", label = "Trace", value = FALSE), # <- traceB parameter of BWMP
+                                      checkboxInput("asptAgg", label = "Aggregation", value = FALSE), 
+                                      #checkboxInput("bmwpTrace", label = "Trace", value = FALSE), 
                                       selectizeInput("asptExceptions", "Select taxa to exclude from the index calculation", 
                                                      choices = NULL, multiple = TRUE),
                                       DTOutput("tbl_aspt"),
-                                      downloadButton("download_aspt", label = "Download Table"))
+                                      uiOutput("download_aspt")
+                                      # downloadButton("download_aspt", label = "Download Table")
+                                      )
                  ),
                  
                  conditionalPanel("input.psiIndex == 1",
@@ -274,16 +291,18 @@ tabItem(tabName = "biomIndex",
                                       HTML("<h3> Proportion of Sediment-sensitive Invertebrates index (PSI) </h3>"),
                                       HTML("This function calculates the Proportion of Sediment-sensitive Invertebrates index 
                                            (PSI) according to the most recent version used in UK."),
+                                      tags$hr(),
                                       # HTML("Log abundance categories (Extence et al., 2013)."),
                                       # radioButtons("psi_abucl", "", choiceNames = c("1", "9", "99", "999"), 
                                       #              choiceValues = c(1, 9, 99, 999), 
                                       #              selected = "a", inline = TRUE),
-                                      checkboxInput("psiAgg", label = "Aggregation", value = FALSE), # <- agg parameter of BWMP
-                                      #checkboxInput("bmwpTrace", label = "Trace", value = FALSE), # <- traceB parameter of BWMP
+                                      checkboxInput("psiAgg", label = "Aggregation", value = FALSE), 
+                                      #checkboxInput("bmwpTrace", label = "Trace", value = FALSE), 
                                       selectizeInput("psiExceptions", "Select taxa to exclude from the index calculation", 
                                                      choices = NULL, multiple = TRUE),
                                       DTOutput("tbl_psi"),
-                                      downloadButton("download_psi", label = "Download Table"))
+                                      uiOutput("download_psi")
+                                  )
                  ),
                  
                  conditionalPanel("input.epsiIndex == 1",
@@ -291,16 +310,18 @@ tabItem(tabName = "biomIndex",
                                       HTML("<h3> Empyrically-weighted Proportion of Sediment-sensitive Invertebrates (ePSI) </h3>"),
                                       HTML("This function calculates the Empyrically-weighted Proportion of Sediment-sensitive Invertebrates index 
                                            (ePSI) according to the most recent version used in UK."),
+                                      tags$hr(),
                                       # HTML("Log abundance categories (Extence et al., 2013)."),
                                       # radioButtons("psi_abucl", "", choiceNames = c("1", "9", "99", "999"), 
                                       #              choiceValues = c(1, 9, 99, 999), 
                                       #              selected = "a", inline = TRUE),
-                                      checkboxInput("epsiAgg", label = "Aggregation", value = FALSE), # <- agg parameter of BWMP
-                                      #checkboxInput("bmwpTrace", label = "Trace", value = FALSE), # <- traceB parameter of BWMP
+                                      checkboxInput("epsiAgg", label = "Aggregation", value = FALSE), 
+                                      #checkboxInput("bmwpTrace", label = "Trace", value = FALSE), 
                                       selectizeInput("epsiExceptions", "Select taxa to exclude from the index calculation", 
                                                      choices = NULL, multiple = TRUE),
                                       DTOutput("tbl_epsi"),
-                                      downloadButton("download_epsi", label = "Download Table"))
+                                      uiOutput("download_epsi")
+                                      )
                  ),
                  
                  conditionalPanel("input.eptIndex == 1",
@@ -308,11 +329,13 @@ tabItem(tabName = "biomIndex",
                                       HTML("<h3> EPT richness </h3>"),
                                       HTML("This function calculates the richness of Ephemeroptera, Plecotera and Trichoptera 
                                            (EPT) taxa at the desired taxonomic level."),
+                                      tags$hr(),
                                       radioButtons("ept_taxLev", "", choiceNames = c("Family", "Genus", "Species", "Taxa"), 
                                                    choiceValues = c("Family", "Genus", "Species", "Taxa"), 
                                                    selected = "Taxa", inline = TRUE),
                                       DTOutput("tbl_ept"),
-                                      downloadButton("download_ept", label = "Download Table"))
+                                      uiOutput("download_ept")
+                                      )
                  ),
                  
                  conditionalPanel("input.eptdIndex == 1",
@@ -320,10 +343,12 @@ tabItem(tabName = "biomIndex",
                                       HTML("<h3> log10 of selected EPTD </h3>"),
                                       HTML("This function calculates the log10(Sel_EPTD + 1) metric, 
                                            where EPTD stands for Ephemeroptera, Plecoptera, Trichoptera and Diptera."),
+                                      tags$hr(),
                                       # eptd_families = NULL ?
                                       numericInput("epdt_logBase", "log Base", 10, width = '10%'),
                                       DTOutput("tbl_eptd"),
-                                      downloadButton("download_eptd", label = "Download Table"))
+                                      uiOutput("download_eptd")
+                                      )
                  ),
                  
                  conditionalPanel("input.goldIndex == 1",
@@ -332,14 +357,17 @@ tabItem(tabName = "biomIndex",
                                       HTML("This function calculates the 1 - GOLD metric, where GOLD stands for Gastropoda, 
                                            Oligochaeta and Diptera. This metric should decrease with increasing 
                                            organic pollution (Pinto et al., 2004)."),
+                                      tags$hr(),
                                       DTOutput("tbl_gold"),
-                                      downloadButton("download_gold", label = "Download Table"))
+                                      uiOutput("download_gold")
+                                      )
                  ),
                  
                  conditionalPanel("input.lifeIndex == 1",
                                   box(width = NULL, solidHeader = TRUE,
                                       HTML("<h3> LIFE Index </h3>"),
                                       HTML("This function calculates LIFE index according to most recent version used in UK."),
+                                      tags$hr(),
                                       HTML("To calculate diversity indices, please select the implementation method."),
                                       radioButtons("life_method", "", choiceNames = c("extence", "life_2017"),
                                                    choiceValues = c("extence", "life_2017"),
@@ -348,18 +376,20 @@ tabItem(tabName = "biomIndex",
                                       # radioButtons("psi_abucl", "", choiceNames = c("1", "9", "99", "999"),
                                       #              choiceValues = c(1, 9, 99, 999),
                                       #              selected = "a", inline = TRUE),
-                                      checkboxInput("lifeAgg", label = "Aggregation", value = FALSE), # <- agg parameter of BWMP
+                                      checkboxInput("lifeAgg", label = "Aggregation", value = FALSE), 
                                       selectizeInput("lifeExceptions", "Select taxa to exclude from the index calculation",
                                                      choices = NULL, multiple = TRUE),
                                       # fs_scores
                                       DTOutput("tbl_life"),
-                                      downloadButton("download_life", label = "Download Table"))
+                                      uiOutput("download_life")
+                                      )
                  ),
                 
                  conditionalPanel("input.whptIndex == 1",
                                   box(width = NULL, solidHeader = TRUE,
                                       HTML("<h3> Whalley Hawkes Paisley Trigg </h3>"),
                                       HTML("This function calculates Whalley Hawkes Paisley Trigg index according to version used in UK in 2017."),
+                                      tags$hr(),
                                       # HTML("Log abundance categories (Extence et al., 2013)."),
                                       # radioButtons("psi_abucl", "", choiceNames = c("1", "9", "99", "999"),
                                       #              choiceValues = c(1, 9, 99, 999),
@@ -369,17 +399,18 @@ tabItem(tabName = "biomIndex",
                                       radioButtons("whpt_type", "", choiceNames = c("Abundance", "Presence"),
                                                    choiceValues = c("ab", "po"),
                                                    selected = "ab", inline = TRUE)),
-                                      column(4,style=list("padding-right: 5px;"),
+                                      column(8,style=list("padding-right: 5px;"),
                                       HTML("Metric"),
                                       radioButtons("whpt_metric", "", choiceNames = c("ASPT", "BMWP", "Number of taxa"),
                                                    choiceValues = c("aspt", "bmwp", "ntaxa"),
                                                    selected = "aspt", inline = TRUE)),
-                                      checkboxInput("whptAgg", label = "Aggregation", value = FALSE), # <- agg parameter of BWMP
+                                      checkboxInput("whptAgg", label = "Aggregation", value = FALSE), 
                                       selectizeInput("whptExceptions", "Select taxa to exclude from the index calculation",
                                                      choices = NULL, multiple = TRUE),
                                       # fs_scores
                                       DTOutput("tbl_whpt"),
-                                      downloadButton("download_whpt", label = "Download Table"))
+                                      uiOutput("download_whpt")
+                                      )
                  )
 
                  
