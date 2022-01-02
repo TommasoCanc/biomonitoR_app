@@ -150,12 +150,22 @@ suggestions into the in the space provided below. <br>
 box(solidHeader = FALSE, width = NULL,
     checkboxInput("veganFormat", 
                   label = HTML("Do you want to convert your data to <b> vegan </b> format?"), 
-                  value = FALSE))
+                  value = FALSE),
+    HTML("Select the taxonomic level"),
+    radioButtons("taxLeVegan", "", choiceNames = c("Phylum", "Class", "Subclass", 
+                                                   "Order", "Family", "Subfamily", 
+                                                   "Tribus", "Genus", "Species", 
+                                                   "Subspecies", "Taxa") , 
+                 choiceValues = c("Phylum", "Class", "Subclass", 
+                                  "Order", "Family", "Subfamily", 
+                                  "Tribus", "Genus", "Species", 
+                                  "Subspecies", "Taxa"), inline = TRUE)
+    )
               ),
 
         column(width = 8,
                uiOutput("tblTaxonomy"),
-               uiOutput("tbl_vegan")
+               uiOutput("tblVegan")
                )
     
 )
@@ -212,9 +222,9 @@ tabItem(tabName = "ecoIndex",
                           checkboxGroupInput("div_taxlev_pair", "", choiceNames = c("Family", "Genus", "Species", "Taxa"), 
                                              choiceValues = c("Family", "Genus", "Species", "Taxa"), selected = NULL, inline = TRUE),
                           uiOutput("div_taxlev_pair")),
-                          column(8,style=list("padding-right: 5px;"),
+                          column(8, style=list("padding-right: 5px;"),
                           HTML("<b>Correlation type</b>"),
-                          radioButtons("corr_div", "", choices = c("Pearson", "Spearman"), inline = TRUE)
+                          radioButtons("corr_div", "", choices = c("pearson", "spearman"), inline = TRUE)
                           ),
                           tags$hr(),
                           verbatimTextOutput("console"),
