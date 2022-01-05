@@ -8,221 +8,15 @@ server <- function(input, output , session) {
   # this allow to remove all the previous calculation if a new dataset is provided
   
 # Data input -------------------------------------------------------------------
- 
-# indices <- reactiveValues(df_data = NULL)
-
-readInput <- reactive({
-  
-# Dataset with taxa and sampling site   
-# tools::file_ext(inFile$datapath) <- automatically identify the format
-inFile <- input$file1
-  if (is.null(inFile))
-    return(NULL)
-  if(tools::file_ext(inFile$datapath) == "xlsx"){ 
-     DF_init <- data.frame(read_excel(inFile$datapath, sheet = 1))
-  }
-  if(tools::file_ext(inFile$datapath) == "csv"){
-     DF_init <- read.csv(inFile$datapath, header = TRUE, sep = ",")
-  } 
-  if(tools::file_ext(inFile$datapath) == "txt"){
-     DF_init <- read.table(inFile$datapath, header = TRUE)
-  } 
-
-if(input$communitytype == "cu"){
-  inFile2 <- input$file2
-  if (is.null(inFile2))
-    return(NULL)
-  if(tools::file_ext(inFile$datapath) == "xlsx"){
-    DF_cust <- data.frame(read_excel(inFile2$datapath, sheet = 1))
-  }
-  if(tools::file_ext(inFile$datapath) == "csv"){
-    DF_cust <- read.csv(inFile2$datapath, header = TRUE, sep = ",")
-  }
-  if(tools::file_ext(inFile$datapath) == "txt"){
-    DF_cust <- read.table(inFile2$datapath, header = TRUE)
-  }
-
-# ADD validity consitions  
-  }
-
-# validate user input a column called Taxa is needed
-# only one non-numeric column is allowed
-# database needs to have more than 1 column
-    
-cond1 <- any(colnames(DF_init) %in% "Taxa") # Check if exist the column named taxa.
-cond2 <- sum(unlist(lapply(DF_init, is.factor))) # Check if there are columns as factor
-cond3 <- sum(unlist(lapply(DF_init, is.character))) # Check if there are columns as character. Only the taxa column have to be character
-cond4 <- ncol(DF_init) > 1 # Check if there are more than 1 column
-
-# Verify conditions 1 Dataset taxonomy
-
-if(cond1 & ((cond2 + cond3) == 1) & cond4){
-   DF <- DF_init
-    } else { DF <- NULL }
-
-# Verify conditions 2 Dataset taxonomy
-if(!cond1 | ((cond2 + cond3) != 1) | !cond4){
-  (showNotification("Your file does not match with the biomonitoR-app format.", type = "error", duration = NULL))
-   req(DF , cancelOutput = FALSE)
-}
-
-
-if(input$communitytype != "cu"){
-  bioImp <- bioImport(DF, group = input$communitytype) # communitytype: "macroinvertebrates", "macrophytes", "fish". Import the dataframe with the community reference
-  bioImp_w <- as.character(unlist(lapply(bioImp , function(x) (x[1]))))
-  names(bioImp) <- bioImp_w
-  DF[ ,"Taxa"] <- as.character(DF[ ,"Taxa"])
-} else {
-  bioImp <- bioImport(DF, group = NULL, dfref = DF_cust) # communitytype: "macroinvertebrates", "macrophytes", "fish". Import the dataframe with the community reference
-  bioImp_w <- as.character(unlist(lapply(bioImp , function(x) (x[1]))))
-  names(bioImp) <- bioImp_w
-  DF[ ,"Taxa"] <- as.character(DF[ ,"Taxa"])
-}
-
-
-if(input$communitytype != "cu"){
-  list(DF = DF , bioImp = bioImp , bioImp_w = bioImp_w)
-} else{ 
-  list(DF = DF , bioImp = bioImp , bioImp_w = bioImp_w, DF_cust = DF_cust)
-    }
-    
-})
-
-# observeEvent(input$file1, {
-#    indices$df_data <- NULL
-#  })
-
-output[["tbl"]] <- renderUI({
-  if(is.null(input$file1)){
-         showNotification("Data do not upload", duration = 5, type = "warning", closeButton = TRUE)
-      } 
-  if(!is.null(input$file1)){
-      box(width = NULL, solidHeader = FALSE,
-       datatable(readInput()$DF, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = FALSE))
-       )}
-})
-
+source("./Server/DataInput_Server.R", local = T)
 
 # Taxonomy check ---------------------------------------------------------------
-DF_def <- reactive({
-
-  if(length(readInput()$bioImp_w) == 0){
-    readInput()$DF
-  } else {
-    get.char <- map_chr(readInput()$bioImp_w, ~ default_val(input[[.x]], NA))
-    modTaxa <- data.frame(Taxa = readInput()$bioImp_w, Taxa_w = get.char, stringsAsFactors = FALSE)
-    temp <- data.frame(readInput()$DF)
-    if(any( modTaxa[ ,2] %in% "none")){
-      temp <- temp[!temp$Taxa %in% modTaxa[modTaxa[ ,2] == "none", "Taxa"], drop = FALSE, ]
-    }
-
-    temp$Taxa[temp$Taxa %in% modTaxa[ ,1]] <- modTaxa[modTaxa[ ,1] %in% temp$Taxa, 2]
-    temp <- temp[!is.na(temp$Taxa), ]
-    temp
-  }
-})
-
-output[["correctNames"]] <- renderUI({ # Show box with nomenclature suggestions
-  temp <- readInput()$bioImp
-  if(length(readInput()$bioImp_w) == 0 & exists("readInput()$bioImp_w")){
-    showNotification("All names are correct!", duration = 5, type = "message", closeButton = TRUE)
-  }
-  if(length(readInput()$bioImp_w) != 0){
-    box(width = NULL, solidHeader = FALSE,
-    map(readInput()$bioImp_w, ~ selectInput(.x, label = .x, choices = c("none" , as.character(unlist(temp[.x]))[-1]))
-        ))  
-  }
-
-})
-
-output[["tblTaxonomy"]] <- renderUI({ # Show nomenclature table
-  if(is.null(readInput()$DF)){
-    showNotification("Data do not upload", duration = 5, type = "warning", closeButton = TRUE)
-  } 
-  if(!is.null(readInput()$DF)){
-    box(width = NULL, solidHeader = FALSE,
-        datatable(DF_def(), rownames = FALSE, options = list(lengthChange = FALSE, scrollX = TRUE)),
-        uiOutput("downloadNomenclature")
-    )}
-})
-
-# Download button
-output$downloadNomenclature <- renderUI({
-  req(DF_def())
-  downloadButton("downloadNomenclature.1", "Download Table")
-})
-
-output$downloadNomenclature.1 <- downloadHandler(
-  filename = function() {
-    paste("taxa_corrected_nomenclature_", Sys.Date(), ".csv", sep = "")
-  },
-  content = function(file) {
-    write.csv(DF_def(), file, row.names = FALSE)
-  }
-)
+source("./Server/Taxonomy_Server.R", local = T)
 
 # biomonitoR functions ---------------------------------------------------------
-   
-# create the biomonitoR object
-# this will be used for all the calculations
+source("./Server/biomonitoRFunctions.R", local = T)
 
-asb_obj <- reactive({
-
-    # commtype <- input$communitytype
-    # abutype <- input$abutype
-    validate(need(DF_def(), ""))
-    
-    if(input$communitytype != "cu"){
-    aggregate_taxa(as_biomonitor(DF_def(), group = input$communitytype, FUN = get(input$abutype))) # Convert to biomonitoR format
-    } else {
-      aggregate_taxa(as_biomonitor(DF_def(), dfref = readInput()$DF_cust, FUN = get(input$abutype))) # Convert to biomonitoR format
-    }
-    } )
-
-
-vegan.rec <- reactive({
-  if(input$veganFormat == 1){
-    vegan.format <- convert_to_vegan(asb_obj(), tax_lev = input$taxLeVegan) # Convert to vegan format
-  }
-})
-
-
-# Convert to vegan
-output[["tblVegan"]] <- renderUI({
-  if(input$veganFormat == 1){
-    box(width = NULL, solidHeader = FALSE,
-        datatable(vegan.rec(), rownames = TRUE, options = list(lengthChange = TRUE, scrollX = TRUE)),
-        uiOutput("downloadVegan")
-        )
-  }
-})
-
-# Download button vegan
-output$downloadVegan <- renderUI({
-  req(vegan.rec())
-  downloadButton("downloadVegan.1", "Download Table")
-})
-
-output$downloadVegan.1 <- downloadHandler(
-  filename = function() {
-    paste("vegan_format_", Sys.Date(), ".csv", sep = "")
-  },
-  content = function(file) {
-    write.csv(vegan.rec(), file, row.names = FALSE)
-  }
-)
-
-# calculate richness for family, genus, species and taxa. Useful to set the elements of radioButtons.
-# Richness below 3 will not be taken into account
-
-  tax_lev_list <- reactive({
-    validate(need(DF_def(), ""))
-    temp.tot <- general_info(asb_obj()) # number of taxonomic ranks and abundance
-    temp.tot <- temp.tot[names(temp.tot) %in% c("Family", "Genus", "Species", "Taxa")] # Subset only the four taxon rank
-    names(temp.tot[temp.tot > 3])
-  })
-
-# Diversity indices ----
+# Diversity indices ------------------------------------------------------------
 
 observe({ # Create a RadioButtons with the results of tax_lev_list()
     updateRadioButtons(session, "div_taxlev", choices = tax_lev_list(), inline = TRUE)
@@ -333,13 +127,13 @@ observeEvent(readInput()$DF, {
 
 bwmp_reactive <- reactive({
   if(input$bmwpIndex == 1){
-    bwmpIndex <- as.data.frame(bmwp(asb_obj(), 
-                                    method = input$bmwp_method, 
-                                    agg = input$bmwpAgg, 
+    bwmpIndex <- as.data.frame(bmwp(asb_obj(),
+                                    method = input$bmwp_method,
+                                    agg = input$bmwpAgg,
                                     exceptions = input$bmwpExceptions,
                                     traceB = FALSE))
     colnames(bwmpIndex) <- "BMWP"
-    bwmpIndex  
+    bwmpIndex
   }
 })
 
@@ -370,16 +164,16 @@ observeEvent(readInput()$DF, {
 
 aspt_reactive <- reactive({
   if(input$asptIndex == 1){
-    asptIndex <- as.data.frame(aspt(asb_obj(), 
-                                    method = input$aspt_method, 
-                                    agg = input$asptAgg, 
+    asptIndex <- as.data.frame(aspt(asb_obj(),
+                                    method = input$aspt_method,
+                                    agg = input$asptAgg,
                                     exceptions = input$asptExceptions,
                                     traceB = FALSE))
     asptIndex <- round(asptIndex, digits = 3)
     colnames(asptIndex) <- "ASPT"
-    asptIndex  
+    asptIndex
   }
-  
+
 })
 
 output$tbl_aspt <- renderDT({ # table with aspt index
@@ -410,18 +204,18 @@ observeEvent(readInput()$DF, {
 
 psi_reactive <- reactive({
   if(input$psiIndex == 1){
-    psiIndex <- as.data.frame(psi(asb_obj(), 
+    psiIndex <- as.data.frame(psi(asb_obj(),
                                   method = "extence",
                                   abucl = c(1, 9, 99, 999),
-                                  agg = input$psiAgg, 
+                                  agg = input$psiAgg,
                                   fssr_scores = NULL,
                                   exceptions = input$psiExceptions,
                                   traceB = FALSE))
     psiIndex <- round(psiIndex, digits = 3)
     colnames(psiIndex) <- "PSI"
-    psiIndex  
+    psiIndex
   }
-  
+
 })
 
 output$tbl_psi <- renderDT({ # table with aspt index
@@ -452,15 +246,15 @@ observeEvent(readInput()$DF, {
 
 epsi_reactive <- reactive({
   if(input$epsiIndex == 1){
-    epsiIndex <- as.data.frame(epsi(asb_obj(), 
+    epsiIndex <- as.data.frame(epsi(asb_obj(),
                                     method = "uk",
-                                    agg = input$epsiAgg, 
+                                    agg = input$epsiAgg,
                                     abucl = c(1, 9, 99, 999),
                                     exceptions = input$epsiExceptions,
                                     traceB = FALSE))
     epsiIndex <- round(epsiIndex, digits = 3)
     colnames(epsiIndex) <- "PSI"
-    epsiIndex  
+    epsiIndex
   }
 })
 
@@ -489,12 +283,12 @@ output$download_epsi.1 <- downloadHandler( # set the download button for downloa
 
 ept_reactive <- reactive({
   if(input$eptIndex == 1){
-    eptIndex <- as.data.frame(ept(asb_obj(), 
+    eptIndex <- as.data.frame(ept(asb_obj(),
                                   tax_lev = input$ept_taxLev))
     colnames(eptIndex) <- "EPT"
-    eptIndex  
+    eptIndex
   }
-  
+
 })
 
 output$tbl_ept <- renderDT({ # table with aspt index
@@ -521,12 +315,12 @@ output$download_ept.1 <- downloadHandler( # set the download button for download
 
 eptd_reactive <- reactive({
   if(input$eptdIndex == 1){
-    eptdIndex <- as.data.frame(eptd(asb_obj(), 
-                                    base = input$epdt_logBase, 
-                                    eptd_families = NULL, 
+    eptdIndex <- as.data.frame(eptd(asb_obj(),
+                                    base = input$epdt_logBase,
+                                    eptd_families = NULL,
                                     traceB = FALSE))
     colnames(eptdIndex) <- "EPTD"
-    eptdIndex  
+    eptdIndex
   }
 })
 
@@ -554,13 +348,13 @@ output$download_eptd.1 <- downloadHandler( # set the download button for downloa
 
 gold_reactive <- reactive({
   if(input$goldIndex == 1){
-    goldIndex <- as.data.frame(igold(asb_obj(), 
+    goldIndex <- as.data.frame(igold(asb_obj(),
                                      traceB = FALSE))
     goldIndex <- round(goldIndex, digits = 3)
     colnames(goldIndex) <- "GOLD"
-    goldIndex  
+    goldIndex
   }
-  
+
 })
 
 output$tbl_gold <- renderDT({ # table with aspt index
@@ -632,7 +426,7 @@ observeEvent(readInput()$DF, {
 
 whpt_reactive <- reactive({
   if(input$whptIndex == 1){
-    whptIndex <- as.data.frame(whpt(asb_obj(), 
+    whptIndex <- as.data.frame(whpt(asb_obj(),
                                     method = "uk",
                                     type = input$whpt_type,
                                     metric = input$whpt_metric,
@@ -644,7 +438,7 @@ whpt_reactive <- reactive({
     colnames(whptIndex) <- "WHPT"
     whptIndex
   }
-  
+
 })
 
 output$tbl_whpt <- renderDT({ # table with aspt index
@@ -666,6 +460,8 @@ output$download_whpt.1 <- downloadHandler( # set the download button for downloa
     write.csv(whpt_reactive(), file, row.names = TRUE)
   }
 )
+
+
 
 # Custom Reference Dataset -----------------------------------------------------
 readInputCRD <- reactive({
