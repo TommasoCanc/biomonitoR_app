@@ -3,9 +3,6 @@ fluidRow(
          box(width = NULL, solidHeader = TRUE,
              HTML("<h3> <b>Custom Reference Datset</b> </h3> 
                           To import your dataset in the biomonitoR-app, it is important to follow two simple rules: <br><br>
-                       <b>1)</b> The first column of your dataset has to contain the taxa names, and it has to be named <i><b>'Taxa'</b></i>; <br><br>
-                       <b>2)</b> The other columns of your dataset can contain abundance or presence/absence data, and they have to 
-                          be named with the sampling point stations. <br> <br>
                        
                        <h5> Note: biomonitoR-app can use three pre-setted reference datasets: 
                        macroinvertebrates, macrophytes, and fish.

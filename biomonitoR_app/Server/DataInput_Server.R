@@ -66,7 +66,7 @@ readInput <- reactive({
     DF[ ,"Taxa"] <- as.character(DF[ ,"Taxa"])
   }
   
-  if(input$toBin != 1){
+  if(input$toBin != 1){ # Convert to binary format
     if(input$communitytype != "cu"){
       list(DF = DF , bioImp = bioImp , bioImp_w = bioImp_w)
     } else{
@@ -95,3 +95,69 @@ output[["tbl"]] <- renderUI({
         datatable(readInput()$DF, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = FALSE))
     )}
 })
+
+# Convert to vegan -------------------------------------------------------------
+vegan.rec <- reactive({
+  if(input$veganFormat == 1){
+    vegan.format <- convert_to_vegan(asb_obj(), tax_lev = input$taxLeVegan) # Convert to vegan format
+  }
+})
+
+output[["tblVegan"]] <- renderUI({
+  if(input$veganFormat == 1){
+    box(width = NULL, solidHeader = FALSE,
+        datatable(vegan.rec(), rownames = TRUE, options = list(lengthChange = TRUE, scrollX = TRUE)),
+        uiOutput("downloadVegan")
+    )
+  }
+})
+
+# Download button vegan
+output$downloadVegan <- renderUI({
+  req(vegan.rec())
+  downloadButton("downloadVegan.1", "Download Table")
+})
+
+output$downloadVegan.1 <- downloadHandler(
+  filename = function() {
+    paste("vegan_format_", Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(vegan.rec(), file, row.names = FALSE)
+  }
+)
+
+# Remove Taxa ------------------------------------------------------------------
+observeEvent(readInput()$DF, {
+  updateSelectizeInput(session, "removeTaxa", choices = readInput()$DF$Taxa)
+})
+
+rmTaxa.rec <- reactive({
+  if(!is.null(input$removeTaxa)){
+    rmTaxa <- remove_taxa(asb_obj(), taxa = c(input$removeTaxa)) # Convert to vegan format
+}
+    })
+
+output[["tblRmTaxa"]] <- renderUI({
+  if(!is.null(input$removeTaxa)){
+    box(width = NULL, solidHeader = FALSE,
+        datatable(rmTaxa.rec(), rownames = TRUE, options = list(lengthChange = TRUE, scrollX = TRUE)),
+        uiOutput("downloadrmTaxa")
+    )
+  }
+})
+
+# Download button vegan
+output$downloadrmTaxa <- renderUI({
+  req(rmTaxa.rec())
+  downloadButton("downloadrmTaxa.1", "Download Table")
+})
+
+output$downloadrmTaxa.1 <- downloadHandler(
+  filename = function() {
+    paste("taxa_removed_", Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(rmTaxa.rec(), file, row.names = FALSE)
+  }
+)

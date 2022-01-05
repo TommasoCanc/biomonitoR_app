@@ -9,25 +9,11 @@ dataset if loaded. <br> If there are potentially erroneus names, you can find po
 suggestions into the in the space provided below. <br>
 <br> Non-identfied taxa will be discarded.")),
 uiOutput("correctNames"), # Open the box with correct names suggestions
-box(solidHeader = FALSE, width = NULL,
-    checkboxInput("veganFormat", 
-                  label = HTML("Do you want to convert your data to <b> vegan </b> format?"), 
-                  value = FALSE),
-    HTML("Select the taxonomic level"),
-    radioButtons("taxLeVegan", "", choiceNames = c("Phylum", "Class", "Subclass", 
-                                                   "Order", "Family", "Subfamily", 
-                                                   "Tribus", "Genus", "Species", 
-                                                   "Subspecies", "Taxa") , 
-                 choiceValues = c("Phylum", "Class", "Subclass", 
-                                  "Order", "Family", "Subfamily", 
-                                  "Tribus", "Genus", "Species", 
-                                  "Subspecies", "Taxa"), inline = TRUE)
-)
   ),
 
 column(width = 8,
-       uiOutput("tblTaxonomy"),
-       uiOutput("tblVegan")
+       uiOutput("tblTaxonomy")
+       #uiOutput("tblVegan")
 )
 
 )

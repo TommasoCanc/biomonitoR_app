@@ -14,39 +14,6 @@ asb_obj <- reactive({
   }
 } )
 
-
-vegan.rec <- reactive({
-  if(input$veganFormat == 1){
-    vegan.format <- convert_to_vegan(asb_obj(), tax_lev = input$taxLeVegan) # Convert to vegan format
-  }
-})
-
-
-# Convert to vegan
-output[["tblVegan"]] <- renderUI({
-  if(input$veganFormat == 1){
-    box(width = NULL, solidHeader = FALSE,
-        datatable(vegan.rec(), rownames = TRUE, options = list(lengthChange = TRUE, scrollX = TRUE)),
-        uiOutput("downloadVegan")
-    )
-  }
-})
-
-# Download button vegan
-output$downloadVegan <- renderUI({
-  req(vegan.rec())
-  downloadButton("downloadVegan.1", "Download Table")
-})
-
-output$downloadVegan.1 <- downloadHandler(
-  filename = function() {
-    paste("vegan_format_", Sys.Date(), ".csv", sep = "")
-  },
-  content = function(file) {
-    write.csv(vegan.rec(), file, row.names = FALSE)
-  }
-)
-
 # calculate richness for family, genus, species and taxa. Useful to set the elements of radioButtons.
 # Richness below 3 will not be taken into account
 

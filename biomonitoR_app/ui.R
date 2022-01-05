@@ -26,8 +26,7 @@ header <- dashboardHeader(title = "biomonitoR-app")
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("About biomonitoR", tabName = "about"), # <- Main information abou biomonitor
-    menuItem("Data Input", tabName = "dataInput", icon = icon("folder-open", lib = "glyphicon")), # <- Input data
-    #menuItem("Data management", tabName = "management", icon = icon("check")), # <- Check taxonomy
+    menuItem("Data Input & Management", tabName = "dataInput", icon = icon("folder-open", lib = "glyphicon")), # <- Input data
     menuItem("Taxonomy check", tabName = "taxonomy", icon = icon("check")), # <- Check taxonomy
     menuItem("Diversity indices", tabName = "ecoIndex", icon = icon("calculator")), # Questo non é sinonimi...
     menuItem("Biomonitoring indices", tabName = "biomIndex", icon = icon("calculator")),
@@ -46,18 +45,12 @@ sidebar <- dashboardSidebar(
 
 
 # Color definition -------------------------------------------------------------
-body <- dashboardBody(
-  # color as the rest of the header.
-  tags$head(tags$style(source("./UI/css.R")$value)
-),
+body <- dashboardBody(tags$head(tags$style(source("./UI/css.R")$value)), # color as the rest of the header.
 
 # Panel content ---------------------------------------------------------------
-tabItems(
-
-# about
-tabItem(tabName = "about", source("./UI/about.R")$value),
+tabItems(tabItem(tabName = "about", source("./UI/about.R")$value), # about
   
-# dataInput
+# Data Input & Management ------------------------------------------------------
 tabItem(tabName = "dataInput", source("./UI/dataInput_UI.R")$value),
 
 # Taxonomy ---------------------------------------------------------------------

@@ -1,7 +1,11 @@
+##############
+# Right side #
+##############
+
 fluidRow(
   column(width = 4 ,
          box(width = NULL, solidHeader = TRUE,
-             HTML("<h3> <b>Data Input</b> </h3> 
+             HTML("<h3> <b>Data Input & Management</b> </h3> 
                           To import your dataset in the biomonitoR-app, it is important to follow two simple rules: <br><br>
                        <b>1)</b> The first column of your dataset has to contain the taxa names, and it has to be named <i><b>'Taxa'</b></i>; <br><br>
                        <b>2)</b> The other columns of your dataset can contain abundance or presence/absence data, and they have to 
@@ -12,7 +16,7 @@ fluidRow(
                        If you want to import your custom reference dataset, please follow the 
                        instructions present in the <b>Help</b>. </h3>")),
          # Import dataset and set main parameters
-         box(title = "Load file - Community data", solidHeader = FALSE, width = NULL,
+         box(title = "Load file - Community data", solidHeader = FALSE, width = NULL, collapsible = TRUE, collapsed = TRUE,
              #radioButtons("filetype", "", choices = c("xlsx","csv","txt"), inline = TRUE),
              HTML("Select your data"),
              fileInput("file1", label = NULL),
@@ -23,8 +27,9 @@ fluidRow(
              tags$hr(),
              HTML("Select your data type"),
              radioButtons("abutype", "", choiceNames = c("Abundance", "Presence/Absence"), choiceValues = c("sum","bin"), inline = TRUE),
-             checkboxInput("toBin", label = "Do you want transforms abundance to presence-absence?", value = FALSE), # <- Transforms abundance to presence-absence.
-         ),
+             checkboxInput("toBin", label = "Do you want transforms abundance to presence-absence?", value = FALSE) # <- Transforms abundance to presence-absence.         
+             
+             ),
          
          # Import Custom reference dataframe                 
          conditionalPanel("input.communitytype == 'cu'", 
@@ -33,10 +38,43 @@ fluidRow(
                               HTML("Select your data"),
                               fileInput("file2", label = NULL)
                           )
-         )
+         ),
+
+# Data Management --------------------------------------------------------------
+         
+# Convert to Vegan format ----
+box(title = "Convert to vegan format", solidHeader = FALSE, width = NULL, collapsible = TRUE, collapsed = TRUE,
+             checkboxInput("veganFormat", 
+                           label = HTML("Do you want to convert your data to <b> vegan </b> format?"), 
+                           value = FALSE),
+             HTML("Select the taxonomic level"),
+             radioButtons("taxLeVegan", "", choiceNames = c("Phylum", "Class", "Subclass", 
+                                                            "Order", "Family", "Subfamily", 
+                                                            "Tribus", "Genus", "Species", 
+                                                            "Subspecies", "Taxa") , 
+                          choiceValues = c("Phylum", "Class", "Subclass", 
+                                           "Order", "Family", "Subfamily", 
+                                           "Tribus", "Genus", "Species", 
+                                           "Subspecies", "Taxa"), inline = TRUE)
+         ),
+
+# Remove taxa ----
+# Which taxon/a do you u want to remove from your dataset?
+box(title = "Remove taxa", solidHeader = FALSE, width = NULL, collapsible = TRUE, collapsed = TRUE,
+    selectizeInput("removeTaxa", "Select taxa to exclude from your dataset", 
+                   choices = NULL, multiple = TRUE),
+    ),
+        
   ),
-  
+
+
+#############
+# Left side #
+#############
+
   column(width = 8,
-         uiOutput("tbl")
+         uiOutput("tbl"),
+         uiOutput("tblVegan"),
+         uiOutput("tblRmTaxa")
   )
 )
