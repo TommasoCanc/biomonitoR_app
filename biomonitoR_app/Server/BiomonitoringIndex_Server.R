@@ -1,3 +1,50 @@
+# BIOCO ----
+observeEvent(readInput()$DF, {
+  updateSelectizeInput(session, "biocoAlien", choices = readInput()$DF$Taxa)
+})
+
+bioco_reactive <- reactive({
+  if(input$biocoIndex == 1 & !is.null(input$biocoAlien)){
+
+    if(input$biocoRefdf != "cu"){
+    biocoIndex <- bioco(asb_obj(),
+                        alien = input$biocoAlien, 
+                        dfref = input$biocoRefdf, 
+                        digits = 2)
+    } else {
+      biocoIndex <- bioco(asb_obj(),
+                          alien = input$biocoAlien, 
+                          dfref = readInput()$DF_cust, 
+                          digits = 2)
+    }
+  
+    biocoIndex
+    
+  } 
+  })
+
+output$tbl_bioco <- renderDT({ # table with bioco index
+  req(bioco_reactive())  
+  datatable(bioco_reactive(), rownames = TRUE,
+              options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                             scrollX = TRUE, lengthChange = FALSE))
+  
+})
+
+output$download_bioco <- renderUI({
+  req(bioco_reactive())
+  downloadButton("download_bioco.1", "Download Table")
+})
+
+output$download_bioco.1 <- downloadHandler( # set the download button for downloading BMWP index table
+  filename = function() {
+    paste("BIOCO_",  Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(bioco_reactive(), file, row.names = TRUE)
+  }
+)
+
 # BMWP ----
 observeEvent(readInput()$DF, {
   updateSelectizeInput(session, "bmwpExceptions", choices = readInput()$DF$Taxa)

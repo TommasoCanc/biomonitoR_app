@@ -12,7 +12,9 @@ asb_obj <- reactive({
   } else {
     aggregate_taxa(as_biomonitor(DF_def(), dfref = readInput()$DF_cust, FUN = get(input$abutype))) # Convert to biomonitoR format
   }
-} )
+
+  } 
+)
 
 # calculate richness for family, genus, species and taxa. Useful to set the elements of radioButtons.
 # Richness below 3 will not be taken into account

@@ -27,8 +27,7 @@ fluidRow(
              tags$hr(),
              HTML("Select your data type"),
              radioButtons("abutype", "", choiceNames = c("Abundance", "Presence/Absence"), choiceValues = c("sum","bin"), inline = TRUE),
-             checkboxInput("toBin", label = "Do you want transforms abundance to presence-absence?", value = FALSE) # <- Transforms abundance to presence-absence.         
-             
+             checkboxInput("toBin", label = "Do you want transforms abundance to presence-absence?", value = FALSE) # <- Transforms abundance to presence-absence.
              ),
          
          # Import Custom reference dataframe                 
@@ -62,7 +61,7 @@ box(title = "Convert to vegan format", solidHeader = FALSE, width = NULL, collap
 # Which taxon/a do you u want to remove from your dataset?
 box(title = "Remove taxa", solidHeader = FALSE, width = NULL, collapsible = TRUE, collapsed = TRUE,
     selectizeInput("removeTaxa", "Select taxa to exclude from your dataset", 
-                   choices = NULL, multiple = TRUE),
+                   choices = NULL, multiple = TRUE)
     ),
         
   ),

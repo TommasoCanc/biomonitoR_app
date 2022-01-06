@@ -5,6 +5,7 @@ fluidRow(
                           This panel ...")),
          box(width = NULL, solidHeader = TRUE,
              HTML("What do you want to calculate?"),
+             checkboxInput("biocoIndex", label = "Biocontamination (SBCI), abundance contamination (ACI), and richness contamination index (RCI)", value = FALSE), # <- BIOCO
              checkboxInput("bmwpIndex", label = "Biological Monitoring Working Party (BMWP)", value = FALSE), # <- BWMP
              checkboxInput("asptIndex", label = "Average Score Per Taxon (ASPT)", value = FALSE), # <- ASPT
              checkboxInput("psiIndex", label = "Proportion of Sediment-sensitive Invertebrates index (PSI)", value = FALSE), # <- psi
@@ -18,6 +19,23 @@ fluidRow(
   ),
   
   column(width = 8,
+         
+         conditionalPanel("input.biocoIndex == 1",
+                          box(width = NULL, solidHeader = TRUE,
+                              HTML("<h3> Biocontamination (SBCI), abundance contamination (ACI), and richness contamination index (RCI) </h3>"),
+                              HTML("This function provides site-specific biocontamination index (SBCI), 
+                                   abundance contamination index (ACI) and richness contamination index (RCI) 
+                                   at family rank according to those proposed by Arbaciauskas et al. (2008)."),
+                              tags$hr(),
+                              selectizeInput("biocoAlien", "Select alien species to calculate the index", 
+                                             choices = NULL, multiple = TRUE),
+                              radioButtons("biocoRefdf", "", choiceNames = c("Macroinvertebrate", "Macrophyte", "Custom"), 
+                                           choiceValues = c("mi", "mf", "cu"), selected = "mi", inline = TRUE),
+                              DTOutput("tbl_bioco"),
+                              uiOutput("download_bioco")
+                          )
+         ),
+         
          conditionalPanel("input.bmwpIndex == 1",
                           box(width = NULL, solidHeader = TRUE,
                               HTML("<h3> Biological Monitoring Working Party (BMWP) </h3>"),

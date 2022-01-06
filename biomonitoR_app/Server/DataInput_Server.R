@@ -134,7 +134,7 @@ observeEvent(readInput()$DF, {
 
 rmTaxa.rec <- reactive({
   if(!is.null(input$removeTaxa)){
-    rmTaxa <- remove_taxa(asb_obj(), taxa = c(input$removeTaxa)) # Convert to vegan format
+    rmTaxa <- remove_taxa(asb_obj(), taxa = c(input$removeTaxa)) # Remove taxa
 }
     })
 

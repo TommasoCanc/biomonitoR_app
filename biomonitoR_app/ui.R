@@ -51,7 +51,7 @@ body <- dashboardBody(tags$head(tags$style(source("./UI/css.R")$value)), # color
 tabItems(tabItem(tabName = "about", source("./UI/about.R")$value), # about
   
 # Data Input & Management ------------------------------------------------------
-tabItem(tabName = "dataInput", source("./UI/dataInput_UI.R")$value),
+tabItem(tabName = "dataInput", source("./UI/DataInput_UI.R")$value),
 
 # Taxonomy ---------------------------------------------------------------------
 tabItem(tabName = "taxonomy", source("./UI/Taxonomy_UI.R")$value),
