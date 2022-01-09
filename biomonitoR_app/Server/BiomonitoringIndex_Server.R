@@ -1,6 +1,7 @@
 # BIOCO ----
-observeEvent(readInput()$DF, {
-  updateSelectizeInput(session, "biocoAlien", choices = readInput()$DF$Taxa)
+observeEvent(DF_def(), {
+  req(DF_def())
+  updateSelectizeInput(session, "biocoAlien", choices = DF_def()$Taxa)
 })
 
 bioco_reactive <- reactive({
@@ -46,8 +47,9 @@ output$download_bioco.1 <- downloadHandler( # set the download button for downlo
 )
 
 # BMWP ----
-observeEvent(readInput()$DF, {
-  updateSelectizeInput(session, "bmwpExceptions", choices = readInput()$DF$Taxa)
+observeEvent(DF_def(), {
+  req(DF_def())
+  updateSelectizeInput(session, "bmwpExceptions", choices = DF_def()$Taxa)
 })
 
 bwmp_reactive <- reactive({
@@ -66,6 +68,14 @@ output$tbl_bmwp <- renderDT({ # table with bmwp index
   datatable(bwmp_reactive(), rownames = TRUE,
             options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
                            scrollX = TRUE, lengthChange = FALSE))
+})
+
+output$tbl_bmwpScore <- renderDT({ # table with bmwp score
+  if(input$bmwpScore == 1){
+  datatable(show_scores(index = "bmwp", method = input$bmwp_methodScore)$scores, rownames = TRUE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                           scrollX = TRUE, lengthChange = FALSE))
+  }
 })
 
 output$download_bmwp <- renderUI({
@@ -105,6 +115,14 @@ output$tbl_aspt <- renderDT({ # table with aspt index
   datatable(aspt_reactive(), rownames = TRUE,
             options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
                            scrollX = TRUE, lengthChange = FALSE))
+})
+
+output$tbl_asptScore <- renderDT({ # table with aspt score
+  if(input$asptScore == 1){
+    datatable(show_scores(index = "aspt", method = input$aspt_methodScore)$scores, rownames = TRUE,
+              options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                             scrollX = TRUE, lengthChange = FALSE))
+  }
 })
 
 output$download_aspt <- renderUI({
@@ -149,6 +167,14 @@ output$tbl_psi <- renderDT({ # table with aspt index
                            scrollX = TRUE, lengthChange = FALSE))
 })
 
+output$tbl_psiScore <- renderDT({ # table with psi score
+  if(input$psiScore == 1){
+    datatable(show_scores(index = "psi", method = "extence")$scores, rownames = TRUE,
+              options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                             scrollX = TRUE, lengthChange = FALSE))
+  }
+})
+
 output$download_psi <- renderUI({
   req(psi_reactive())
   downloadButton("download_psi.1", "Download Table")
@@ -189,6 +215,13 @@ output$tbl_epsi <- renderDT({ # table with aspt index
                            scrollX = TRUE, lengthChange = FALSE))
 })
 
+output$tbl_epsiScore <- renderDT({ # table with epsi score
+  if(input$epsiScore == 1){
+    datatable(show_scores(index = "epsi", method = "uk")$scores, rownames = TRUE,
+              options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                             scrollX = TRUE, lengthChange = FALSE))
+  }
+})
 
 output$download_epsi <- renderUI({
   req(epsi_reactive())
@@ -327,6 +360,14 @@ output$tbl_life <- renderDT({ # table with aspt index
   datatable(life_reactive(), rownames = TRUE,
             options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
                            scrollX = TRUE, lengthChange = FALSE))
+})
+
+output$tbl_lifeScore <- renderDT({ # table with epsi score
+  if(input$lifeScore == 1){
+    datatable(show_scores(index = "life", method = input$life_methodScore)$scores, rownames = TRUE,
+              options = list(columnDefs = list(list(className = "dt-center", targets = "all")),
+                             scrollX = TRUE, lengthChange = FALSE))
+  }
 })
 
 output$download_life <- renderUI({

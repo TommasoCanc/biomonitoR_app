@@ -28,9 +28,11 @@ sidebar <- dashboardSidebar(
     menuItem("About biomonitoR", tabName = "about"), # <- Main information abou biomonitor
     menuItem("Data Input & Management", tabName = "dataInput", icon = icon("folder-open", lib = "glyphicon")), # <- Input data
     menuItem("Taxonomy check", tabName = "taxonomy", icon = icon("check")), # <- Check taxonomy
-    menuItem("Diversity indices", tabName = "ecoIndex", icon = icon("calculator")), # Questo non é sinonimi...
-    menuItem("Biomonitoring indices", tabName = "biomIndex", icon = icon("calculator")),
-    # menuItem("import traits table", tabName = "mtraits", icon = icon("file-import")),
+    menuItem("Diversity indices", tabName = "ecoIndex", icon = icon("calculator")), # <-  DIversity indices
+    menuItem("Biomonitoring indices", tabName = "biomIndex", icon = icon("calculator")), # <- Biomonitor Indices
+    menuItem("Traits Input & Management", tabName = "inputTraits", icon = icon("file-import"), # <-  Traits table
+             menuSubItem("Input trait table", tabName = "inTrait"),
+             menuSubItem("Manage trait table", tabName = "manageTrait")),
     # menuItem("manage traits table", tabName = "tdist", icon = icon("calculator")),
     # menuItem("functional indices", tabName = "func", icon = icon("calculator")),
     # menuItem("more indices", tabName = "more", icon = icon("calculator")),
@@ -38,8 +40,13 @@ sidebar <- dashboardSidebar(
     # menuItem("environmental variables", tabName = "env", icon = icon("layer-group")),
     # menuItem("map", tabName = "map", icon = icon("map")),
     # menuItem("credits", tabName = "info", icon = icon("info")),
-    menuItem("Custom reference dataset", tabName = "cusData", icon = icon("pencil", lib = "glyphicon")),
-    menuItem("help", tabName = "help", icon = icon("question-sign", lib = "glyphicon"))
+    menuItem("Custom reference dataset", tabName = "cusData", icon = icon("pencil", lib = "glyphicon")), # <- Create custom reference dataset
+    menuItem("Help", tabName = "help", icon = icon("question-sign", lib = "glyphicon"), # Help
+             menuSubItem("Data Input & Management", tabName = "dataInput_help"),
+             menuSubItem("Taxonomy check", tabName = "taxonomy_help"),
+             menuSubItem("Diversity indices", tabName = "ecoIndex_help"), 
+             menuSubItem("Biomonitoring indices", tabName = "biomIndex_help")),
+    menuItem("References", tabName = "biblioRef", icon = icon("info-sign", lib = "glyphicon")) # <- Bibliographic reference
   )
 )
 
@@ -61,6 +68,10 @@ tabItem(tabName = "ecoIndex", source("./UI/EcologicalIndex_UI.R")$value),
 
 # Biomonitoring indices --------------------------------------------------------
 tabItem(tabName = "biomIndex", source("./UI/BiomonitoringIndex_UI.R")$value),
+
+# Traits -----------------------------------------------------------------------
+# Manage trait table ----
+tabItem(tabName = "manageTrait", source("./UI/ManageTraitTable_UI.R")$value),
 
 # Reference custom dataset -----------------------------------------------------
 tabItem(tabName = "cusData", source("./UI/CustomDf_UI.R")$value)

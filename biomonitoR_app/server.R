@@ -18,6 +18,10 @@ source("./Server/biomonitoRFunctions.R", local = T)
 
 # Diversity indices ------------------------------------------------------------
 source("./Server/DiversityIndex_Server.R", local = T)
+  
+# Traits -----------------------------------------------------------------------
+# Manage trait table ----
+source("./Server/ManageTraitTable_Server.R", local = T)
 
 # Biomonitoring indices --------------------------------------------------------
 source("./Server/BiomonitoringIndex_Server.R", local = T)
