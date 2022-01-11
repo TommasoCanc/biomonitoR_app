@@ -1,4 +1,4 @@
-# biomonitoR-app
+
 <h1>biomonitoR-app</h1>
 <h3>What is biomonitoR</h3>
 <br>
@@ -28,5 +28,15 @@
 
 <h3>Citation</h3>
 Please to cite <i><b>biomonitoR</i></b> ...
+
+<h3>Contributors</h3>
+Alex Laini, Simone Guareschi, Rossano Bolpagni, Gemma Burgazzi, Daniel Bruno 
+Cayetano Gutiérrez-Cánovas, Rafael Miranda, Cédric Mondy, Gábor Várbíró,
+Tommaso Cancellario
+
+<h3>Acknowledgements</h3>
+This package is based upon work from COST Action CA15113 (SMIRES, Science and 
+Management of Intermittent Rivers and Ephemeral Streams,www.smires.eu), 
+supported by COST (European Cooperation in Science and Technology).
 
 <img src="https://github.com/TommasoCanc/biomonitoR_app/blob/main/biomonitoR_app/www/biomonitor_300px.png" height="150">
