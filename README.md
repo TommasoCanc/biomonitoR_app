@@ -1,6 +1,6 @@
 
 <h1>biomonitoR-app</h1>
-<h3>What is biomonitoR</h3>
+<h3>What is biomonitoR?</h3>
 <br>
 <b>
   <i>biomonitoR</i>
