@@ -28,5 +28,8 @@ source("./Server/BiomonitoringIndex_Server.R", local = T)
 
 # Custom Reference Dataset -----------------------------------------------------
 source("./Server/CustomRefDataset.R", local = T)
+  
+# Custom Reference Dataset -----------------------------------------------------
+source("./Server/Bibliography_Server.R", local = T)
 
    }

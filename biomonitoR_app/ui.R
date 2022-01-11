@@ -32,7 +32,8 @@ sidebar <- dashboardSidebar(
     menuItem("Biomonitoring indices", tabName = "biomIndex", icon = icon("calculator")), # <- Biomonitor Indices
     menuItem("Traits Input & Management", tabName = "inputTraits", icon = icon("file-import"), # <-  Traits table
              menuSubItem("Input trait table", tabName = "inTrait"),
-             menuSubItem("Manage trait table", tabName = "manageTrait")),
+             menuSubItem("Manage trait table", tabName = "manageTrait"),
+             menuSubItem("Functional indices ", tabName = "funIndices")),
     # menuItem("manage traits table", tabName = "tdist", icon = icon("calculator")),
     # menuItem("functional indices", tabName = "func", icon = icon("calculator")),
     # menuItem("more indices", tabName = "more", icon = icon("calculator")),
@@ -74,7 +75,10 @@ tabItem(tabName = "biomIndex", source("./UI/BiomonitoringIndex_UI.R")$value),
 tabItem(tabName = "manageTrait", source("./UI/ManageTraitTable_UI.R")$value),
 
 # Reference custom dataset -----------------------------------------------------
-tabItem(tabName = "cusData", source("./UI/CustomDf_UI.R")$value)
+tabItem(tabName = "cusData", source("./UI/CustomDf_UI.R")$value),
+
+# Bibliography -----------------------------------------------------
+tabItem(tabName = "biblioRef", source("./UI/Bibliography_UI.R")$value)
 
 )
 )

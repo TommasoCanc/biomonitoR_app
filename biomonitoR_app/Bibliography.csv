@@ -1,0 +1,26 @@
+﻿Index/metric;Target group;Aims;Methodologic reference;Example reference
+TOTAL TAXA;All components;SEA /BD;Buss et al. 2015;Italy, Morocco, Spain:  Gutiérrez-Cánovas et al. 2019 
+BMWP;MI;SEA;Hawkes, 1998;UK: Clarke et al. 2002
+ASPT;MI;SEA;Hawkes, 1998;UK: Clarke et al. 2002
+IBMWP;MI;SEA;Alba Tercedor et al. 2002;Spain: Bruno et al. 2014
+IASPT;MI;SEA;Alba Tercedor et al. 2002;Spain and Italy: Guareschi et al. 2017
+EPT;MI;SEA;Kitchin 2005;Australia: Wright and Ryan, 2016
+WHPT;MI;SEA;Paisley et al. 2014;UK: Guareschi et al. 2021a
+WHPT-ASPT;MI;SEA;Paisley et al. 2014;UK: Guareschi et al. 2021a
+IBMR;MP;SEA;Haury et al. 2016;Cyprus, France, Greece, Italy, Portugal and Spain: Aguiar et al. 2014
+LIFE;MI;SP: flow variation;Extence et al. 1999;UK: Monk et al. 2008
+Flow-T;MI;SP: flow variation;Laini et al. 2022 under review;UK, Cyprus, Italy: Laini et al. 2021
+PSI;MI;SP: sedimentation;Extence et al. 2013;UK: Extence et al. 2017
+EPSI;MI;SP: sedimentation;Turley et al. 2016;UK: Wilkes et al. 2017
+RCI;All components;SP: biocontamination;Arbačiauskas et al. 2008;UK: Guareschi et al. 2021b
+ACI;All components;SP: biocontamination;Arbačiauskas et al. 2008;UK: Guareschi et al. 2021b
+SBCI;All components;SP: biocontamination;Arbačiauskas et al. 2008;Russia: Son et al. 2020
+Functional Richness;All components;BD: functional;Villeger et al. 2008;Spain: Belmar et al. 2019
+Functional Redundancy;All components;BD: functional;Pillar et al. 2013;Spain: Bruno et al. 2016
+Functional Diversity;All components;BD: functional;Petchey and Gaston, 2006;UK: Mathers et al. 2020
+Functional divergence;All components;BD: functional;Villeger et al. 2008;UK: Mathers et al. 2020
+Functional evenness;All components;BD: functional;Villeger et al. 2008;UK: Mathers et al. 2020
+Shannon ;All components;BD: taxonomic;Shannon 1949;Spain: Mellado et al. 2019
+Simpson;All components;BD: taxonomic;Simpson, 1949.;USA:  Nichols et al. 2000
+Evenness ;All components;BD: taxonomic;Pielou 1966;France: Biesel et al. 2003 
+;;;;
