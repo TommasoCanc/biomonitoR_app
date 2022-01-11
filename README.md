@@ -21,9 +21,9 @@
 <i>
   <b>biomonitoR-web</b>
 </i> is created and maintained by <i><b>Alex Laini</i></b>, <i><b>Tommaso Cancellario</i></b>, and <i><b>Simone Guareschi</i></b> <br>
-<br> To comunicate bug report and feature requests please contact: <a href=\"mailto:alex.laini@gmail.com\">A. Laini</a> or <a href=\"mailto:tommaso.canellario@gmail.com\">T. Cancellario</a>
+<br> To comunicate bug report and feature requests please contact: alex.laini@gmail.com or tommaso.canellario@gmail.com
 
-<br> To send pull request on GitHub: https://github.com/alexology/biomonitoR/tree/main/man
+<br> To send pull request on GitHub: https://github.com/alexology/biomonitoR
 <br>
 
 <h3>Citation</h3>
