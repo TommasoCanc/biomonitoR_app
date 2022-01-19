@@ -1,41 +1,48 @@
 readInputCRD <- reactive({
   
-  # Dataset with taxa and sampling site    
-  inFileCRD <- input$fileCRD
-  if (is.null(inFileCRD))
+  # Dataset to create custom reference dataset   
+  if (is.null(input$fileCRD))
     return(NULL)
-  if(input$filetypeCRD == "xlsx"){
-    Tree <- data.frame(read_excel(inFileCRD$datapath, sheet = 1))
+  if(tools::file_ext(input$fileCRD$datapath) == "xlsx"){
+    tree <- data.frame(read_excel(input$fileCRD$datapath, sheet = 1))
   }
-  if(input$filetypeCRD == "csv"){
-    Tree <- read.csv(inFileCRD$datapath, header = TRUE, sep = ",")
+  if(tools::file_ext(input$fileCRD$datapath) == "csv"){
+    tree <- read.csv(input$fileCRD$datapath, header = TRUE, sep = ",")
   }
-  if(input$filetypeCRD == "txt"){
-    Tree <- read.table(inFileCRD$datapath, header = TRUE)
+  if(tools::file_ext(input$fileCRD$datapath) == "txt"){
+    tree <- read.table(input$fileCRD$datapath, header = TRUE)
   }
   
-  if(input$communitytypeCRD != "none"){
-    CRD <- ref_from_tree(Tree, group = input$communitytypeCRD)
-    
+  if(input$runCRD == 1){
+  CRD <- ref_from_tree(tree, group = input$communitytypeCRD)
   } else {
-    CRD <- ref_from_tree(Tree, group = "none")
+    CRD <- NULL
   }
   
-  list(CRD = CRD)
+  list(tree = tree, CRD = CRD)
   
 })
 
 
-output[["boxCRD"]] <- renderUI({
+output[["tbl_boxInputTree"]] <- renderUI({
   if(is.null(input$fileCRD)){
     showNotification("Data do not upload", duration = 5, type = "warning", closeButton = TRUE)
   }
   if(!is.null(input$fileCRD)){
     box(width = NULL, solidHeader = FALSE,
-        datatable(readInputCRD()$CRD, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = FALSE))
+        datatable(readInputCRD()$tree, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = FALSE))
     )
   }
   
+})
+
+
+output[["tbl_boxCRD"]] <- renderUI({
+  if(!is.null(readInputCRD()$CRD)){
+    box(width = NULL, solidHeader = FALSE,
+        datatable(readInputCRD()$CRD, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = FALSE))
+    )
+  }
 })
 
 # set the download button for downloading the table output$tbl_div

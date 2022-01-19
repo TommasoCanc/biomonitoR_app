@@ -1,7 +1,7 @@
 fluidRow(
   div(style="display: inline-block;vertical-align:top; margin-left:30px",
       
-  HTML("<h1>biomonitoR-web</h1>
+  HTML("<h1>biomonitoR-app</h1>
 <h3>What is biomonitoR</h3>
 <br>
 <b>

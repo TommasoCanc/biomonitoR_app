@@ -26,8 +26,12 @@ header <- dashboardHeader(title = "biomonitoR-app")
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("About biomonitoR", tabName = "about"), # <- Main information abou biomonitor
-    menuItem("Data Input & Management", tabName = "dataInput", icon = icon("folder-open", lib = "glyphicon")), # <- Input data
-    menuItem("Taxonomy check", tabName = "taxonomy", icon = icon("check")), # <- Check taxonomy
+    menuItem("Data Input & Management", tabName = "dataIn&Man", icon = icon("folder-open", lib = "glyphicon"),
+             menuSubItem("Data Input", tabName = "dataInput"), # <- Input data
+             menuSubItem("Taxonomy check", tabName = "taxonomy"), # <- Taxonomy check
+             menuSubItem("Create CusRef dataset", tabName = "cusData") # <- Create custom reference dataset
+             ), 
+    #menuItem("Taxonomy check", tabName = "taxonomy", icon = icon("check")), # <- Check taxonomy
     menuItem("Diversity indices", tabName = "ecoIndex", icon = icon("calculator")), # <-  DIversity indices
     menuItem("Biomonitoring indices", tabName = "biomIndex", icon = icon("calculator")), # <- Biomonitor Indices
     menuItem("Traits Input & Management", tabName = "inputTraits", icon = icon("file-import"), # <-  Traits table
@@ -41,7 +45,7 @@ sidebar <- dashboardSidebar(
     # menuItem("environmental variables", tabName = "env", icon = icon("layer-group")),
     # menuItem("map", tabName = "map", icon = icon("map")),
     # menuItem("credits", tabName = "info", icon = icon("info")),
-    menuItem("Custom reference dataset", tabName = "cusData", icon = icon("pencil", lib = "glyphicon")), # <- Create custom reference dataset
+    #menuItem("Create CusRef dataset", tabName = "cusData", icon = icon("pencil", lib = "glyphicon")), # <- Create custom reference dataset
     menuItem("Help", tabName = "help", icon = icon("question-sign", lib = "glyphicon"), # Help
              menuSubItem("Data Input & Management", tabName = "dataInput_help"),
              menuSubItem("Taxonomy check", tabName = "taxonomy_help"),
@@ -59,7 +63,7 @@ body <- dashboardBody(tags$head(tags$style(source("./UI/css.R")$value)), # color
 tabItems(tabItem(tabName = "about", source("./UI/about.R")$value), # about
   
 # Data Input & Management ------------------------------------------------------
-tabItem(tabName = "dataInput", source("./UI/DataInput_UI.R")$value),
+tabItem(tabName = "dataInput", source("./UI/01_DataInput_UI.R")$value),
 
 # Taxonomy ---------------------------------------------------------------------
 tabItem(tabName = "taxonomy", source("./UI/Taxonomy_UI.R")$value),
@@ -71,6 +75,8 @@ tabItem(tabName = "ecoIndex", source("./UI/EcologicalIndex_UI.R")$value),
 tabItem(tabName = "biomIndex", source("./UI/BiomonitoringIndex_UI.R")$value),
 
 # Traits -----------------------------------------------------------------------
+# Input trait table ----
+tabItem(tabName = "inTrait", source("./UI/inputTraitTable_UI.R")$value),
 # Manage trait table ----
 tabItem(tabName = "manageTrait", source("./UI/ManageTraitTable_UI.R")$value),
 

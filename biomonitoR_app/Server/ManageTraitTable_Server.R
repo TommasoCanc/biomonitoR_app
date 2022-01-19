@@ -2,9 +2,15 @@
 assignTrait_reactive <- reactive({
   if(input$assignTrait == 1){
     
+    if(input$traitCustom == 1 & !is.null(input$fileTrait)){
+      trait_db <- readInputTrait()
+    } else {
+      trait_db <- NULL
+    }
+    
     if(input$assFilterDistance == "Null"){
       assTrait <- assign_traits(asb_obj(),
-                                trait_db = NULL,
+                                trait_db = trait_db,
                                 group = input$assTraitsGroup,
                                 tax_lev = input$assTraitsLevel,
                                 dfref = NULL,
@@ -13,7 +19,7 @@ assignTrait_reactive <- reactive({
     
     if (input$assFilterDistance == "numeric") {
       assTrait <- assign_traits(asb_obj(),
-                                trait_db = NULL,
+                                trait_db = trait_db,
                                 group = input$assTraitsGroup,
                                 tax_lev = input$assTraitsLevel,
                                 dfref = NULL,
@@ -22,7 +28,7 @@ assignTrait_reactive <- reactive({
     
     if (input$assFilterDistance != "Null" & input$assFilterDistance != "numeric") {
       assTrait <- assign_traits(asb_obj(),
-                                trait_db = NULL,
+                                trait_db = trait_db,
                                 group = input$assTraitsGroup,
                                 tax_lev = input$assTraitsLevel,
                                 dfref = NULL,

@@ -8,7 +8,7 @@ server <- function(input, output , session) {
   # this allow to remove all the previous calculation if a new dataset is provided
   
 # Data input -------------------------------------------------------------------
-source("./Server/DataInput_Server.R", local = T)
+source("./Server/01_DataInput_Server.R", local = T)
 
 # Taxonomy check ---------------------------------------------------------------
 source("./Server/Taxonomy_Server.R", local = T)
@@ -20,6 +20,8 @@ source("./Server/biomonitoRFunctions.R", local = T)
 source("./Server/DiversityIndex_Server.R", local = T)
   
 # Traits -----------------------------------------------------------------------
+# Input trait table ----
+source("./Server/InputTraitTable_Server.R", local = T)
 # Manage trait table ----
 source("./Server/ManageTraitTable_Server.R", local = T)
 
