@@ -5,6 +5,7 @@
 # Load libraries
 library(shiny)
 library(shinydashboard)
+library(shinyWidgets)
 library(DT)
 library(readxl)
 library(purrr)
@@ -60,31 +61,26 @@ sidebar <- dashboardSidebar(
 body <- dashboardBody(tags$head(tags$style(source("./UI/css.R")$value)), # color as the rest of the header.
 
 # Panel content ---------------------------------------------------------------
-tabItems(tabItem(tabName = "about", source("./UI/about.R")$value), # about
+tabItems(tabItem(tabName = "about", source("./UI/00_about.R")$value), # about
   
 # Data Input & Management ------------------------------------------------------
-tabItem(tabName = "dataInput", source("./UI/01_DataInput_UI.R")$value),
-
-# Taxonomy ---------------------------------------------------------------------
-tabItem(tabName = "taxonomy", source("./UI/Taxonomy_UI.R")$value),
+tabItem(tabName = "dataInput", source("./UI/01_1_DataInput_UI.R")$value), # Data Input
+tabItem(tabName = "taxonomy", source("./UI/01_2_Taxonomy_UI.R")$value), # Taxonomy 
+tabItem(tabName = "cusData", source("./UI/01_3_CustomDf_UI.R")$value), # Create reference custom dataset
 
 # Ecological Index -------------------------------------------------------------
-tabItem(tabName = "ecoIndex", source("./UI/EcologicalIndex_UI.R")$value),
+tabItem(tabName = "ecoIndex", source("./UI/02_DiversityIndex_UI.R")$value),
 
 # Biomonitoring indices --------------------------------------------------------
-tabItem(tabName = "biomIndex", source("./UI/BiomonitoringIndex_UI.R")$value),
+tabItem(tabName = "biomIndex", source("./UI/03_BiomonitoringIndex_UI.R")$value),
 
 # Traits -----------------------------------------------------------------------
-# Input trait table ----
-tabItem(tabName = "inTrait", source("./UI/inputTraitTable_UI.R")$value),
-# Manage trait table ----
-tabItem(tabName = "manageTrait", source("./UI/ManageTraitTable_UI.R")$value),
-
-# Reference custom dataset -----------------------------------------------------
-tabItem(tabName = "cusData", source("./UI/CustomDf_UI.R")$value),
+tabItem(tabName = "inTrait", source("./UI/04_1_inputTraitTable_UI.R")$value), # Input trait table
+tabItem(tabName = "manageTrait", source("./UI/04_2_manageTraitTable_UI.R")$value), # Manage trait table
+tabItem(tabName = "funIndices", source("./UI/04_3_functionalIndex_UI.R")$value), # Functional indices
 
 # Bibliography -----------------------------------------------------
-tabItem(tabName = "biblioRef", source("./UI/Bibliography_UI.R")$value)
+tabItem(tabName = "biblioRef", source("./UI/05_Bibliography_UI.R")$value)
 
 )
 )

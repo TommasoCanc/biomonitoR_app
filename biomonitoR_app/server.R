@@ -6,32 +6,27 @@ server <- function(input, output , session) {
   
   # initialize the object where store all the results of the indices
   # this allow to remove all the previous calculation if a new dataset is provided
-  
-# Data input -------------------------------------------------------------------
-source("./Server/01_DataInput_Server.R", local = T)
 
-# Taxonomy check ---------------------------------------------------------------
-source("./Server/Taxonomy_Server.R", local = T)
-  
 # biomonitoR functions ---------------------------------------------------------
-source("./Server/biomonitoRFunctions.R", local = T)
+source("./Server/biomonitoRFunctions.R", local = T)  
+  
+# Data Input & Management ------------------------------------------------------
+source("./Server/01_1_DataInput_Server.R", local = T) # Data Input
+source("./Server/01_2_Taxonomy_Server.R", local = T) # Taxonomy
+source("./Server/01_3_CustomDF.R", local = T) # Create reference custom dataset
 
 # Diversity indices ------------------------------------------------------------
-source("./Server/DiversityIndex_Server.R", local = T)
+source("./Server/02_DiversityIndex_Server.R", local = T)
+  
+# Biomonitoring indices --------------------------------------------------------
+source("./Server/03_BiomonitoringIndex_Server.R", local = T)
   
 # Traits -----------------------------------------------------------------------
-# Input trait table ----
-source("./Server/InputTraitTable_Server.R", local = T)
-# Manage trait table ----
-source("./Server/ManageTraitTable_Server.R", local = T)
-
-# Biomonitoring indices --------------------------------------------------------
-source("./Server/BiomonitoringIndex_Server.R", local = T)
-
-# Custom Reference Dataset -----------------------------------------------------
-source("./Server/CustomRefDataset.R", local = T)
+source("./Server/04_1_inputTraitTable_Server.R", local = T) # Input trait table
+source("./Server/04_2_manageTraitTable_Server.R", local = T) # Manage trait table
+source("./Server/04_3_functionalIndex_Server.R", local = T) # Functional indices
   
-# Custom Reference Dataset -----------------------------------------------------
-source("./Server/Bibliography_Server.R", local = T)
+# Bibliography -----------------------------------------------------------------
+source("./Server/05_Bibliography_Server.R", local = T)
 
    }

@@ -38,7 +38,7 @@ fluidRow(
              HTML("<b> Select final trait table </b>"),
              checkboxInput("avgTraits", label = "Average traits values for fuzzy data", value = FALSE),
              HTML("<h4> Select your column blocks for fyuzzy data </h4>"),
-             textInput("colBlockFuzzy", label = NULL, value = ""),
+             textInput("colBlockFuzzy", label = NULL, value = "8, 7, 3, 9, 4, 3, 6, 2, 5, 3, 9, 8, 8, 5, 7, 5, 4, 4, 2, 3, 8"),
              #OR
              tags$br(),
              checkboxInput("sampleTraits", label = "Random sampling traits", value = FALSE),
