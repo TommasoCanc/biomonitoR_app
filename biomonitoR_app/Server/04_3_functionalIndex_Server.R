@@ -34,7 +34,7 @@ output$tbl_f_disp <- renderDT({ # table with functional dispersion index
 
 output$download_f_disp <- downloadHandler( # set the download button for downloading the table diversity index table
   filename = function() {
-    paste("functional_dispersion_", input$div_taxlev, "_",  Sys.Date(), ".csv", sep = "")
+    paste("functional_dispersion_", input$funDispLev, "_",  Sys.Date(), ".csv", sep = "")
   },
   content = function(file) {
     write.csv(f_disp_reactive(), file, row.names = FALSE)
@@ -78,7 +78,7 @@ output$tbl_f_eve <- renderDT({ # table with functional dispersion index
 
 output$download_f_eve <- downloadHandler( # set the download button for downloading the table diversity index table
   filename = function() {
-    paste("functional_evenness_", input$div_taxlev, "_",  Sys.Date(), ".csv", sep = "")
+    paste("functional_evenness_", input$funEveLev, "_",  Sys.Date(), ".csv", sep = "")
   },
   content = function(file) {
     write.csv(f_eve_reactive(), file, row.names = FALSE)
