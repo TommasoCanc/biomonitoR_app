@@ -2,55 +2,89 @@ fluidRow(
   column(width = 4,
          box(width = NULL, solidHeader = TRUE,
              HTML("<h3> <b>Diversity Indices</b> </h3> 
-                          This panel ...")),
-         box(width = NULL, solidHeader = TRUE,
-             HTML("What do you want to calculate?"),
-             checkboxInput("diverityIndex", label = "Diversity Index", value = FALSE), # <- Diversity index
-             checkboxInput("diverityPCA", label = "Principal component analysis", value = FALSE), # <-  PCA
-             checkboxInput("diverityScatter", label = "Scatter plot", value = FALSE))
+                          This panel provides useful functions for data exploration analyses.")),
+         
+         # Richness ----
+         box(title = "Taxa richness", width = NULL, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE,
+             HTML("<h4>This function allows the calculation of species richness at different 
+                                   taxonomic levels.</h4>"),
+             selectInput("richness.tax_lev", "Taxa level", 
+                         choices = c("Family" = "Family", 
+                                     "Genus" = "Genus", 
+                                     "Species" = "Species", 
+                                     "Taxa" = "Taxa"), 
+                         selected = "Taxa", multiple = FALSE),
+             checkboxInput("richIndex", label = "Run", value = FALSE) # <- Taxa richness
+             ),
+         
+         # Diversity indices ----
+         box(title = "Diversity Index", width = NULL, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE,
+             HTML("<h4>This function allows us to calculate several ecological indices.</h4>
+                  <h5> <b>shannon</b>: Shannon; <b>berpar</b>: Berger-Parker; <b>brill</b>: Brillouin; <b>invberpar</b>: Inverse Berger-Parker;
+                  <b>invsimpson</b>: Inverse Simpson; <b>margalef</b>: Margalef diversity; <b>mcintosh</b>: McIntosh dominance;
+                  <b>menhinick</b>: Menhinick; <b>pielou</b>: Pielou's evenness; <b>simpson</b>: Simpson's Index of Diversity;
+                  <b>esimpson</b>: Simpson's evenness; <b>fisher</b>: Fisher alpha</h5>"),
+             HTML("<h5> Note: If richness is below 3, the indices can not be calculated. </h5>"),
+             selectInput("div.tax_lev", "Taxa level", choices = c("Taxa"), 
+                         selected = "Taxa", multiple = FALSE),
+             checkboxInput("diverityIndex", label = "Run", value = FALSE) # <- Run diversity indices
+         ),
+         
+         # PCA ----
+         box(title = "Principal component analysis", width = NULL, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE,
+             HTML("<h4> Principal Component Analysis (PCA) is a statistical technique 
+                  that reduces the dimensionality of a dataset, projecting the data into a Cartesian system 
+                  with the lowest number of the axis as possible (principal components), minimizing at the 
+                  same time the information loss. </h4>"),
+             selectInput("div.taxPCA", "Taxa level", choices = c("Taxa"), 
+                         selected = "Taxa", multiple = TRUE),
+             checkboxInput("diverityPCA", label = "Run", value = FALSE) # <- Run PCA
+         ),
+         
+         # Scatter plot ----
+         box(title = "Scatter plot & correlation", width = NULL, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE,
+             HTML("<h4> This panel allow us to visualize the relationship between the index results and two taxonomic levels. <br>
+High correlation indicates....</h4>"),
+             selectizeInput("var_div_pairs", "Select an index", choices = character(), multiple = FALSE),
+             selectInput("div_taxlev_pair", "Taxa level", choices = c("Taxa"), 
+                         selected = "Taxa", multiple = TRUE),
+             radioButtons("corr_div", "Select correlation type", choices = c("pearson", "spearman"), inline = TRUE),
+             checkboxInput("diverityScatter", label = "Run", value = FALSE) # <- Run Scatter
+         )
   ),
   
   column(width = 8,
          
+         # Richness ----
+         conditionalPanel("input.richIndex == 1",
+                          box(width = NULL, solidHeader = TRUE,
+                              HTML("<h3> Taxa richness </h3>"),
+                              DTOutput("tbl_richness"),
+                              uiOutput("download_richness")
+                              )
+                          ),
+         
+         # Diversity indies ----
          conditionalPanel("input.diverityIndex == 1",
                           box(width = NULL, solidHeader = TRUE,
                               HTML("<h3> Diversity Indices </h3>"),
-                              HTML("To calculate diversity indices, please select between the four taxonomic levels below."),
-                              tags$hr(),
-                              radioButtons("div_taxlev", "", choiceNames = c("Taxa"),choiceValues = c("Taxa"), selected = "Taxa", inline = TRUE),
                               DTOutput("tbl_div"),
-                              HTML("<h5> Note: If richness is below 3, the indices can not be calculated. </h5>"),
                               downloadButton("download_div", label = "Download Table")
+                              )
                           ),
-                          tags$hr()),
          
+         # PCA ----
          conditionalPanel("input.diverityPCA == 1",
-                          box(width = NULL, solidHeader = TRUE,           
-                              HTML("<h3> Diversity Indices PCA </h3>
-                                 Dare info sulla pca e come usarla"),
-                              tags$hr(),
-                              checkboxGroupInput("div_taxPCA", "", choiceNames = c("Family", "Genus", "Species", "Taxa"), 
-                                                 choiceValues = c("Family", "Genus", "Species", "Taxa"), selected = "Taxa", inline = TRUE),
-                              uiOutput("div_taxlev_pca")),
-                          plotlyOutput("div_pca")),
+                          box(width = NULL, solidHeader = TRUE,
+                              HTML("<h3> Principal Component Analysis </h3>"),
+                              uiOutput("div_taxlev_pca"),
+                              plotlyOutput("div_pca")
+                              )
+                          ),
          
+         # Scatter plot ----
          conditionalPanel("input.diverityScatter == 1",
                           box(width = NULL, solidHeader = TRUE,
-                              HTML("<h3> Diversity Indices Scatter plot </h3>
-                                 Dare info sulla scatter plot e come interpretarlo"),
-                              tags$hr(),
-                              selectizeInput("var_div_pairs", "Select an index for the scatter plot", choices = character(), multiple = FALSE),
-                              column(4,style=list("padding-right: 5px;"),
-                                     HTML("<b>Taxonomic correlation levels</b> <br>
-                               Please select two taxonomy levels to plot the graph."),
-                               checkboxGroupInput("div_taxlev_pair", "", choiceNames = c("Family", "Genus", "Species", "Taxa"), 
-                                                  choiceValues = c("Family", "Genus", "Species", "Taxa"), selected = NULL, inline = TRUE),
-                               uiOutput("div_taxlev_pair")),
-                              column(8, style=list("padding-right: 5px;"),
-                                     HTML("<b>Correlation type</b>"),
-                                     radioButtons("corr_div", "", choices = c("pearson", "spearman"), inline = TRUE)
-                              ),
-                              tags$hr(),
                               verbatimTextOutput("console"),
                               plotlyOutput("ggpairs_div")
                           ))

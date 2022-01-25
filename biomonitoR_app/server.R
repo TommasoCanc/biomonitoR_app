@@ -8,12 +8,12 @@ server <- function(input, output , session) {
   # this allow to remove all the previous calculation if a new dataset is provided
 
 # biomonitoR functions ---------------------------------------------------------
-source("./Server/biomonitoRFunctions.R", local = T)  
+source("./Server/01_4_[biomonitoRFunctions]_Server.R", local = T)  
   
 # Data Input & Management ------------------------------------------------------
 source("./Server/01_1_DataInput_Server.R", local = T) # Data Input
 source("./Server/01_2_Taxonomy_Server.R", local = T) # Taxonomy
-source("./Server/01_3_CustomDF.R", local = T) # Create reference custom dataset
+source("./Server/01_3_CustomDF_Server.R", local = T) # Create reference custom dataset
 
 # Diversity indices ------------------------------------------------------------
 source("./Server/02_DiversityIndex_Server.R", local = T)

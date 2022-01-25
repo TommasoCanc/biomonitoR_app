@@ -29,7 +29,7 @@ output[["correctNames"]] <- renderUI({ # Show box with nomenclature suggestions
   
 })
 
-output[["tblTaxonomy"]] <- renderUI({ # Show nomenclature table
+output$tblTaxonomy <- renderUI({ # Show nomenclature table
   if(is.null(readInput()$DF)){
     showNotification("Data do not upload", duration = 5, type = "warning", closeButton = TRUE)
   } 
@@ -40,7 +40,7 @@ output[["tblTaxonomy"]] <- renderUI({ # Show nomenclature table
     )}
 })
 
-# Download button
+# Download button nomenclature NO remove ----
 output$downloadNomenclature <- renderUI({
   req(DF_def())
   downloadButton("downloadNomenclature.1", "Download Table")
@@ -52,5 +52,41 @@ output$downloadNomenclature.1 <- downloadHandler(
   },
   content = function(file) {
     write.csv(DF_def(), file, row.names = FALSE)
+  })
+
+
+# Remove Taxa ------------------------------------------------------------------
+observeEvent(DF_def(), {
+  updateSelectizeInput(session, "removeTaxa", choices = DF_def())
+})
+
+rmTaxa.rec <- reactive({
+  if(!is.null(input$removeTaxa)){
+    rmTaxa <- remove_taxa(asb_obj(), taxa = c(input$removeTaxa)) # Remove taxa
+    }
+  
+  })
+
+output$tblRmTaxa <- renderUI({ # Show table with removed names
+  if(!is.null(input$removeTaxa)){
+    box(width = NULL, solidHeader = FALSE,
+        datatable(rmTaxa.rec(), rownames = TRUE, options = list(lengthChange = TRUE, scrollX = TRUE)),
+        uiOutput("downloadrmTaxa")
+    )
+  }
+})
+
+# Download button remove ----
+output$downloadrmTaxa <- renderUI({
+  req(rmTaxa.rec())
+  downloadButton("downloadrmTaxa.1", "Download Table")
+})
+
+output$downloadrmTaxa.1 <- downloadHandler(
+  filename = function() {
+    paste("taxa_removed_", Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(rmTaxa.rec(), file, row.names = FALSE)
   }
 )

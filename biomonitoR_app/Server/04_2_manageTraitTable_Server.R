@@ -9,7 +9,7 @@ assignTrait_reactive <- reactive({
     }
     
     if(input$assFilterDistance == "Null"){
-      assTrait <- assign_traits(asb_obj(),
+      assTrait <- assign_traits(x_reactive(),
                                 trait_db = trait_db,
                                 group = input$assTraitsGroup,
                                 tax_lev = input$assTraitsLevel,
@@ -18,7 +18,7 @@ assignTrait_reactive <- reactive({
     } 
     
     if (input$assFilterDistance == "numeric") {
-      assTrait <- assign_traits(asb_obj(),
+      assTrait <- assign_traits(x_reactive(),
                                 trait_db = trait_db,
                                 group = input$assTraitsGroup,
                                 tax_lev = input$assTraitsLevel,
@@ -27,7 +27,7 @@ assignTrait_reactive <- reactive({
     }
     
     if (input$assFilterDistance != "Null" & input$assFilterDistance != "numeric") {
-      assTrait <- assign_traits(asb_obj(),
+      assTrait <- assign_traits(x_reactive(),
                                 trait_db = trait_db,
                                 group = input$assTraitsGroup,
                                 tax_lev = input$assTraitsLevel,

@@ -69,6 +69,10 @@ Kitchin, P.L., 2005. Measuring the amount of statistical information in the EPT 
 </li>
 
 <li>
+Laini, A., Bolpagni, R., Cancellario, T., Guareschi, S., Racchetti, E. and Viaroli, P., 2018. Testing the response of macroinvertebrate communities and biomonitoring indices under multiple stressors in a lowland regulated river. Ecological Indicators, 90, pp.47-53.
+</li>
+
+<li>
 Mathers, K.L., White, J.C., Guareschi, S., Hill, M.J., Heino, J. and Chadd, R., 2020. Invasive crayfish alter the long‐term functional biodiversity of lotic macroinvertebrate communities. Functional Ecology, 34(11), pp.2350-2361.
 </li>
 
@@ -81,6 +85,10 @@ Monk, W.A., Wood, P.J., Hannah, D.M. and Wilson, D.A., 2008. Macroinvertebrate c
 </li>
 
 <li>
+Munné, A. and Prat, N., 2009. Use of macroinvertebrate-based multimetric indices for water quality evaluation in Spanish Mediterranean rivers: an intercalibration approach with the IBMWP index. Hydrobiologia, 628(1), pp.203-225.
+</li>
+
+<li>
 Nichols, S., Weber, S. and Shaw, B., 2000. A proposed aquatic plant community biotic index for Wisconsin lakes. Environmental Management, 26(5), pp.491-502.
 </li>
 
@@ -90,6 +98,10 @@ Paisley, M.F., Trigg, D.J. and Walley, W.J., 2014. Revision of the Biological Mo
 
 <li>
 Petchey, O.L. and Gaston, K.J., 2006. Functional diversity: back to basics and looking forward. Ecology letters, 9(6), pp.741-758. Pielou E.C., 1966. The measurement of diversity in different types of biological collections. J. Theor. Biol., 13, 131–144.
+</li>
+
+<li>
+Pinto, P., J. Rosado, M. Morais & I. Antunes, 2004. Assessment methodology for siliceous basins in Portugal. Hydrobiologia 516: 191–214.
 </li>
 
 <li>

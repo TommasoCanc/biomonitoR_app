@@ -8,12 +8,12 @@ bioco_reactive <- reactive({
   if(input$biocoIndex == 1 & !is.null(input$biocoAlien)){
 
     if(input$biocoRefdf != "cu"){
-    biocoIndex <- bioco(asb_obj(),
+    biocoIndex <- bioco(x_reactive(),
                         alien = input$biocoAlien, 
                         dfref = input$biocoRefdf, 
                         digits = 2)
     } else {
-      biocoIndex <- bioco(asb_obj(),
+      biocoIndex <- bioco(x_reactive(),
                           alien = input$biocoAlien, 
                           dfref = readInput()$DF_cust, 
                           digits = 2)
@@ -54,7 +54,7 @@ observeEvent(DF_def(), {
 
 bwmp_reactive <- reactive({
   if(input$bmwpIndex == 1){
-    bwmpIndex <- as.data.frame(bmwp(asb_obj(),
+    bwmpIndex <- as.data.frame(bmwp(x_reactive(),
                                     method = input$bmwp_method,
                                     agg = input$bmwpAgg,
                                     exceptions = input$bmwpExceptions,
@@ -99,7 +99,7 @@ observeEvent(readInput()$DF, {
 
 aspt_reactive <- reactive({
   if(input$asptIndex == 1){
-    asptIndex <- as.data.frame(aspt(asb_obj(),
+    asptIndex <- as.data.frame(aspt(x_reactive(),
                                     method = input$aspt_method,
                                     agg = input$asptAgg,
                                     exceptions = input$asptExceptions,
@@ -147,7 +147,7 @@ observeEvent(readInput()$DF, {
 
 psi_reactive <- reactive({
   if(input$psiIndex == 1){
-    psiIndex <- as.data.frame(psi(asb_obj(),
+    psiIndex <- as.data.frame(psi(x_reactive(),
                                   method = "extence",
                                   abucl = c(1, 9, 99, 999),
                                   agg = input$psiAgg,
@@ -197,7 +197,7 @@ observeEvent(readInput()$DF, {
 
 epsi_reactive <- reactive({
   if(input$epsiIndex == 1){
-    epsiIndex <- as.data.frame(epsi(asb_obj(),
+    epsiIndex <- as.data.frame(epsi(x_reactive(),
                                     method = "uk",
                                     agg = input$epsiAgg,
                                     abucl = c(1, 9, 99, 999),
@@ -241,7 +241,7 @@ output$download_epsi.1 <- downloadHandler( # set the download button for downloa
 
 ept_reactive <- reactive({
   if(input$eptIndex == 1){
-    eptIndex <- as.data.frame(ept(asb_obj(),
+    eptIndex <- as.data.frame(ept(x_reactive(),
                                   tax_lev = input$ept_taxLev))
     colnames(eptIndex) <- "EPT"
     eptIndex
@@ -273,7 +273,7 @@ output$download_ept.1 <- downloadHandler( # set the download button for download
 
 eptd_reactive <- reactive({
   if(input$eptdIndex == 1){
-    eptdIndex <- as.data.frame(eptd(asb_obj(),
+    eptdIndex <- as.data.frame(eptd(x_reactive(),
                                     base = input$epdt_logBase,
                                     eptd_families = NULL,
                                     traceB = FALSE))
@@ -306,7 +306,7 @@ output$download_eptd.1 <- downloadHandler( # set the download button for downloa
 
 gold_reactive <- reactive({
   if(input$goldIndex == 1){
-    goldIndex <- as.data.frame(igold(asb_obj(),
+    goldIndex <- as.data.frame(igold(x_reactive(),
                                      traceB = FALSE))
     goldIndex <- round(goldIndex, digits = 3)
     colnames(goldIndex) <- "GOLD"
@@ -343,7 +343,7 @@ observeEvent(readInput()$DF, {
 
 life_reactive <- reactive({
   if(input$lifeIndex == 1){
-    lifeIndex <- as.data.frame(life(asb_obj(), method = input$life_method,
+    lifeIndex <- as.data.frame(life(x_reactive(), method = input$life_method,
                                     abucl = c(1, 9, 99, 999, 9999),
                                     agg = input$lifeAgg,
                                     fs_scores = NULL,
@@ -392,7 +392,7 @@ observeEvent(readInput()$DF, {
 
 whpt_reactive <- reactive({
   if(input$whptIndex == 1){
-    whptIndex <- as.data.frame(whpt(asb_obj(),
+    whptIndex <- as.data.frame(whpt(x_reactive(),
                                     method = "uk",
                                     type = input$whpt_type,
                                     metric = input$whpt_metric,
