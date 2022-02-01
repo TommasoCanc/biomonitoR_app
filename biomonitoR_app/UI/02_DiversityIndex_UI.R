@@ -6,8 +6,9 @@ fluidRow(
          
          # Richness ----
          box(title = "Taxa richness", width = NULL, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE,
-             HTML("<h4>This function allows the calculation of species richness at different 
-                                   taxonomic levels.</h4>"),
+             HTML("<h4> Taxa richness is the measure of the number of taxa in a given sample. 
+                  In this panel you can calculate this measure at diferent taxonomic levels. <br> 
+                  Once you select the taxonomic level desired, click to <b>Run</b>.</h4>"),
              selectInput("richness.tax_lev", "Taxa level", 
                          choices = c("Family" = "Family", 
                                      "Genus" = "Genus", 
@@ -19,7 +20,9 @@ fluidRow(
          
          # Diversity indices ----
          box(title = "Diversity Index", width = NULL, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE,
-             HTML("<h4>This function allows us to calculate several ecological indices.</h4>
+             HTML("<h4>A diversity index is a helpful measure to quantify how many differences exist between two or more datasets.
+                  In this panel, you can calculate several diversity indices at different taxonomic levels simultaneously. <br>
+                  Once you select the taxonomic level desired, click to <b>Run</b>.</h4>
                   <h5> <b>shannon</b>: Shannon; <b>berpar</b>: Berger-Parker; <b>brill</b>: Brillouin; <b>invberpar</b>: Inverse Berger-Parker;
                   <b>invsimpson</b>: Inverse Simpson; <b>margalef</b>: Margalef diversity; <b>mcintosh</b>: McIntosh dominance;
                   <b>menhinick</b>: Menhinick; <b>pielou</b>: Pielou's evenness; <b>simpson</b>: Simpson's Index of Diversity;
@@ -35,7 +38,12 @@ fluidRow(
              HTML("<h4> Principal Component Analysis (PCA) is a statistical technique 
                   that reduces the dimensionality of a dataset, projecting the data into a Cartesian system 
                   with the lowest number of the axis as possible (principal components), minimizing at the 
-                  same time the information loss. </h4>"),
+                  same time the information loss. <br>
+                  In this panel, you can calculate the PCA of a set of diversity indices. 
+                  The nearest points in the space indicate a higher correlation. 
+                  In contrast, opposite points indicate an inverse relationship.
+                  PCA can be calculated for different taxonomic levels. <br>
+                  Once you select the taxonomic level desired, click to <b>Run</b>. </h4>"),
              selectInput("div.taxPCA", "Taxa level", choices = c("Taxa"), 
                          selected = "Taxa", multiple = TRUE),
              checkboxInput("diverityPCA", label = "Run", value = FALSE) # <- Run PCA

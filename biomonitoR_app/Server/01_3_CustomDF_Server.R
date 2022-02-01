@@ -24,7 +24,7 @@ readInputCRD <- reactive({
 })
 
 
-output[["tbl_boxInputTree"]] <- renderUI({
+output$tbl_boxInputTree <- renderUI({
   if(is.null(input$fileCRD)){
     showNotification("Data do not upload", duration = 5, type = "warning", closeButton = TRUE)
   }
@@ -37,20 +37,35 @@ output[["tbl_boxInputTree"]] <- renderUI({
 })
 
 
-output[["tbl_boxCRD"]] <- renderUI({
+output$tbl_boxCRD <- renderUI({
   if(!is.null(readInputCRD()$CRD)){
     box(width = NULL, solidHeader = FALSE,
-        datatable(readInputCRD()$CRD, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = FALSE))
-    )
+        datatable(readInputCRD()$CRD, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = FALSE)),
+        uiOutput("download_CRD"))
   }
 })
 
-# set the download button for downloading the table output$tbl_div
-output$download_CRD <- downloadHandler(
+output$download_CRD <- renderUI({
+  req(readInputCRD()$CRD)
+  downloadButton("download_CRD.1", "Download Table")
+})
+
+output$download_CRD.1 <- downloadHandler( # set the download button for downloading custom reference dataset
   filename = function() {
-    paste("custom_reference_database",  Sys.Date(), ".csv", sep = "")
+    paste("custom_reference_dataset",  Sys.Date(), ".csv", sep = "")
   },
   content = function(file) {
-    write.csv(readInputCRD()$CRD, file, row.names = FALSE)
+    write.csv(readInputCRD()$CRD, file, row.names = TRUE)
   }
 )
+
+
+# # set the download button for downloading the table output$tbl_div
+# output$download_CRD <- downloadHandler(
+#   filename = function() {
+#     paste("custom_reference_database",  Sys.Date(), ".csv", sep = "")
+#   },
+#   content = function(file) {
+#     write.csv(readInputCRD()$CRD, file, row.names = FALSE)
+#   }
+# )

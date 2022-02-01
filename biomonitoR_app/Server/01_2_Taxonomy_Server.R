@@ -16,15 +16,16 @@ DF_def <- reactive({
   }
 })
 
-output[["correctNames"]] <- renderUI({ # Show box with nomenclature suggestions
+output$correctNames <- renderUI({ # Show box with nomenclature suggestions
   temp <- readInput()$bioImp
   if(length(readInput()$bioImp_w) == 0 & exists("readInput()$bioImp_w")){
     showNotification("All names are correct!", duration = 5, type = "message", closeButton = TRUE)
   }
   if(length(readInput()$bioImp_w) != 0){
     box(width = NULL, solidHeader = FALSE,
-        map(readInput()$bioImp_w, ~ selectInput(.x, label = .x, choices = c("none" , as.character(unlist(temp[.x]))[-1]))
-        ))  
+        map(readInput()$bioImp_w, ~ selectInput(.x, label = .x, choices = c("none" , as.character(unlist(temp[.x]))[-1])))
+        
+    )
   }
   
 })
