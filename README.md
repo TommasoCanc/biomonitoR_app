@@ -5,8 +5,8 @@
 
 <h3>What is biomonitoR?</h3>
 
-<b><i>biomonitoR</i></b> is a package for the R programming language that fills a gap in the range of informatic tools for calculating and managing biological and ecological data. <br>
-To date, <i><b>biomonitoR</i></b> implements most of the biological indices (both taxonomic and functional based) currently used, tested, or just proposed in different fields of ecology and freshwater science. 
+<b><i>biomonitoR</i></b> is a package for the R programming language that fills a gap in the range of informatic tools for managing biological and ecological data and colculating both taxonomic and functional indices. <br>
+To date, <i><b>biomonitoR</i></b> implements most of the biological indices currently used, tested, or just proposed in different fields of ecology and freshwater science. 
 Its easy-to-use design favors the flow of information that is currently often fragmented in specific country methods, national protocols and informatic programs. <br>
 <br>
 <i><b>biomonitoR </i></b> represents a flexible toolbox that allows to: <br>
