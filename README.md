@@ -1,5 +1,8 @@
 
-<h1>biomonitoR-app</h1>
+<h1>biomonitoR App</h1>
+
+<b><i>biomonitoR App</b></i> is the interactive and user-friendly version of the <b><i>biomonitoR</b></i> package. Thanks to the <b><i>biomonitoR App</b></i> is possible to manage your datasets, check the nomenclature of the taxa and easily calculate several biological and ecological indices.
+
 <h3>What is biomonitoR?</h3>
 <br>
 <b><i>biomonitoR</i></b> is a package for the R programming language that fills a gap in the range of informatic tools for calculating and managing biological and ecological data. <br>
@@ -12,6 +15,13 @@ Its easy-to-use design favors the flow of information that is currently often fr
 <b>iii)</b> calculate metrics for broad and stressor-specific ecological assessment; <br>
 <b>iv)</b> provide several data visualization options helping decision-making processes and result dissemination. <br>
 <br>
+
+<h2>News</h2>
+
+- \[0.0.1\] Initial Release
+
+
+
 <h3>Contacts</h3>
 <i>
   <b>biomonitoR App</b>
@@ -20,10 +30,10 @@ Its easy-to-use design favors the flow of information that is currently often fr
 To comunicate bug report and feature requests please contact: alex.laini@gmail.com or tommaso.canellario@gmail.com
 <br>
 
-To asks for changes concerning <b>biomonitoR</b> package, please send a pull request on GitHub at: https://github.com/alexology/biomonitoR
+To asks for changes concerning the <b>biomonitoR</b> package, please send a pull request on GitHub at: https://github.com/alexology/biomonitoR
 <br>
 
-To asks for changes concerning <b>biomonitoR App</b> package, please send a pull request on GitHub at: https://github.com/TommasoCanc/biomonitoR_app
+To asks for changes concerning the <b>biomonitoR App</b> package, please send a pull request on GitHub at: https://github.com/TommasoCanc/biomonitoR_app
 <br>
 
 
