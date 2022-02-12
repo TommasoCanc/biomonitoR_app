@@ -1,7 +1,7 @@
 
 <h1>biomonitoR App</h1>
 
-<b><i>biomonitoR App</b></i> is the interactive and user-friendly version of the <b><i>biomonitoR</b></i> package. Thanks to the <b><i>biomonitoR App</b></i> is possible to manage your datasets, check the nomenclature of the taxa and easily calculate several biological and ecological indices.
+<b><i>biomonitoR App</b></i> is the interactive and user-friendly version of the <b><i>biomonitoR</b></i> package. Thanks to the <b><i>biomonitoR App</b></i> is possible to manage your datasets, check and correct the nomenclature of your taxa and easily calculate several biological and ecological indices.
 
 <h3>What is biomonitoR?</h3>
 
