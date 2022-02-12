@@ -46,7 +46,7 @@ if (!require("biomonitoR")) {
   require(biomonitoR)  
 }
 
-
+library(xlsx)
 
 # Functions
 source("default_val.R")
