@@ -4,7 +4,7 @@
 <b><i>biomonitoR App</b></i> is the interactive and user-friendly version of the <b><i>biomonitoR</b></i> package. Thanks to the <b><i>biomonitoR App</b></i> is possible to manage your datasets, check the nomenclature of the taxa and easily calculate several biological and ecological indices.
 
 <h3>What is biomonitoR?</h3>
-<br>
+
 <b><i>biomonitoR</i></b> is a package for the R programming language that fills a gap in the range of informatic tools for calculating and managing biological and ecological data. <br>
 To date, <i><b>biomonitoR</i></b> implements most of the biological indices (both taxonomic and functional based) currently used, tested, or just proposed in different fields of ecology and freshwater science. 
 Its easy-to-use design favors the flow of information that is currently often fragmented in specific country methods, national protocols and informatic programs. <br>
@@ -20,6 +20,13 @@ Its easy-to-use design favors the flow of information that is currently often fr
 
 - \[0.0.1\] Initial Release
 
+<h2>Examples</h2>
+
+- Import data
+- Correct names
+- Import Custom dataset
+- Calculate biological indices
+- Calculate functional indices 
 
 
 <h3>Contacts</h3>
