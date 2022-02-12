@@ -1,31 +1,31 @@
 fluidRow(
   div(style="display: inline-block;vertical-align:top; margin-left:30px",
       
-  HTML("<h1>biomonitoR-app</h1>
+  HTML("<h1>biomonitoR App</h1>
 <h3>What is biomonitoR</h3>
 <br>
-<b>
-  <i>biomonitoR</i>
-</b> is a package for the R programming language that fills a gap in the range of informatic tools for managing and visualising biomonitoring data. <br>
-<i>
-  <b>biomonitoR </i>
-</b> implements most of the biological indices currently used, tested, or just proposed in different fields of ecology and freshwater resource management. <br> Its easy-to-use design favours the flow of information that is currently often fragmented in specific country methods, national protocols and informatic programs. <br>
+
+
+<b><i>biomonitoR</i></b> is a package for the R programming language that fills a gap in the range of informatic tools for calculating and managing biological and ecological data. <br>
+To date, <i><b>biomonitoR</i></b> implements most of the biological indices (both taxonomic and functional based) currently used, tested, or just proposed in different fields of ecology and freshwater science. 
+Its easy-to-use design favors the flow of information that is currently often fragmented in specific country methods, national protocols and informatic programs. <br>
 <br>
-<i>
-  <b>biomonitoR </i>
-</b> represents a flexible toolbox that allows the user to: <br>
+<i><b>biomonitoR </i></b> represents a flexible toolbox that allows to: <br>
 <b>i)</b> check taxonomy, sensitivity, and biological and ecological traits against updated reference datasets; <br>
-<b>ii)</b> manage datasets composed by a heterogeneous taxonomic resolution simplifying the the calculation of wide set of biological indices using different taxonomic levels; <br>
-<b>iii)</b> estimate metrics for broad and stressor-specific ecological assessment; <br>
-<b>iv)</b> provide several data visualisation options to help decision-making processes and result publication. <br>
+<b>ii)</b> manage datasets composed by a heterogeneous taxonomic resolution simplifying the calculation of wide set of biological indices using different taxonomic levels; <br>
+<b>iii)</b> calculate metrics for broad and stressor-specific ecological assessment; <br>
+<b>iv)</b> provide several data visualization options helping decision-making processes and result dissemination. <br>
 <br>
 <h3>Contacts</h3>
 <i>
-  <b>biomonitoR-web</b>
+  <b>biomonitoR App</b>
 </i> is created and maintained by <i><b>Alex Laini</i></b>, <i><b>Tommaso Cancellario</i></b>, and <i><b>Simone Guareschi</i></b> <br>
-<br> To comunicate bug report and feature requests please contact: <a href=\"mailto:alex.laini@gmail.com\">A. Laini</a> or <a href=\"mailto:tommaso.canellario@gmail.com\">T. Cancellario</a>
+<br> To comunicate bug report and feature requests please contact: 
+<a href=\"mailto:alex.laini@gmail.com\">A. Laini</a> or <a href=\"mailto:tommaso.canellario@gmail.com\">T. Cancellario</a>
 
-<br> To send pull request on GitHub: <a href=\"https://github.com/alexology\"> alexology GitHub</a>
+<br> To asks for changes concerning <b>biomonitoR</b> package, please send a pull request on GitHub at: <a href=\"https://github.com/alexology\"> GitHub-biomonitoR </a>
+<br>
+To asks for changes concerning <b>biomonitoR App</b> package, please send a pull request on GitHub at: <a href=\"https://github.com/TommasoCanc/biomonitoR_app\"> GitHub-biomonitoR App </a>
 <br>
 
 <h3>Citation</h3>
