@@ -3,21 +3,50 @@
 ###################################
 
 # Load libraries
-library(shiny)
-library(shinydashboard)
-library(shinyWidgets)
-library(DT)
-library(readxl)
-#library(xlsx)
-library(purrr)
-library(hunspell)
-library(biomonitoR)
-library(ggplot2)
-library(biomonitorweb)
-library(tidyr)
-library(ade4)
-library(plotly)
-library(tools)
+if (!require("shiny")) install.packages("shiny")
+  require(shiny)
+if (!require("shinydashboard")) install.packages("shinydashboard")
+  require(shinydashboard)
+if (!require("shinyWidgets")) install.packages("shinyWidgets")
+  require(shinyWidgets)
+if (!require("DT")) install.packages("DT")
+  require(DT)
+if (!require("readxl")) install.packages("readxl")
+  require(readxl)
+if (!require("purrr")) install.packages("purrr")
+  require(purrr)
+if (!require("hunspell")) install.packages("hunspell")
+  require(hunspell)
+if (!require("ggplot2")) install.packages("ggplot2")
+  require(ggplot2)
+if (!require("tidyr")) install.packages("tidyr")
+  require(tidyr)
+if (!require("ade4")) install.packages("ade4")
+  require(ade4)
+if (!require("plotly")) install.packages("plotly")
+  require(plotly)
+if (!require("tools")) install.packages("tools")
+  require(tools)
+
+# biomonitorweb
+if (!require("biomonitorweb")) {
+  if (!require("devtools")) install.packages("devtools")
+  require(devtools)
+   install_github("alexology/biomonitorweb") 
+} else{
+  require(biomonitorweb)  
+}
+
+# biomonitor
+if (!require("biomonitoR")) {
+  if (!require("devtools")) install.packages("devtools")
+  require(devtools)
+  install_github("alexology/biomonitoR", ref = "develop", build_vignettes = FALSE)
+} else{
+  require(biomonitoR)  
+}
+
+
 
 # Functions
 source("default_val.R")
