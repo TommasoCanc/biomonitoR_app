@@ -2,7 +2,7 @@ fluidRow(
   column(width = 4,
          box(width = NULL, solidHeader = TRUE,
              HTML("<h3> <b>Biomonitoring Indices</b> </h3> 
-                          This panel ...")
+                          This panel provide several function to calculate tested biomonitoring indices.")
              ),
   
          # bioco index ----
