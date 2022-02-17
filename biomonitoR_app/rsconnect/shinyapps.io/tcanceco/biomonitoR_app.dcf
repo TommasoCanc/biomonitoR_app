@@ -1,0 +1,14 @@
+name: biomonitoR_app
+title: biomonitoR_app
+username:
+account: tcanceco
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5647126
+bundleId: 5576546
+url: https://tcanceco.shinyapps.io/biomonitoR_app/
+when: 1644826923.18729
+lastSyncTime: 1644826923.18731
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: macro_ex copia.csv|macro_ex.csv|macrophyte_ex.csv|tree_macro.csv|Tree.csv

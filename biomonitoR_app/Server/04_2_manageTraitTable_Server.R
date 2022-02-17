@@ -94,15 +94,33 @@ output$tbl_traitNear <- renderDT({ # table with manage traits results
 # Final trait table ----
 
 avgTraits_reactive <- reactive({
-  req(nearTrait_reactive())
   
-  if(input$colBlockFuzzy != ""){
-   # col_blocks <- input$input$colBlockFuzzy
-    avrTraits <- average_traits(nearTrait_reactive(),
-                                col_blocks = as.numeric(unlist(strsplit(input$colBlockFuzzy,","))) 
-                                )
-    avrTraits <- data.frame(lapply(avrTraits, function(y) if(is.numeric(y)) round(y, digits = 3) else y)) 
+  if(input$traitNear == 1){
+    
+    req(nearTrait_reactive())
+    
+    if(input$colBlockFuzzy != ""){
+      # col_blocks <- input$input$colBlockFuzzy
+      avrTraits <- average_traits(nearTrait_reactive(),
+                                  col_blocks = as.numeric(unlist(strsplit(input$colBlockFuzzy,","))) 
+      )
+      avrTraits <- data.frame(lapply(avrTraits, function(y) if(is.numeric(y)) round(y, digits = 3) else y)) 
+    }
+  } else {
+    
+    if(input$colBlockFuzzy != ""){
+      # col_blocks <- input$input$colBlockFuzzy
+      avrTraits <- average_traits(assignTrait_reactive(),
+                                  col_blocks = as.numeric(unlist(strsplit(input$colBlockFuzzy,","))) 
+      )
+      avrTraits <- data.frame(lapply(avrTraits, function(y) if(is.numeric(y)) round(y, digits = 3) else y)) 
+    }
+    
   }
+  
+  
+  
+  
 })
 
 sampleTraits_reactive <- reactive({

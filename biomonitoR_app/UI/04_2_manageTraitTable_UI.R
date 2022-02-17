@@ -12,12 +12,31 @@ fluidRow(
          box(width = NULL, solidHeader = TRUE,
              HTML("<b> Assign traits </b>"),
              checkboxInput("assignTrait", label = "Assign traits", value = FALSE),
-             radioButtons("assTraitsGroup", "Biotic group of interest", choiceNames = c("Macroinvertebrate", "Macrophyte", "Fish", "Custom"), 
-                          choiceValues = c("mi", "mf", "fi", "cu"), selected = "mi", inline = TRUE),
-             radioButtons("assTraitsLevel", "Taxonomic level", choiceNames = c("Family", "Subfamily", "Tribus", "Genus", "Species", "Subspecies", "Taxa"), 
-                          choiceValues = c("Family", "Subfamily", "Tribus", "Genus", "Species", "Subspecies", "Taxa"), selected = "Taxa", inline = TRUE),
-             radioButtons("assFilterDistance", "Filter by distance", choiceNames = c("Null", "Positive", "Negative", "Numeric"), 
-                          choiceValues = c("Null", "pos", "neg", "numeric"), selected = "Null", inline = TRUE),
+             
+             selectInput("assTraitsGroup", "Biotic group of interest", 
+                         choices = c("Macroinvertebrate" = "mi", 
+                                     "Macrophyte" = "mf", 
+                                     "Fish" = "fi",
+                                     "Custom" = "cu"), 
+                         selected = "mi", multiple = FALSE),
+             
+             selectInput("assTraitsLevel", "Taxonomic level", 
+                         choices = c("Family" = "Family", 
+                                     "Subfamily" = "Subfamily", 
+                                     "Tribus" = "Tribus", 
+                                     "Genus" = "Genus", 
+                                     "Species" = "Species", 
+                                     "Subspecies" = "Subspecies", 
+                                     "Taxa" = "Taxa"), 
+                         selected = "Taxa", multiple = FALSE),
+             
+             selectInput("assFilterDistance", "Filter by distance", 
+                         choices = c("Null" = "Null", 
+                                     "Positive" = "pos", 
+                                     "Negative" = "neg", 
+                                     "Numeric" = "numeric"), 
+                         selected = "Null", multiple = FALSE),
+          
              column(6,
              numericInput("assFilterNumeric", "Filter by distance numeric", 0) # <-  quali sono i valori max e min?
              )
@@ -28,9 +47,17 @@ fluidRow(
              HTML("<b> Manage traits </b>"),
              selectizeInput("traitColumns", "Select traits columns", choices = NULL, multiple = TRUE),
              checkboxInput("traitNear", label = "Select nearest traits based on taxonomic distance", value = FALSE),
-             radioButtons("manTraitsNear", "Nearest taxonomic distance", choiceNames = c("nearest", "nearest+", "nearest-", "nearest+-", "neareast-+"), 
-                          choiceValues = c("nearest", "nearest+", "nearest-", "nearest+-", "neareast-+"), selected = "nearest", inline = TRUE)
              
+             selectInput("manTraitsNear", "Nearest taxonomic distance", 
+                         choices = c("Nearest" = "nearest", 
+                                     "Nearest+" = "nearest+", 
+                                     "Nearest-" = "nearest-", 
+                                     "Nearest+-" = "nearest+-", 
+                                     "Neareast-+" = "neareast-+"), 
+                         selected = "nearest", multiple = FALSE)
+             
+             # radioButtons("manTraitsNear", "Nearest taxonomic distance", choiceNames = c("nearest", "nearest+", "nearest-", "nearest+-", "neareast-+"), 
+             #              choiceValues = c("nearest", "nearest+", "nearest-", "nearest+-", "neareast-+"), selected = "nearest", inline = TRUE)
              ),
          
          # Final table ----
