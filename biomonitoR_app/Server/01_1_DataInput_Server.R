@@ -92,7 +92,8 @@ output[["tbl"]] <- renderUI({
   }
   if(!is.null(input$file1)){
     box(width = NULL, solidHeader = FALSE,
-        datatable(readInput()$DF, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = FALSE))
+        datatable(readInput()$DF, rownames = FALSE, options = list(lengthChange = FALSE, scrollX = FALSE),
+                  editable = TRUE)
     )}
 })
 
@@ -126,6 +127,39 @@ output$downloadVegan.1 <- downloadHandler(
     write.csv(vegan.rec(), file, row.names = FALSE)
   }
 )
+
+# Convert to biotic ------------------------------------------------------------
+biotic.rec <- reactive({
+  if(input$bioticFormat == 1){
+    biotic.format <- convert_to_biotic(asb_obj()) # Convert to biotic format
+  }
+})
+
+output$tblBiotic <- renderUI({
+  if(input$bioticFormat == 1){
+    box(width = NULL, solidHeader = FALSE,
+        datatable(biotic.rec(), rownames = TRUE, options = list(lengthChange = TRUE, scrollX = TRUE)),
+        uiOutput("downloadBiotic")
+    )
+  }
+})
+
+# Download button biotic
+output$downloadBiotic <- renderUI({
+  req(biotic.rec())
+  downloadButton("downloadBiotic.1", "Download Table")
+})
+
+output$downloadBiotic.1 <- downloadHandler(
+  filename = function() {
+    paste("biotic_format_", Sys.Date(), ".csv", sep = "")
+  },
+  content = function(file) {
+    write.csv(biotic.rec(), file, row.names = FALSE)
+  }
+)
+
+
 
 # # Remove Taxa ------------------------------------------------------------------
 # observeEvent(readInput()$DF, {

@@ -27,6 +27,6 @@ source("./Server/04_2_manageTraitTable_Server.R", local = T) # Manage trait tabl
 source("./Server/04_3_functionalIndex_Server.R", local = T) # Functional indices
   
 # Bibliography -----------------------------------------------------------------
-source("./Server/05_Bibliography_Server.R", local = T)
+source("./Server/06_Bibliography_Server.R", local = T)
 
    }

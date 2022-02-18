@@ -52,11 +52,15 @@ Name the other columns with the sample name (e.g. locality). These columns have 
          # Convert to Vegan format ----
          box(title = "Convert to vegan format", solidHeader = FALSE, width = NULL, collapsible = TRUE, collapsed = TRUE,
              
-             HTML("<h5> <b>vegan</b> is an R package widely used in community ecology (see bibliography). <br><br>
-                  To convert your dataset from <b>biomonitoR</b> format (<i>long</i>) to <b>vegan</b> format (<i>wide</i>), 
-                  you can set the taxonomic level on which to operate the transformation and select Run.
-                  </h5>"),
-
+             HTML("<h4> <b>vegan</b> is an R package provides several functions for descriptive community ecology. </h4> 
+                  <h5>To convert your dataset from <b>biomonitoR App</b> to <b>vegan</b> format, 
+                  you need to select before the taxonomic level and then activate Run.
+                  <br>
+                  <br> 
+                  More information about the <b>vegan</b> package is available at
+         <a href='https://cran.r-project.org/web/packages/vegan/vegan.pdf' target='_blank'> R CRAN pdf </a>
+         or at <a href='https://github.com/vegandevs/vegan' target='_blank'> GitHub </a> </h5>"),
+             
              HTML("Select the taxonomic level"),
              selectInput("taxLeVegan", "", choices = c("Phylum" = "Phylum", 
                                                        "Class" = "Class", 
@@ -73,6 +77,22 @@ Name the other columns with the sample name (e.g. locality). These columns have 
              # actionButton("veganFormat", "Run")
              checkboxInput("veganFormat", label = HTML("Run"), value = FALSE),
          ),
+
+box(title = "Convert to biotic format", solidHeader = FALSE, width = NULL, collapsible = TRUE, collapsed = TRUE,
+    
+    HTML("<h4> <b>biotic</b> is a R package for calculating a range of UK freshwater invertebrate biotic indices. </h4>
+         <h5> To convert your dataset from <b>biomonitoR App</b> to <b>biotic</b> format, activate Run. 
+         <br> 
+         <br> 
+         More information about the <b>biotic</b> package is available at
+         <a href='https://cran.r-project.org/web/packages/biotic/biotic.pdf' target='_blank'> R CRAN pdf </a>
+         or at <a href='https://github.com/robbriers/biotic' target='_blank'> GitHub </a> </h5>"),
+
+    checkboxInput("bioticFormat", label = HTML("Run"), value = FALSE),
+),
+
+
+
          
          # # Remove taxa ----
          # # Which taxon/a do you u want to remove from your dataset?
@@ -91,6 +111,7 @@ Name the other columns with the sample name (e.g. locality). These columns have 
   column(width = 8,
          uiOutput("tbl"),
          uiOutput("tblVegan"),
+         uiOutput("tblBiotic")
          #uiOutput("tblRmTaxa")
   )
 )

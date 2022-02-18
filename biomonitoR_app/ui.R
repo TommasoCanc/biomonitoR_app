@@ -76,10 +76,11 @@ sidebar <- dashboardSidebar(
     # menuItem("credits", tabName = "info", icon = icon("info")),
     #menuItem("Create CusRef dataset", tabName = "cusData", icon = icon("pencil", lib = "glyphicon")), # <- Create custom reference dataset
     menuItem("Help", tabName = "help", icon = icon("question-sign", lib = "glyphicon"), # Help
-             menuSubItem("Data Input & Management", tabName = "dataInput_help"),
-             menuSubItem("Taxonomy check", tabName = "taxonomy_help"),
-             menuSubItem("Diversity indices", tabName = "ecoIndex_help"), 
-             menuSubItem("Biomonitoring indices", tabName = "biomIndex_help")),
+             menuSubItem("Data Input & Management", tabName = "help_dataInput"),
+             menuSubItem("Taxonomy check", tabName = "help_taxonomy"),
+             menuSubItem("Diversity indices", tabName = "help_ecoIndex"), 
+             menuSubItem("Biomonitoring indices", tabName = "help_bioIndex"),
+             menuSubItem("Functional indices", tabName = "help_funIndex")),
     menuItem("References", tabName = "biblioRef", icon = icon("info-sign", lib = "glyphicon")) # <- Bibliographic reference
   )
 )
@@ -107,8 +108,12 @@ tabItem(tabName = "inTrait", source("./UI/04_1_inputTraitTable_UI.R")$value), # 
 tabItem(tabName = "manageTrait", source("./UI/04_2_manageTraitTable_UI.R")$value), # Manage trait table
 tabItem(tabName = "funIndices", source("./UI/04_3_functionalIndex_UI.R")$value), # Functional indices
 
-# Bibliography -----------------------------------------------------
-tabItem(tabName = "biblioRef", source("./UI/05_Bibliography_UI.R")$value)
+# Help -------------------------------------------------------------------------
+tabItem(tabName = "help_dataInput", source("./UI/05_Help_DataInput_UI.R")$value), # Input trait table
+
+
+# Bibliography -----------------------------------------------------------------
+tabItem(tabName = "biblioRef", source("./UI/06_Bibliography_UI.R")$value)
 
 )
 )

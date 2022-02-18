@@ -5,7 +5,7 @@ fluidRow(
          # Description panel
          box(width = NULL, solidHeader = TRUE,
              HTML("<h3> <b>Trait table management</b> </h3> 
-                          This panel ...")
+                          This panel provide several function to calculate functional indices.")
              ),
          
          # Assign Traits ----
@@ -46,15 +46,15 @@ fluidRow(
          box(width = NULL, solidHeader = TRUE,
              HTML("<b> Manage traits </b>"),
              selectizeInput("traitColumns", "Select traits columns", choices = NULL, multiple = TRUE),
-             checkboxInput("traitNear", label = "Select nearest traits based on taxonomic distance", value = FALSE),
-             
              selectInput("manTraitsNear", "Nearest taxonomic distance", 
-                         choices = c("Nearest" = "nearest", 
+                         choices = c("None" = "none",
+                                     "Nearest" = "nearest", 
                                      "Nearest+" = "nearest+", 
                                      "Nearest-" = "nearest-", 
                                      "Nearest+-" = "nearest+-", 
                                      "Neareast-+" = "neareast-+"), 
-                         selected = "nearest", multiple = FALSE)
+                         selected = "none", multiple = FALSE)
+             #checkboxInput("traitNear", label = "Select nearest traits based on taxonomic distance", value = FALSE)
              
              # radioButtons("manTraitsNear", "Nearest taxonomic distance", choiceNames = c("nearest", "nearest+", "nearest-", "nearest+-", "neareast-+"), 
              #              choiceValues = c("nearest", "nearest+", "nearest-", "nearest+-", "neareast-+"), selected = "nearest", inline = TRUE)
