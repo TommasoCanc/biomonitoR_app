@@ -35,7 +35,7 @@ Name the other columns with the sample name (e.g. locality). These columns have 
              selectInput("abutype", "", choices = c("Abundance" = "sum", 
                                                     "Presence/Absence" = "bin"), 
                          selected = "sum", multiple = FALSE),
-                         checkboxInput("toBin", label = "Do you want transforms abundance to presence-absence?", value = FALSE) # <- Transforms abundance to presence-absence.
+                         checkboxInput("toBin", label = "Convert abundance to presence-absence data", value = FALSE) # <- Transforms abundance to presence-absence.
          ),
          
          # Import Custom reference dataframe                 
@@ -54,7 +54,7 @@ Name the other columns with the sample name (e.g. locality). These columns have 
              
              HTML("<h4> <b>vegan</b> is an R package provides several functions for descriptive community ecology. </h4> 
                   <h5>To convert your dataset from <b>biomonitoR App</b> to <b>vegan</b> format, 
-                  you need to select before the taxonomic level and then activate Run.
+                  you need to select the taxonomic level and then activate Run.
                   <br>
                   <br> 
                   More information about the <b>vegan</b> package is available at
@@ -80,7 +80,7 @@ Name the other columns with the sample name (e.g. locality). These columns have 
 
 box(title = "Convert to biotic format", solidHeader = FALSE, width = NULL, collapsible = TRUE, collapsed = TRUE,
     
-    HTML("<h4> <b>biotic</b> is a R package for calculating a range of UK freshwater invertebrate biotic indices. </h4>
+    HTML("<h4> <b>biotic</b> is an R package for calculating a range of UK freshwater invertebrate biotic indices. </h4>
          <h5> To convert your dataset from <b>biomonitoR App</b> to <b>biotic</b> format, activate Run. 
          <br> 
          <br> 

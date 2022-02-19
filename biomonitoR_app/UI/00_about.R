@@ -1,7 +1,8 @@
 fluidRow(
   div(style="display: inline-block;vertical-align:top; margin-left:30px",
-      
-  HTML("<h1>biomonitoR App</h1>
+      column(width = 7,
+             
+             HTML("<h1>biomonitoR App</h1>
 <h3>What is biomonitoR</h3>
 <br>
 
@@ -29,27 +30,32 @@ To asks for changes concerning <b>biomonitoR App</b> package, please send a pull
 <br>
 
 <h3>Citation</h3>
-Please to cite <i><b>biomonitoR</i></b> ...
-
-
-"
-)),
-tags$br(),
-tags$br(),
-tags$br(),
-img(src = "biomonitor_300px.png", height = '100px'),
+Please to cite <i><b>biomonitoR</i></b> ..."
+             )
+             )
+  ),
 
 tags$br(),
 tags$br(),
+tags$br(),
+div(style="display: inline-block;vertical-align:top; margin-left:30px",
+img(src = "biomonitor_300px.png", height = '100px')),
 
+tags$br(),
+tags$br(),
+
+column(width = 7,
 div(style="display: inline-block;vertical-align:top; margin-left:30px",
 HTML("<h3>Contributors</h3>
 Alex Laini, Simone Guareschi, Rossano Bolpagni, Gemma Burgazzi, Daniel Bruno 
 Cayetano Gutiérrez-Cánovas, Rafael Miranda, Cédric Mondy, Gábor Várbíró,
-Tommaso Cancellario")),
+Tommaso Cancellario")
+)
+),
 
 tags$br(),
 tags$br(),
+column(width = 7,
 img(src = "unipr_300px.png", height = "50px", hspace="10"),
 img(src = "unito_300px.png", height = "50px", hspace="10"),
 img(src = "alpstream_300px.png", height = "50px", hspace="10"),
@@ -70,5 +76,6 @@ tags$br(),
 tags$br(),
 img(src = "smires_300px.png", height = "50px", hspace="20"),
 img(src = "cost_300px.png", height = "50px", hspace="10")
+)
 
 )

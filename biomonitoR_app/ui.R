@@ -49,7 +49,7 @@ if (!require("biomonitoR")) {
 # Functions
 source("default_val.R")
 
-header <- dashboardHeader(title = "biomonitoR-app")
+header <- dashboardHeader(title = "biomonitoR App")
 
 # Main panels on the left ------------------------------------------------------ 
 sidebar <- dashboardSidebar(
@@ -58,7 +58,7 @@ sidebar <- dashboardSidebar(
     menuItem("Data Input & Management", tabName = "dataIn&Man", icon = icon("folder-open", lib = "glyphicon"),
              menuSubItem("Data Input", tabName = "dataInput"), # <- Input data
              menuSubItem("Taxonomy check", tabName = "taxonomy"), # <- Taxonomy check
-             menuSubItem("Create CusRef dataset", tabName = "cusData") # <- Create custom reference dataset
+             menuSubItem("Create Custom RND", tabName = "cusData") # <- Create custom reference dataset
              ), 
     #menuItem("Taxonomy check", tabName = "taxonomy", icon = icon("check")), # <- Check taxonomy
     menuItem("Diversity indices", tabName = "ecoIndex", icon = icon("calculator")), # <-  DIversity indices
@@ -76,8 +76,9 @@ sidebar <- dashboardSidebar(
     # menuItem("credits", tabName = "info", icon = icon("info")),
     #menuItem("Create CusRef dataset", tabName = "cusData", icon = icon("pencil", lib = "glyphicon")), # <- Create custom reference dataset
     menuItem("Help", tabName = "help", icon = icon("question-sign", lib = "glyphicon"), # Help
-             menuSubItem("Data Input & Management", tabName = "help_dataInput"),
-             menuSubItem("Taxonomy check", tabName = "help_taxonomy"),
+             menuSubItem("Data Input", tabName = "help_dataInput"),
+             menuSubItem("Taxonomy check", tabName = "help_taxonCheck"),
+             menuSubItem("Custom RND", tabName = "help_taxonCheck"),
              menuSubItem("Diversity indices", tabName = "help_ecoIndex"), 
              menuSubItem("Biomonitoring indices", tabName = "help_bioIndex"),
              menuSubItem("Functional indices", tabName = "help_funIndex")),
@@ -109,8 +110,8 @@ tabItem(tabName = "manageTrait", source("./UI/04_2_manageTraitTable_UI.R")$value
 tabItem(tabName = "funIndices", source("./UI/04_3_functionalIndex_UI.R")$value), # Functional indices
 
 # Help -------------------------------------------------------------------------
-tabItem(tabName = "help_dataInput", source("./UI/05_Help_DataInput_UI.R")$value), # Input trait table
-
+tabItem(tabName = "help_dataInput", source("./UI/05_1_Help_DataInput_UI.R")$value), # Help Data Input
+tabItem(tabName = "help_taxonCheck", source("./UI/05_2_Help_TaxonomyCheck_UI.R")$value), # Help Taxonomy check
 
 # Bibliography -----------------------------------------------------------------
 tabItem(tabName = "biblioRef", source("./UI/06_Bibliography_UI.R")$value)

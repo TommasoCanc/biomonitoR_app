@@ -86,7 +86,7 @@ readInput <- reactive({
 #    indices$df_data <- NULL
 #  })
 
-output[["tbl"]] <- renderUI({
+output$tbl <- renderUI({
   if(is.null(input$file1)){
     showNotification("Data do not upload", duration = 5, type = "warning", closeButton = TRUE)
   }
@@ -104,7 +104,7 @@ vegan.rec <- reactive({
   }
 })
 
-output[["tblVegan"]] <- renderUI({
+output$tblVegan <- renderUI({
   if(input$veganFormat == 1){
     box(width = NULL, solidHeader = FALSE,
         datatable(vegan.rec(), rownames = TRUE, options = list(lengthChange = TRUE, scrollX = TRUE)),
