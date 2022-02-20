@@ -4,12 +4,14 @@ fluidRow(
   HTML(" 
 
 <h1>Taxonomy check</h1> 
-       
-<br>
+
 <br>
        
 <h3>The panel <b>Taxonomy check</b> allows you to check and standardize the nomenclature 
 of your input dataset and remove taxa that you want to exclude from your analysis.</h3>
+
+<br>
+<br>
 
 Among the main differences distinguishing the <b>biomonitoR App</b> to other bio-ecological R packages, 
 there is the use of <i><b>Reference Nomenclature Datasets (RND)</b></i> useful to improve and 

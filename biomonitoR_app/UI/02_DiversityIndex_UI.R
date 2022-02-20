@@ -2,7 +2,8 @@ fluidRow(
   column(width = 4,
          box(width = NULL, solidHeader = TRUE,
              HTML("<h3> <b>Diversity Indices</b> </h3> 
-                          This panel provides useful functions for data exploration analyses.")),
+                  This panel provides useful functions to calculate several diversity
+                  indice and exploring your data.")),
          
          # Richness ----
          box(title = "Taxa richness", width = NULL, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE,

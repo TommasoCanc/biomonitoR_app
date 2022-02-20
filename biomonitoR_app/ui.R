@@ -78,8 +78,8 @@ sidebar <- dashboardSidebar(
     menuItem("Help", tabName = "help", icon = icon("question-sign", lib = "glyphicon"), # Help
              menuSubItem("Data Input", tabName = "help_dataInput"),
              menuSubItem("Taxonomy check", tabName = "help_taxonCheck"),
-             menuSubItem("Custom RND", tabName = "help_taxonCheck"),
-             menuSubItem("Diversity indices", tabName = "help_ecoIndex"), 
+             menuSubItem("Custom RND", tabName = "help_CustRND"),
+             menuSubItem("Diversity indices", tabName = "help_divIndex"), 
              menuSubItem("Biomonitoring indices", tabName = "help_bioIndex"),
              menuSubItem("Functional indices", tabName = "help_funIndex")),
     menuItem("References", tabName = "biblioRef", icon = icon("info-sign", lib = "glyphicon")) # <- Bibliographic reference
@@ -112,6 +112,10 @@ tabItem(tabName = "funIndices", source("./UI/04_3_functionalIndex_UI.R")$value),
 # Help -------------------------------------------------------------------------
 tabItem(tabName = "help_dataInput", source("./UI/05_1_Help_DataInput_UI.R")$value), # Help Data Input
 tabItem(tabName = "help_taxonCheck", source("./UI/05_2_Help_TaxonomyCheck_UI.R")$value), # Help Taxonomy check
+tabItem(tabName = "help_CustRND", source("./UI/05_3_Help_CustomRND_UI.R")$value), # Help Custom RND
+tabItem(tabName = "help_divIndex", source("./UI/05_4_Help_DiverityIndices_UI.R")$value), # Help Diversity indices
+
+
 
 # Bibliography -----------------------------------------------------------------
 tabItem(tabName = "biblioRef", source("./UI/06_Bibliography_UI.R")$value)

@@ -1,3 +1,5 @@
+# Check nomenclature -----------------------------------------------------------
+
 DF_def <- reactive({
   
   if(length(readInput()$bioImp_w) == 0){

@@ -19,7 +19,7 @@ fluidRow(
                   to the reference community chosen. </h3>")
              ),
          # Import dataset and set main parameters
-         box(title = "Create your Custom reference dataset", width = NULL, solidHeader = TRUE,
+         box(title = "Create your Custom RND", width = NULL, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE,
              HTML("Select your data <h5> Data can be loaded in <b>.xlsx</b>, <b>.csv</b>, or <b>.txt</b> formats.</h5>"),
              fileInput("fileCRD", label = NULL),
              tags$hr(),
@@ -30,7 +30,7 @@ fluidRow(
                                                              "Fish" = "fi", 
                                                              "Custom" = "cu"), 
                          selected = "none", multiple = FALSE),
-             checkboxInput("runCRD", label = "Create your Custom reference dataset", value = FALSE)
+             checkboxInput("runCRD", label = "Create your Custom RND", value = FALSE)
              )
          ),
   
