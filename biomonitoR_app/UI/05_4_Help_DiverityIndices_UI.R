@@ -7,18 +7,14 @@ fluidRow(
 
 <br>
        
-<h3>The panel <b>Diversity Indices</b> allows you to calculate several diversity
-indces useful to explore your data.</h3>
+<h3>The panel <b>Diversity Indices</b> enables the calculation of numerous diversity indices applied in different ecology fields (freshwaters, marine, terrestrial).</h3>
 
 <br>
 <br>
 
 <h4> Taxa richness </h4>
 
-Taxa richness measures of the number of taxa in a given sample. 
-In biomonitoR App you can calculate the <i><b>Taxa richness</b></i> for each sample 
-at four taxononomik level: <i><b>Family</b></i>, <i><b>Genus</b></i>, 
-<i><b>Species</b></i>, and <i><b>Taxa</b></i> <b>[]</b>.
+Taxa richness is a metric that measures the number of taxa in each sample. In <b>biomonitoR App</b> users can calculate Taxa richness at four taxonomic levels: <i><b>Family</b></i>, <i><b>Genus</b></i>, <i><b>Species</b></i>, and <i><b>Taxa</b></i>. Once selected the taxonomic level desired, clicking on 'Run' will provide the results.
 
 <br>
 
@@ -29,11 +25,7 @@ Once selected the taxonomic level desired, activate the checkbox <b>'Run'</b>
 
 <h4> Diversity Index </h4>
 
-A diversity index is a helpful measure to quantify how many differences exist 
-between two or more datasets. 
-In biomonitoR App you can calculate 12 <i><b>Diversity indices</b></i> for each sample  
-(see below for details) at four taxononomik level: <i><b>Family</b></i>, <i><b>Genus</b></i>, 
-<i><b>Species</b></i>, and <i><b>Taxa</b></i> <b>[]</b>.
+<b>biomonitoR App</b> can calculate 12 Diversity indices  (see below for details) at four taxonomic levels: <i><b>Family</b></i>, <i><b>Genus</b></i>, <i><b>Species</b></i>, and <i><b>Taxa</b></i>. 
 
 Once selected the taxonomic level desired, activate the checkbox <b>'Run'</b>
 
@@ -64,17 +56,11 @@ Once selected the taxonomic level desired, activate the checkbox <b>'Run'</b>
 <li><b>McIntosh's diversity:</b> <font size='+1'> D = <sup>N - U</sup> &#8260; <sub>N - &radic;(N)</sub> </li> </font>
 <br>
 <li><b>Fisher alpha:</b> <font size='+1'> a = <sup>N(1-x)</sup> &#8260; <sub>x</sub> </li> </font>
-
-
-
-
-
-
 ")
-), 
+)
 
-column(width = 8,
-       img(src = "./Help_img/05_Create_Custom_RND.png", vspace="5px")
-       )
+# column(width = 8,
+#        img(src = "./Help_img/05_Create_Custom_RND.png", vspace="5px")
+#        )
 )
 )

@@ -6,16 +6,26 @@ fluidRow(
   
   column(width = 4 ,
          box(width = NULL, solidHeader = TRUE,
-             HTML("<h3>
-  <b>Taxonomy check</b>
-</h3> This panel can help you to check the nomenclature of your taxa and eventually remove taxa from the analysis. <br> 
-Taxa names are checked against the community type reference datasets or your custom 
-dataset if loaded. 
-<br> 
-If there are potentially erroneus names in your dataset, you can find possible 
-suggestions into the in in the appropriate space. <br>
-<br> 
-Non-identfied taxa will be discarded.")),
+             HTML("<h3>Taxonomy check</h3> 
+                  
+                  This panel helps to check the nomenclature of the users’ taxa and eventually remove or correct controversial names (e.g., due to typographic errors, nomenclature changes, obsolete format).
+                  
+                  <br>
+                  <br>
+                  
+                  Taxa names are checked and compared against the <i><b>community-type reference dataset</b></i> or using a personal-user dataset (see <i><b>Custom Reference Dataset</b></i> section), if loaded. 
+                  
+                  <br> 
+                  <br>
+                  
+                  If potentially erroneous names are detected, suggestions are provided to help the user. 
+                  
+                  <br>
+                  <br>
+                  
+                  Non-identfied taxa will be discarded."
+                  )
+             ),
 uiOutput("correctNames"), # Open the box with correct names suggestions
   
 # Remove taxa ----

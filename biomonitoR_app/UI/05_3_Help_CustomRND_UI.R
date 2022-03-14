@@ -3,39 +3,28 @@ fluidRow(
       column(width = 4 ,
   HTML(" 
 
-<h1>Custom RND</h1> 
+<h1>Custom community-type reference dataset</h1> 
 
 <br>
        
-<h3>The panel <b>Custom RND</b> allows you to create your personal Reference 
-Nomenclature Dataset.</h3>
+<h3>This panel allows users to create a Custom community-type reference dataset.</h3>
 
 <br>
 <br>
 
-To create your Custom RND, you need to upload a dataset containing your taxonomy <b>[1]</b>.
+To create a personal community-type dataset, users need to upload a dataset containing their taxonomy <b>[1]</b>.
 
 <br>
 <br>
 
-Once your dataset is loaded, you can follow two ways to create your Custom RND <b>[2]</b>:
-
-<br>
-<br>
-
-<li>Do not select a reference community (<i><b>'None'</b></i>). Whit this strategy, your final dataset 
-will contain only the nomenclature of your taxa, structured on <b>biomonitoR App</b> format.</li>
+Once a dataset is loaded, there are two ways to create a community-type dataset <b>[2]</b>:
 
 <br>
 
-<li>Select a reference community (<i><b>'Macroinvertebrate'</b></i>, <i><b>'Macrophyte'</b></i>, <i><b>'Fish'</b></i>). 
-Whit this strategy will be added to your data the entire reference community 
-dataset contained in the <b>biomonitoR App</b>.</li>
+<ul>
+<li>Without selecting a reference community (<i><b>'None'</b></i>). With this approach, the final dataset will contain only the nomenclature of the taxa loaded , structured according to the <b>biomonitoR App</b> format.</li>
 
-<br>
-<br>
-
-Finally, your final Custom RND can be downloaded and used as a Custom dataset in the <b>biomonitoR App</b>.
+<li>Selecting a community-type reference dataset (<i><b>'Macroinvertebrate'</b></i>, <i><b>'Macrophyte'</b></i>, <i><b>'Fish'</b></i>). With this approach the entire reference community dataset contained in the <b>biomonitoR App</b> will be added to the original uploaded data.</li>
  ")
 ), 
 

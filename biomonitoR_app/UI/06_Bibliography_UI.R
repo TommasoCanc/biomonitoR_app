@@ -1,8 +1,10 @@
 fluidRow(
-  div(style="display: inline-block;vertical-align:top; margin-left:30px",
-      
-      HTML("<h2>Reference</h2>
-           
+  div(
+    style = "display: inline-block;vertical-align:top; margin-left:30px",
+    
+    HTML(
+      "<h2>Reference</h2>
+
 <ul>
 <li>
 Alba Tercedor, J., Jáimez-Cuéllar, P., Álvarez, M., Avilés, J., Bonada i Caparrós, N., Casas, J., Mellado, A., Ortega, M., Pardo, I., Prat i Fornells, N. and Rieradevall i Sant, M., 2002. Caracterización del estado ecológico de ríos mediterráneos ibéricos mediante el índice IBMWP (antes BMWP'). Limnetica, 2002, vol. 21, num. 3-4, p. 175-185.
@@ -133,10 +135,28 @@ Wright, I.A. and Ryan, M.M., 2016. Impact of mining and industrial pollution on 
 <hr><br>
 
 <h2> Example </h2>
-<br>           
-           "
-           )
-      ),
+<br>
+
+<h5><b>Target group:</b>
+<ul>
+<li><i><b>MP</b></i> = Macrophytes</li>
+<li><i><b>MI</b></i> = Macroinvertebrates</li>
+</ul>
+
+<br>
+
+<b>Aims:</b>
+<ul>
+<li><i><b>SEA</b></i> = Supporting Ecological Assessment</li>
+<li><i><b>SP</b></i> = Single pressure</li>
+<li><i><b>BD</b></i> = Biodiversity Assessment</li>
+</ul>
+</h5>
+
+<br>
+"
+    )
+  ),
 
 tableOutput("tbl_bibliography")
 

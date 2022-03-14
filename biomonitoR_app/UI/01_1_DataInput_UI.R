@@ -6,17 +6,22 @@ fluidRow(
   
   column(width = 4 ,
          box(width = NULL, solidHeader = TRUE,
-             HTML("<h3> <b>Data Input & Management</b> </h3> 
-                  To import your dataset it is important: <br><br>
-<li>
-Name the first column 'Taxa'. This column has to be contain the nomenclature of your taxa; 
-</li>
+             HTML("<h3>Data Input & Management</h3> 
 
-<li>
-Name the other columns with the sample name (e.g. locality). These columns have to be contain abundance or presence/absence data.        
-</li>                  
-<br>
-<h5> Note: biomonitoR-app can use three pre-setted reference datasets: macroinvertebrates, macrophytes, and fish. If you want to import your custom reference dataset, please follow the instructions present in the <b>Help</b>. </h3>")),
+                  Users can import their own datasets following some easy rules: 
+                  
+                  <br>
+                  <br>
+                  
+                  <li>Name the first column as <b>'Taxa'</b>. This column needs to contain the nomenclature of your taxa;</li>
+                  <li>Name the other columns with the sample code (e.g., locality). These columns need to contain abundance or presence/absence data.</li>     
+                  
+                  <br>
+                  
+                  <h5> Please note: biomonitoR-App can use three pre-settled reference datasets for different biological communities: macroinvertebrates, macrophytes, and fish. If you want to import your own custom reference dataset, please follow the instructions present in Help.</h5>"
+             )
+         ),
+         
          # Import dataset and set main parameters
          box(title = "Load file - Community data", solidHeader = FALSE, width = NULL, collapsible = TRUE, collapsed = TRUE,
              #radioButtons("filetype", "", choices = c("xlsx","csv","txt"), inline = TRUE),

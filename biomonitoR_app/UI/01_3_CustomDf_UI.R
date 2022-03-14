@@ -6,17 +6,15 @@ fluidRow(
   
   column(width = 4 ,
          box(width = NULL, solidHeader = TRUE,
-             HTML("<h3> <b>Custom Reference Datset</b> </h3> 
-                  To create your Custom Reference Dataset, you can import a personal 
-                  dataset in which each column represent a taxonomic rank 
-                  (e.g., Phylum, Family, Genus, Species) and select the option 
-                  'Create your Custom reference dataset'. In this way, your dataset 
-                  will be converted into a Reference dataset functional from biomonitoR.
-                  See the <b>Help</b> panel for further details.
-                         
-                  <h5> Note: Selecting a reference community to your data 
-                  will be added the entire dataset provided by bomonitoR corresponding 
-                  to the reference community chosen. </h3>")
+             HTML("<h3>Custom Reference Datset</h3> 
+                  
+                  To create a <i><b>Custom Reference Dataset</b></i>, users can import their own personal dataset in which each column represents a taxonomic rank (e.g., Phylum, Family, Genus, Species) selecting the option 'Create your Custom reference dataset'. In this way, the dataset will be converted into a Reference dataset functional for biomonitoR. Please see the Help panel for further details.
+
+                  <br>
+                  <br>
+                                           
+<b>Please Note</b>: If a community-type reference dataset (e.g., macroinvertebrates dataset, already present in <i><b>biomonitoR</b></i>) is also selected, it will be added to the new Custom Reference Dataset."
+                  )
              ),
          # Import dataset and set main parameters
          box(title = "Create your Custom RND", width = NULL, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE,
