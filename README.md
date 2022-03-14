@@ -8,11 +8,9 @@
 <i><b>biomonitoR</b></i> is a package for the R programming language that fills a gap in the range of informatic tools for the management and visualization of ecological data. <i><b>biomonitoR</b></i> implements most of the biological indices currently used or proposed in different fields of ecology and aquatic science. Its easy-to-use design favours the flow of information that is often fragmented in specific country methods, national protocols and informatic programs.
 
 <br>
-<br>
 
 <i><b>biomonitoR</b></i> currently allows the calculation of more than 30 indices (including diversity, biomonitoring <i>sensu stricto</i> and functional measures) as well as a wide range of further taxonomic indices (e.g., richness or abundance of a particular taxon, pair and combination of taxa).
 
-<br>
 <br>
 
 It represents a flexible toolbox with five main assets:
@@ -21,40 +19,38 @@ It represents a flexible toolbox with five main assets:
     <li>it supports heterogeneous taxonomic resolutions allowing computations at multiple taxonomic levels;</li>
     <li>it calculates multiple biological indices, including metrics for both general and stressor-specific ecological assessments;</li>
     <li>it enables powerful data visualization, helping both decision-making processes and result dissemination;</li>
-    <li>it also allows to work with a user-friendly web application straight from R (biomonitoR App).</li>
+    <li>it also allows to work with a user-friendly web application straight from R (<i><b>biomonitoR App</b></i>).</li>
 </ul>
 
+<hr>
 
 <h2>News</h2>
 
 - \[0.0.1\] Initial Release
 
-<h2>Examples</h2>
-
-- Import data
-- Correct names
-- Import Custom dataset
-- Calculate biological indices
-- Calculate functional indices 
-
+<hr>
 
 <h3>Contacts</h3>
-<i>
-  <b>biomonitoR App</b>
-</i> is created and maintained by <i><b>Alex Laini</i></b>, <i><b>Tommaso Cancellario</i></b>, and <i><b>Simone Guareschi</i></b> <br><br>
 
-To comunicate bug report and feature requests please contact: alex.laini@gmail.com or tommaso.canellario@gmail.com
+<i><b>biomonitoR</b></i> is an original idea developed and currently maintained by <b>Alex Laini</b> and <b>Tommaso Cancellario</b> with the collaboration of <b>Simone Guareschi</b>.
+
+To report bugs, discuss details or further requests please contact: <a href=\"mailto:alex.laini@gmail.com\">A. Laini</a> or <a href=\"mailto:tommaso.canellario@gmail.com\">T. Cancellario</a>
+
 <br>
 
-To asks for changes concerning the <b>biomonitoR</b> package, please send a pull request on GitHub at: https://github.com/alexology/biomonitoR
-<br>
+Users are welcome to send a pull request on GitHub at: <a href=\"https://github.com/alexology\"> GitHub-biomonitoR </a> or directly at <a href=\"https://github.com/TommasoCanc/biomonitoR_app\"> GitHub-biomonitoR App </a>
 
-To asks for changes concerning the <b>biomonitoR App</b> package, please send a pull request on GitHub at: https://github.com/TommasoCanc/biomonitoR_app
-<br>
+<hr>
 
+<h3>Cite</h3>
 
-<h3>Citation</h3>
-Please to cite <i><b>biomonitoR</i></b> ...
+Please cite as follows:
+<ul>
+    <li><i>Laini et al. (under review). biomonitoR: an R package for managing ecological data and calculating biomonitoring indices.</i></li>
+    <li><i>Laini et al. 2021. biomonitoR: an R package for managing taxonomic and functional information and for calculating biomonitoring indices. Version 0.9.2. <a href=\"https://doi.org/10.5281/zenodo.4807008\"> Zenodo.</a> </i></li>
+</ul>
+
+<hr>
 
 <h3>Contributors</h3>
 Alex Laini, Simone Guareschi, Rossano Bolpagni, Gemma Burgazzi, Daniel Bruno 
