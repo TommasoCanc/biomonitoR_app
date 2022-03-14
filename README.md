@@ -34,11 +34,11 @@ It represents a flexible toolbox with five main assets:
 
 <i><b>biomonitoR</b></i> is an original idea developed and currently maintained by <b>Alex Laini</b> and <b>Tommaso Cancellario</b> with the collaboration of <b>Simone Guareschi</b>.
 
-To report bugs, discuss details or further requests please contact: [Alex Laini](mailto:alex.laini@gmail.com) <a href=\"mailto:alex.laini@gmail.com\">A. Laini</a> or <a href=\"mailto:tommaso.canellario@gmail.com\">T. Cancellario</a>
+To report bugs, discuss details or further requests please contact: [Alex Laini](mailto:alex.laini@gmail.com) or [Tommaso Cancellario](mailto:tommaso.canellario@gmail.com).
 
 <br>
 
-Users are welcome to send a pull request on GitHub at: <a href=\"https://github.com/alexology\"> GitHub-biomonitoR </a> or directly at <a href=\"https://github.com/TommasoCanc/biomonitoR_app\"> GitHub-biomonitoR App </a>
+Users are welcome to send a pull request on GitHub at: [biomonitoR](https://github.com/alexology) or [biomonitoR APP](https://github.com/TommasoCanc/biomonitoR_app)
 
 <hr>
 
