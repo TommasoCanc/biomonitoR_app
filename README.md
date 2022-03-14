@@ -56,9 +56,9 @@ Cayetano Gutiérrez-Cánovas, Rafael Miranda, Cédric Mondy, Gábor Várbíró,
 Tommaso Cancellario
 
 <h3>Acknowledgements</h3>
-This package is based upon work from COST Action CA15113 (SMIRES, Science and 
-Management of Intermittent Rivers and Ephemeral Streams,www.smires.eu), 
-supported by COST (European Cooperation in Science and Technology).
+This package is based upon work from COST Action CA15113 (Science and 
+Management of Intermittent Rivers and Ephemeral Streams, www.smires.eu), 
+supported by European Cooperation in Science and Technology.
 
 <br><br><br>
 <img src="https://github.com/TommasoCanc/biomonitoR_app/blob/main/biomonitoR_app/www/biomonitor_300px.png" height="150">
