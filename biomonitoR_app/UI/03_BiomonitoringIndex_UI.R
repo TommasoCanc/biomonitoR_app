@@ -8,7 +8,7 @@ fluidRow(
       HTML(
         "<h3>Biomonitoring Indices</h3>
 
-             This panel provides several functions to calculate numerous biomonitoring indices widely applied in aquatic science and water resource management."
+             <h4>This panel provides several functions to calculate numerous biomonitoring indices widely applied in aquatic science and water resource management.</h4>"
       )
     ),
     
@@ -24,7 +24,7 @@ fluidRow(
                   This function provides site-specific biocontamination index (SBCI),
                   abundance contamination index (ACI) and richness contamination index (RCI)
                   at family rank according to those proposed by Arbaciauskas et al. (2008).</h4>
-        
+
              <br>
              <br>
 

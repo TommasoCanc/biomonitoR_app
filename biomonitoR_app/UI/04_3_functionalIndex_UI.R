@@ -11,7 +11,7 @@ fluidRow(
       HTML(
         "<h3>Functional Indices</h3>
         
-           This panel provides several functions to functional indices. Please see the <i><b>Help</b></i> panel for further details about each index."
+           <h4>This panel provides several functions to functional indices. Please see the <i><b>Help</b></i> panel for further details about each index.</h4>"
       )
     ),
     

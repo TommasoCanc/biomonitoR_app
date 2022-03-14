@@ -1,7 +1,6 @@
-fluidRow(
-  ##############
-  # Right side #
-  ##############
+fluidRow(##############
+         # Right side #
+         ##############
          
          column(
            width = 4 ,
@@ -11,22 +10,19 @@ fluidRow(
              HTML(
                "<h3>Taxonomy check</h3>
 
-                  This panel helps to check the nomenclature of the users’ taxa and eventually remove or correct controversial names (e.g., due to typographic errors, nomenclature changes, obsolete format).
+                  <h4>This panel helps to check the nomenclature of the users’ taxa and eventually remove or correct controversial names (e.g., due to typographic errors, nomenclature changes, obsolete format).
 
-                  <br>
-                  <br>
+                  <br><br>
 
                   Taxa names are checked and compared against the <i><b>community-type reference dataset</b></i> or using a personal-user dataset (see <i><b>Custom Reference Dataset</b></i> section), if loaded.
 
-                  <br>
-                  <br>
+                  <br><br>
 
                   If potentially erroneous names are detected, suggestions are provided to help the user.
 
-                  <br>
-                  <br>
+                  <br><br>
 
-                  Non-identfied taxa will be discarded (using 'none' option below)."
+                  Non-identfied taxa will be discarded (using 'none' option below). </h4>"
              )
            ),
            uiOutput("correctNames"),
@@ -51,12 +47,10 @@ fluidRow(
          ),
          
          
- #############
- # Left side #
- #############
+         #############
+         # Left side #
+         #############
          
          column(width = 8,
                 uiOutput("tblTaxonomy"),
-                uiOutput("tblRmTaxa")
-                )
- )
+                uiOutput("tblRmTaxa")))

@@ -1,111 +1,159 @@
 fluidRow(
-  
   ##############
   # Right side #
   ##############
   
-  column(width = 4 ,
-         box(width = NULL, solidHeader = TRUE,
-             HTML("<h3>Data Input & Management</h3> 
+  column(
+    width = 4 ,
+    box(
+      width = NULL,
+      solidHeader = TRUE,
+      HTML(
+        "<h3>Data Input & Management</h3>
 
-                  Users can import their own datasets following some easy rules: 
-                  
-                  <br>
-                  <br>
-                  
+                  <h4>Users can import their own datasets following some easy rules:
+
+                  <br><br>
+
+                  <ul>
                   <li>Name the first column as <b>'Taxa'</b>. This column needs to contain the nomenclature of your taxa;</li>
-                  <li>Name the other columns with the sample code (e.g., locality). These columns need to contain abundance or presence/absence data.</li>     
-                  
+                  <li>Name the other columns with the sample code (e.g., locality). These columns need to contain abundance or presence/absence data.</li>
+                  </ul></h4>
+
                   <br>
-                  
-                  <h5> Please note: biomonitoR-App can use three pre-settled reference datasets for different biological communities: macroinvertebrates, macrophytes, and fish. If you want to import your own custom reference dataset, please follow the instructions present in Help.</h5>"
-             )
-         ),
-         
-         # Import dataset and set main parameters
-         box(title = "Load file - Community data", solidHeader = FALSE, width = NULL, collapsible = TRUE, collapsed = TRUE,
-             #radioButtons("filetype", "", choices = c("xlsx","csv","txt"), inline = TRUE),
-             HTML("Select your data"),
-             HTML("<h5> Data can be loaded in <b>.xlsx</b>, <b>.csv</b>, or <b>.txt</b> formats.</h5>"),
-             fileInput("file1", label = ""),
-             tags$hr(),
-             HTML("Select your reference community"),
-             selectInput("communitytype", "", choices = c("Macroinvertebrates" = "mi", 
-                                                          "Macrophytes" = "mf", 
-                                                          "Fish" = "fi", 
-                                                          "Custom" = "cu"), 
-                         selected = "mi", multiple = FALSE),    
-             tags$hr(),
-             HTML("Select your data type"),
-             selectInput("abutype", "", choices = c("Abundance" = "sum", 
-                                                    "Presence/Absence" = "bin"), 
-                         selected = "sum", multiple = FALSE),
-                         checkboxInput("toBin", label = "Convert abundance to presence-absence data", value = FALSE) # <- Transforms abundance to presence-absence.
-         ),
-         
-         # Import Custom reference dataframe                 
-         conditionalPanel("input.communitytype == 'cu'", 
-                          box(title = "Load file - Custom reference dataframe", solidHeader = FALSE, width = NULL,
-                              #radioButtons("filetypeCustom", "", choices = c("xlsx","csv","txt"), inline = TRUE),
-                              HTML("Select your data"),
-                              fileInput("file2", label = NULL)
-                          )
-         ),
-         
-         # Data Management --------------------------------------------------------------
-         
-         # Convert to Vegan format ----
-         box(title = "Convert to vegan format", solidHeader = FALSE, width = NULL, collapsible = TRUE, collapsed = TRUE,
-             
-             HTML("<h4> <b>vegan</b> is an R package provides several functions for descriptive community ecology. </h4> 
-                  <h5>To convert your dataset from <b>biomonitoR App</b> to <b>vegan</b> format, 
+
+                  <h5> <b>Please note</b>: biomonitoR-App can use three pre-settled reference datasets for different biological communities: macroinvertebrates, macrophytes, and fish. If you want to import your own custom reference dataset, please follow the instructions present in Help.</h5>"
+      )
+    ),
+    
+    # Import dataset and set main parameters
+    box(
+      title = "Load file - Community data",
+      solidHeader = FALSE,
+      width = NULL,
+      collapsible = TRUE,
+      collapsed = TRUE,
+      #radioButtons("filetype", "", choices = c("xlsx","csv","txt"), inline = TRUE),
+      HTML("Select your data"),
+      HTML(
+        "<h5> Data can be loaded in <b>.xlsx</b>, <b>.csv</b>, or <b>.txt</b> formats.</h5>"
+      ),
+      fileInput("file1", label = ""),
+      tags$hr(),
+      HTML("Select your reference community"),
+      selectInput(
+        "communitytype",
+        "",
+        choices = c(
+          "Macroinvertebrates" = "mi",
+          "Macrophytes" = "mf",
+          "Fish" = "fi",
+          "Custom" = "cu"
+        ),
+        selected = "mi",
+        multiple = FALSE
+      ),
+      tags$hr(),
+      HTML("Select your data type"),
+      selectInput(
+        "abutype",
+        "",
+        choices = c("Abundance" = "sum",
+                    "Presence/Absence" = "bin"),
+        selected = "sum",
+        multiple = FALSE
+      ),
+      checkboxInput("toBin", label = "Convert abundance to presence-absence data", value = FALSE) # <- Transforms abundance to presence-absence.
+    ),
+    
+    # Import Custom reference dataframe
+    conditionalPanel(
+      "input.communitytype == 'cu'",
+      box(
+        title = "Load file - Custom reference dataframe",
+        solidHeader = FALSE,
+        width = NULL,
+        #radioButtons("filetypeCustom", "", choices = c("xlsx","csv","txt"), inline = TRUE),
+        HTML("Select your data"),
+        fileInput("file2", label = NULL)
+      )
+    ),
+    
+    # Data Management --------------------------------------------------------------
+    
+    # Convert to Vegan format ----
+    box(
+      title = "Convert to vegan format",
+      solidHeader = FALSE,
+      width = NULL,
+      collapsible = TRUE,
+      collapsed = TRUE,
+      
+      HTML(
+        "<h4> <b>vegan</b> is an R package provides several functions for descriptive community ecology. </h4>
+                  <h5>To convert your dataset from <b>biomonitoR App</b> to <b>vegan</b> format,
                   you need to select the taxonomic level and then activate Run.
                   <br>
-                  <br> 
+                  <br>
                   More information about the <b>vegan</b> package is available at
          <a href='https://cran.r-project.org/web/packages/vegan/vegan.pdf' target='_blank'> R CRAN pdf </a>
-         or at <a href='https://github.com/vegandevs/vegan' target='_blank'> GitHub </a> </h5>"),
-             
-             HTML("Select the taxonomic level"),
-             selectInput("taxLeVegan", "", choices = c("Phylum" = "Phylum", 
-                                                       "Class" = "Class", 
-                                                       "Subclass" = "Subclass", 
-                                                       "Order" = "Order", 
-                                                       "Family" = "Family", 
-                                                       "Subfamily" = "Subfamily", 
-                                                       "Tribus" = "Tribus", 
-                                                       "Genus" = "Genus", 
-                                                       "Species" = "Species", 
-                                                       "Subspecies" = "Subspecies", 
-                                                       "Taxa" = "Taxa"), 
-                         selected = "Taxa", multiple = FALSE),
-             # actionButton("veganFormat", "Run")
-             checkboxInput("veganFormat", label = HTML("Run"), value = FALSE),
-         ),
-
-box(title = "Convert to biotic format", solidHeader = FALSE, width = NULL, collapsible = TRUE, collapsed = TRUE,
+         or at <a href='https://github.com/vegandevs/vegan' target='_blank'> GitHub </a> </h5>"
+      ),
+      
+      HTML("Select the taxonomic level"),
+      selectInput(
+        "taxLeVegan",
+        "",
+        choices = c(
+          "Phylum" = "Phylum",
+          "Class" = "Class",
+          "Subclass" = "Subclass",
+          "Order" = "Order",
+          "Family" = "Family",
+          "Subfamily" = "Subfamily",
+          "Tribus" = "Tribus",
+          "Genus" = "Genus",
+          "Species" = "Species",
+          "Subspecies" = "Subspecies",
+          "Taxa" = "Taxa"
+        ),
+        selected = "Taxa",
+        multiple = FALSE
+      ),
+      # actionButton("veganFormat", "Run")
+      checkboxInput("veganFormat", label = HTML("Run"), value = FALSE),
+    ),
     
-    HTML("<h4> <b>biotic</b> is an R package for calculating a range of UK freshwater invertebrate biotic indices. </h4>
-         <h5> To convert your dataset from <b>biomonitoR App</b> to <b>biotic</b> format, activate Run. 
-         <br> 
-         <br> 
+    box(
+      title = "Convert to biotic format",
+      solidHeader = FALSE,
+      width = NULL,
+      collapsible = TRUE,
+      collapsed = TRUE,
+      
+      HTML(
+        "<h4> <b>biotic</b> is an R package for calculating a range of UK freshwater invertebrate biotic indices. </h4>
+         <h5> To convert your dataset from <b>biomonitoR App</b> to <b>biotic</b> format, activate Run.
+         <br>
+         <br>
          More information about the <b>biotic</b> package is available at
          <a href='https://cran.r-project.org/web/packages/biotic/biotic.pdf' target='_blank'> R CRAN pdf </a>
-         or at <a href='https://github.com/robbriers/biotic' target='_blank'> GitHub </a> </h5>"),
-
-    checkboxInput("bioticFormat", label = HTML("Run"), value = FALSE),
-),
-
-
-
-         
-         # # Remove taxa ----
-         # # Which taxon/a do you u want to remove from your dataset?
-         # box(title = "Remove taxa", solidHeader = FALSE, width = NULL, collapsible = TRUE, collapsed = TRUE,
-         #     selectizeInput("removeTaxa", "Select taxa to exclude from your dataset", 
-         #                    choices = NULL, multiple = TRUE)
-         # )
-         
+         or at <a href='https://github.com/robbriers/biotic' target='_blank'> GitHub </a> </h5>"
+      ),
+      
+      checkboxInput("bioticFormat", label = HTML("Run"), value = FALSE),
+    ),
+    
+    
+    
+    
+    # # Remove taxa ----
+    # # Which taxon/a do you u want to remove from your dataset?
+    # box(title = "Remove taxa", solidHeader = FALSE, width = NULL, collapsible = TRUE, collapsed = TRUE,
+    #     selectizeInput("removeTaxa", "Select taxa to exclude from your dataset",
+    #                    choices = NULL, multiple = TRUE)
+    # )
+    
   ),
   
   
@@ -113,10 +161,11 @@ box(title = "Convert to biotic format", solidHeader = FALSE, width = NULL, colla
   # Left side #
   #############
   
-  column(width = 8,
-         uiOutput("tbl"),
-         uiOutput("tblVegan"),
-         uiOutput("tblBiotic")
-         #uiOutput("tblRmTaxa")
+  column(
+    width = 8,
+    uiOutput("tbl"),
+    uiOutput("tblVegan"),
+    uiOutput("tblBiotic")
+    #uiOutput("tblRmTaxa")
   )
 )

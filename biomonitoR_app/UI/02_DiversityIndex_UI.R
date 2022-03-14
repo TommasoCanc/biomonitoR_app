@@ -8,9 +8,9 @@ fluidRow(
       HTML(
         "<h3>Diversity Indices</h3>
 
-              This panel provides useful functions to calculate several diversity indices and better exploring the user´s data.
+              <h4>This panel provides useful functions to calculate several diversity indices and better exploring the user´s data.
 
-             Moreover, in this panel, users can calculate several diversity indices at different taxonomic levels simultaneously. Once you select the taxonomic level desired, click on <b>Run</b>."
+             Moreover, in this panel, users can calculate several diversity indices at different taxonomic levels simultaneously. Once you select the taxonomic level desired, click on <b>Run</b>. </h4>"
       )
     ),
     # Richness ----

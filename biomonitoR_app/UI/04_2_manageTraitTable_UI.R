@@ -9,7 +9,7 @@ fluidRow(
       HTML(
         "<h3>Trait table management</h3>
         
-        This panel provides information and functions to calculate functional indices based on organism trait information. These indices are applied in different ecology fields (freshwaters, marine, terrestrial) and can provide complementary information compared to taxonomic-based measures."
+        <h4>This panel provides information and functions to calculate functional indices based on organism trait information. These indices are applied in different ecology fields (freshwaters, marine, terrestrial) and can provide complementary information compared to taxonomic-based measures.</h4>"
       )
     ),
     

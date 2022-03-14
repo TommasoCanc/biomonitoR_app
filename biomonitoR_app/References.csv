@@ -1,37 +1,37 @@
-Index/metric,Target group,Aims,biomonitoR function,Methodologic reference,Example reference,
-TOTAL TAXA,All components,SEA /BD,"richness, allrich",Buss et al. 2015,"Italy, Morocco, Spain: Gutiérrez-Cánovas et al. 2019",
-BMWP,MI,SEA,bmwp,Hawkes 1998,UK: Clarke et al. 2002,
-ASPT,MI,SEA,aspt,Hawkes 1998,UK: Clarke et al. 2002,
-IBMWP,MI,SEA,bmwp,Alba Tercedor et al. 2002,Spain: Bruno et al. 2014,
-IASPT,MI,SEA,aspt,Alba Tercedor et al. 2002,Spain and Italy: Guareschi et al. 2017,
-EPT,MI,SEA,"ept, get_taxa_richness",Kitchin 2005,"Australia: Wright and Ryan, 2016",
-Log10(SEL_EPTD+1),MI,SEA,eptd,Erba et al. 2006,"Spain:  Munné and Prat, 2009; Italy: Laini et al. 2018.",
-1-GOLD,MI,SEA,igold,Pinto et al. 2004,Italy: Laini et al. 2018.,
-WHPT,MI,SEA,whpt,Paisley et al. 2014,UK: Guareschi et al. 2021a,
-WHPT-ASPT,MI,SEA,whpt,Paisley et al. 2014,UK: Guareschi et al. 2021a,
-IBMR,MP,SEA,ibmr,Haury et al. 2016,"Cyprus, France, Greece, Italy, Portugal and Spain: Aguiar et al. 2014",
-LIFE,MI,SP: flow variation,life,Extence et al. 1999,UK: Monk et al. 2008,
-PSI,MI,SP: sedimentation,psi,Extence et al. 2013,UK: Extence et al. 2017,
-EPSI,MI,SP: sedimentation,epsi,Turley et al. 2016,UK: Wilkes et al. 2017,
-RCI,All components,SP: biocontamination,bioco,Arbačiauskas et al. 2008,UK: Guareschi et al. 2021b,
-ACI,All components,SP: biocontamination,"bioco, get_taxa_abundance",Arbačiauskas et al. 2008,UK: Guareschi et al. 2021b,
-SBCI,All components,SP: biocontamination,bioco,Arbačiauskas et al. 2008,Russia: Son et al. 2020,
-Functional Richness,All components,BD: functional,f_rich,Villeger et al. 2008,Spain: Belmar et al. 2019,
-Functional Redundancy,All components,BD: functional,f_red,Pillar et al. 2013,Spain: Bruno et al. 2016,
-Functional Diversity,All components,BD: functional,f_divs,Petchey and Gaston 2006,UK: Mathers et al. 2020,
-Functional Dispersion,All components,BD: functional,f_disp,Villeger et al. 2008,UK: Mathers et al. 2020,
-Functional Evenness,All components,BD: functional,f_eve,Villeger et al. 2008,UK: Mathers et al. 2020,
-Community trait specialization,All components,BD: functional,csi,Mondy and Usseglio-Polatera 2013,"France, Spain: Dolédec et al. 2017",
-Shannon,All components,BD: taxonomic,"shannon, allindices",Shannon 1949,Spain: Mellado et al. 2019,
-Pielou index,All components,BD: taxonomic,"pielou, allindices",Pielou 1966,France: Biesel et al. 2003, Finland: Heino et al. 2007
-Margalef Diversity,All components,BD: taxonomic,"margalef, allindices",Magurran and McGill 2010,France: Thiebaut et al. 2006, Ireland: Gray and Delaney 2008
-Menhinick Diversity,All components,BD: taxonomic,"menhinick, allindices",Magurran and McGill 2010,Ireland: Gray and Delaney 2008,
-Brillouin index,All components,BD: taxonomic,"brillouin, allindices",Magurran 2004,Ireland: Gray and Delaney 2008,
-Simpson index,All components,BD: taxonomic,"simpson, invsimpson, allindices",Magurran 2004,France: Thiebaut et al. 2006, Ireland: Gray and Delaney 2008
-Simpson evenness,All components,BD: taxonomic,esimpson,Magurran 2004,Netherlands: Verdonschot et al. 2012,
-Berger-Parker index,All components,BD: taxonomic,"berpar, invberpar, allindices",Magurran 2004,UK: Wood et al. 2005,
-McIntosh diversity,All components,BD: taxonomic,"mcintosh, allindices",Magurran 2004,France: Guerold 2000,
-Fisher alpha,All components,BD: taxonomic,"fisher, allindices",Magurran 2004,"Switzerland: Burdon et al., 2016",
-Taxonomic diversity,All components,BD: taxonomic/phylogenetic,dness,Clarke and Warwick 1998,Finland: Heino et al. 2007,
-Taxonomic distinctness,All components,BD: taxonomic/phylogenetic,dness,Clarke and Warwick 1998,"Finland: Heino et al. 2005, Heino et al. 2007",
-Variation of taxonomic distinctness,All components,BD: taxonomic/phylogenetic,dness,Clarke and Warwick 2001,Ireland: Leira et al. 2009, Finland: Heino et al. 2007
+Index/metric,Target group,Aims,biomonitoR function,Methodologic reference,Example reference
+TOTAL TAXA,All components,SEA /BD,"richness, allrich",Buss et al. 2015,"Italy, Morocco, Spain: Gutiérrez-Cánovas et al. 2019"
+BMWP,MI,SEA,bmwp,Hawkes 1998,UK: Clarke et al. 2002
+ASPT,MI,SEA,aspt,Hawkes 1998,UK: Clarke et al. 2002
+IBMWP,MI,SEA,bmwp,Alba Tercedor et al. 2002,Spain: Bruno et al. 2014
+IASPT,MI,SEA,aspt,Alba Tercedor et al. 2002,Spain and Italy: Guareschi et al. 2017
+EPT,MI,SEA,"ept, get_taxa_richness",Kitchin 2005,"Australia: Wright and Ryan, 2016"
+Log10(SEL_EPTD+1),MI,SEA,eptd,Erba et al. 2006,"Spain:  Munné and Prat, 2009; Italy: Laini et al. 2018."
+1-GOLD,MI,SEA,igold,Pinto et al. 2004,Italy: Laini et al. 2018.
+WHPT,MI,SEA,whpt,Paisley et al. 2014,UK: Guareschi et al. 2021a
+WHPT-ASPT,MI,SEA,whpt,Paisley et al. 2014,UK: Guareschi et al. 2021a
+IBMR,MP,SEA,ibmr,Haury et al. 2016,"Cyprus, France, Greece, Italy, Portugal and Spain: Aguiar et al. 2014"
+LIFE,MI,SP: flow variation,life,Extence et al. 1999,UK: Monk et al. 2008
+PSI,MI,SP: sedimentation,psi,Extence et al. 2013,UK: Extence et al. 2017
+EPSI,MI,SP: sedimentation,epsi,Turley et al. 2016,UK: Wilkes et al. 2017
+RCI,All components,SP: biocontamination,bioco,Arbačiauskas et al. 2008,UK: Guareschi et al. 2021b
+ACI,All components,SP: biocontamination,"bioco, get_taxa_abundance",Arbačiauskas et al. 2008,UK: Guareschi et al. 2021b
+SBCI,All components,SP: biocontamination,bioco,Arbačiauskas et al. 2008,Russia: Son et al. 2020
+Functional Richness,All components,BD: functional,f_rich,Villeger et al. 2008,Spain: Belmar et al. 2019
+Functional Redundancy,All components,BD: functional,f_red,Pillar et al. 2013,Spain: Bruno et al. 2016
+Functional Diversity,All components,BD: functional,f_divs,Petchey and Gaston 2006,UK: Mathers et al. 2020
+Functional Dispersion,All components,BD: functional,f_disp,Villeger et al. 2008,UK: Mathers et al. 2020
+Functional Evenness,All components,BD: functional,f_eve,Villeger et al. 2008,UK: Mathers et al. 2020
+Community trait specialization,All components,BD: functional,csi,Mondy and Usseglio-Polatera 2013,"France, Spain: Dolédec et al. 2017"
+Shannon,All components,BD: taxonomic,"shannon, allindices",Shannon 1949,Spain: Mellado et al. 2019
+Pielou index,All components,BD: taxonomic,"pielou, allindices",Pielou 1966,France: Biesel et al. 2003 – Finland: Heino et al. 2007 
+Margalef Diversity,All components,BD: taxonomic,"margalef, allindices",Magurran and McGill 2010,France: Thiebaut et al. 2006 – Ireland: Gray and Delaney 2008 
+Menhinick Diversity,All components,BD: taxonomic,"menhinick, allindices",Magurran and McGill 2010,Ireland: Gray and Delaney 2008
+Brillouin index,All components,BD: taxonomic,"brillouin, allindices",Magurran 2004,Ireland: Gray and Delaney 2008
+Simpson index,All components,BD: taxonomic,"simpson, invsimpson, allindices",Magurran 2004,France: Thiebaut et al. 2006 – Ireland: Gray and Delaney 2008 
+Simpson evenness,All components,BD: taxonomic,esimpson,Magurran 2004,Netherlands: Verdonschot et al. 2012
+Berger-Parker index,All components,BD: taxonomic,"berpar, invberpar, allindices",Magurran 2004,UK: Wood et al. 2005
+McIntosh diversity,All components,BD: taxonomic,"mcintosh, allindices",Magurran 2004,France: Guerold 2000
+Fisher alpha,All components,BD: taxonomic,"fisher, allindices",Magurran 2004,"Switzerland: Burdon et al., 2016"
+Taxonomic diversity,All components,BD: taxonomic/phylogenetic,dness,Clarke and Warwick 1998,Finland: Heino et al. 2007
+Taxonomic distinctness,All components,BD: taxonomic/phylogenetic,dness,Clarke and Warwick 1998,"Finland: Heino et al. 2005, Heino et al. 2007"
+Variation of taxonomic distinctness,All components,BD: taxonomic/phylogenetic,dness,Clarke and Warwick 2001,Ireland: Leira et al. 2009 – Finland: Heino et al. 2007 

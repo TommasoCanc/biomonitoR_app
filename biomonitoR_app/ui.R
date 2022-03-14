@@ -80,7 +80,7 @@ sidebar <- dashboardSidebar(
       # <- Input data
       menuSubItem("Taxonomy check", tabName = "taxonomy"),
       # <- Taxonomy check
-      menuSubItem("Create Custom RND", tabName = "cusData") # <- Create custom reference dataset
+      menuSubItem("Create Custom CRD", tabName = "cusData") # <- Create custom reference dataset
     ),
     #menuItem("Taxonomy check", tabName = "taxonomy", icon = icon("check")), # <- Check taxonomy
     menuItem(
