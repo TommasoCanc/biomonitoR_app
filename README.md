@@ -5,16 +5,25 @@
 
 <h3>What is biomonitoR?</h3>
 
-<b><i>biomonitoR</i></b> is an informatics tool developed in the R programming language that aspired to collect and provide useful functions for managing bio-ecological data and calculating taxonomic and functional indices. <br>
-To date, <i><b>biomonitoR</i></b> implements most of the biological indices currently used, tested, or just proposed in different fields of ecology and freshwater science. 
-Its easy-to-use design favors the flow of information that is currently often fragmented in specific country methods, national protocols and informatic programs. <br>
+<i><b>biomonitoR</b></i> is a package for the R programming language that fills a gap in the range of informatic tools for the management and visualization of ecological data. <i><b>biomonitoR</b></i> implements most of the biological indices currently used or proposed in different fields of ecology and aquatic science. Its easy-to-use design favours the flow of information that is often fragmented in specific country methods, national protocols and informatic programs.
+
 <br>
-<i><b>biomonitoR </i></b> represents a flexible toolbox that allows to: <br>
-<b>i)</b> check taxonomy, sensitivity, and biological and ecological traits against updated reference datasets; <br>
-<b>ii)</b> manage datasets composed by a heterogeneous taxonomic resolution simplifying the calculation of wide set of biological indices using different taxonomic levels; <br>
-<b>iii)</b> calculate metrics for broad and stressor-specific ecological assessment; <br>
-<b>iv)</b> provide several data visualization options helping decision-making processes and result dissemination. <br>
 <br>
+
+<i><b>biomonitoR</b></i> currently allows the calculation of more than 30 indices (including diversity, biomonitoring <i>sensu stricto</i> and functional measures) as well as a wide range of further taxonomic indices (e.g., richness or abundance of a particular taxon, pair and combination of taxa).
+
+<br>
+<br>
+
+It represents a flexible toolbox with five main assets:
+<ul>
+    <li>it checks taxonomic information against reference databases allowing for customization of trait and sensitivity scores;</li>
+    <li>it supports heterogeneous taxonomic resolutions allowing computations at multiple taxonomic levels;</li>
+    <li>it calculates multiple biological indices, including metrics for both general and stressor-specific ecological assessments;</li>
+    <li>it enables powerful data visualization, helping both decision-making processes and result dissemination;</li>
+    <li>it also allows to work with a user-friendly web application straight from R (biomonitoR App).</li>
+</ul>
+
 
 <h2>News</h2>
 
