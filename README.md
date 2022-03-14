@@ -36,9 +36,7 @@ It represents a flexible toolbox with five main assets:
 
 To report bugs, discuss details or further requests please contact: [Alex Laini](mailto:alex.laini@gmail.com) or [Tommaso Cancellario](mailto:tommaso.canellario@gmail.com).
 
-<br>
-
-Users are welcome to send a pull request on GitHub at: [biomonitoR](https://github.com/alexology) or [biomonitoR APP](https://github.com/TommasoCanc/biomonitoR_app)
+Users are welcome to send a pull request on GitHub at: [biomonitoR](https://github.com/alexology) or [biomonitoR APP](https://github.com/TommasoCanc/biomonitoR_app).
 
 <hr>
 
