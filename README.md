@@ -34,11 +34,9 @@ It represents a flexible toolbox with five main assets:
 
 <i><b>biomonitoR</b></i> is an original idea developed and currently maintained by <b>Alex Laini</b> and <b>Tommaso Cancellario</b> with the collaboration of <b>Simone Guareschi</b>.
 
-To report bugs, discuss details or further requests please contact: <a href=\"mailto:alex.laini@gmail.com\">A. Laini</a> or <a href=\"mailto:tommaso.canellario@gmail.com\">T. Cancellario</a>
+To report bugs, discuss details or further requests please contact: [Alex Laini](mailto:alex.laini@gmail.com) or [Tommaso Cancellario](mailto:tommaso.canellario@gmail.com).
 
-<br>
-
-Users are welcome to send a pull request on GitHub at: <a href=\"https://github.com/alexology\"> GitHub-biomonitoR </a> or directly at <a href=\"https://github.com/TommasoCanc/biomonitoR_app\"> GitHub-biomonitoR App </a>
+Users are welcome to send a pull request on GitHub at: [biomonitoR](https://github.com/alexology) or [biomonitoR APP](https://github.com/TommasoCanc/biomonitoR_app).
 
 <hr>
 
@@ -58,9 +56,9 @@ Cayetano Gutiérrez-Cánovas, Rafael Miranda, Cédric Mondy, Gábor Várbíró,
 Tommaso Cancellario
 
 <h3>Acknowledgements</h3>
-This package is based upon work from COST Action CA15113 (SMIRES, Science and 
-Management of Intermittent Rivers and Ephemeral Streams,www.smires.eu), 
-supported by COST (European Cooperation in Science and Technology).
+This package is based upon work from COST Action CA15113 (Science and 
+Management of Intermittent Rivers and Ephemeral Streams, www.smires.eu), 
+supported by European Cooperation in Science and Technology.
 
 <br><br><br>
 <img src="https://github.com/TommasoCanc/biomonitoR_app/blob/main/biomonitoR_app/www/biomonitor_300px.png" height="150">
