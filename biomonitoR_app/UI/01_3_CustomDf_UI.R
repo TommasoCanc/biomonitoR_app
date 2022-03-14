@@ -8,7 +8,7 @@ fluidRow(
          box(width = NULL, solidHeader = TRUE,
              HTML("<h3>Custom Reference Datset</h3> 
                   
-                  To create a <i><b>Custom Reference Dataset</b></i>, users can import their own personal dataset in which each column represents a taxonomic rank (e.g., Phylum, Family, Genus, Species) selecting the option 'Create your Custom reference dataset'. In this way, the dataset will be converted into a Reference dataset functional for biomonitoR. Please see the Help panel for further details.
+                  To create a <i><b>Community-type Reference Dataset (CRD)</b></i> , users can import their own personal dataset in which each column represents a taxonomic rank (e.g., Phylum, Family, Genus, Species) selecting the option <i><b>'Create CRD'</b></i>. In this way, the dataset will be converted into a Reference dataset functional for biomonitoR. Please see the Help panel for further details.
 
                   <br>
                   <br>

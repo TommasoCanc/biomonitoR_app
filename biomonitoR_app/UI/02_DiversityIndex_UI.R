@@ -43,7 +43,7 @@ fluidRow(
     
     # Diversity indices ----
     box(
-      title = "Diversity Index",
+      title = "Other Diversity Indices",
       width = NULL,
       solidHeader = TRUE,
       collapsible = TRUE,
@@ -106,7 +106,7 @@ fluidRow(
       collapsible = TRUE,
       collapsed = TRUE,
       HTML(
-        "<h4>This panel allows to visualize the relationship between the index results at different  taxonomic levels. This can be useful when deciding which taxonomic resolution to use.</h4>"
+        "<h4>This panel allows to visualize the relationship between the index results at different taxonomic levels (users need to select one index and two taxonomic levels). This can be useful when deciding which taxonomic resolution to use.</h4>"
       ),
       selectizeInput(
         "var_div_pairs",

@@ -1,7 +1,6 @@
 fluidRow(
   div(
     style = "display: inline-block;vertical-align:top; margin-left:30px",
-    
     HTML(
       "<h2>Reference</h2>
 
@@ -134,7 +133,7 @@ Wright, I.A. and Ryan, M.M., 2016. Impact of mining and industrial pollution on 
 
 <hr><br>
 
-<h2> Example </h2>
+<h2> Examples </h2>
 <br>
 
 <h5><b>Target group:</b>
