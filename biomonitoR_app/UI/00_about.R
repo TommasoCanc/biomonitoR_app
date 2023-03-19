@@ -40,8 +40,7 @@ Users are welcome to send a pull request on GitHub at: <a href=\"https://github.
 
 Please cite as follows:
 <ul>
-    <li><i>Laini et al. (under review). biomonitoR: an R package for managing ecological data and calculating biomonitoring indices.</i></li>
-    <li><i>Laini et al., 2021. biomonitoR: an R package for managing taxonomic and functional information and for calculating biomonitoring indices. Version 0.9.2. <a href=\"https://doi.org/10.5281/zenodo.4807008\"> Zenodo.</a> </i></li>
+    <li><i>Laini et al., 2022. biomonitoR: an R package for managing ecological data and calculating biomonitoring indices. PeerJ, 10, e14183.</i></li>
 </ul>"
         )
       )
